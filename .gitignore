@@ -1,0 +1,17 @@
+# OS/editor noise
+.DS_Store
+Thumbs.db
+.vscode/
+
+# Minecraft Bedrock packaged exports
+*.mcaddon
+*.mcpack
+
+# Node/TypeScript build output, if Script API tooling is added later
+node_modules/
+dist/
+build/
+*.tsbuildinfo
+
+# Logs
+*.log
