@@ -419,6 +419,9 @@
             "drop_chance": 0
           }
         ]
+      },
+      "minecraft:equip_item": {
+        "can_wear_armor": true
       }
     },
     "component_groups": {
