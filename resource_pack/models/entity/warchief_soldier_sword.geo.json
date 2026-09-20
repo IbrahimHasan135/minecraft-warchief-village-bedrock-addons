@@ -1,13 +1,13 @@
 {
-  "format_version": "1.12.0",
+  "format_version": "1.16.0",
   "minecraft:geometry": [
     {
       "description": {
-        "identifier": "geometry.warchief.soldier_sword",
+        "identifier": "geometry.warchief.soldier_sword_wood",
         "texture_width": 16,
         "texture_height": 16,
-        "visible_bounds_width": 1.5,
-        "visible_bounds_height": 2.5,
+        "visible_bounds_width": 2,
+        "visible_bounds_height": 3,
         "visible_bounds_offset": [
           0,
           1.25,
@@ -40,70 +40,334 @@
             16,
             0.5
           ],
-          "cubes": [
+          "texture_meshes": [
             {
-              "origin": [
-                -6.25,
-                15.25,
-                -2.5
-              ],
-              "size": [
-                1.5,
-                1.5,
-                4
-              ],
-              "uv": [
-                0,
+              "local_pivot": [
+                8,
+                8,
                 0
-              ]
-            },
+              ],
+              "position": [
+                -5.5,
+                16,
+                0.5
+              ],
+              "rotation": [
+                90,
+                0,
+                -45
+              ],
+              "texture": "sword_wood"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.warchief.soldier_sword_stone",
+        "texture_width": 16,
+        "texture_height": 16,
+        "visible_bounds_width": 2,
+        "visible_bounds_height": 3,
+        "visible_bounds_offset": [
+          0,
+          1.25,
+          0
+        ]
+      },
+      "bones": [
+        {
+          "name": "body",
+          "pivot": [
+            0,
+            24,
+            0
+          ]
+        },
+        {
+          "name": "rightArm",
+          "parent": "body",
+          "pivot": [
+            -5,
+            22,
+            0
+          ]
+        },
+        {
+          "name": "rightItem",
+          "parent": "rightArm",
+          "pivot": [
+            -5.5,
+            16,
+            0.5
+          ],
+          "texture_meshes": [
             {
-              "origin": [
-                -8,
-                15.5,
-                1.5
-              ],
-              "size": [
-                5,
-                1,
-                1
-              ],
-              "uv": [
-                0,
+              "local_pivot": [
+                8,
+                8,
                 0
-              ]
-            },
+              ],
+              "position": [
+                -5.5,
+                16,
+                0.5
+              ],
+              "rotation": [
+                90,
+                0,
+                -45
+              ],
+              "texture": "sword_stone"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.warchief.soldier_sword_iron",
+        "texture_width": 16,
+        "texture_height": 16,
+        "visible_bounds_width": 2,
+        "visible_bounds_height": 3,
+        "visible_bounds_offset": [
+          0,
+          1.25,
+          0
+        ]
+      },
+      "bones": [
+        {
+          "name": "body",
+          "pivot": [
+            0,
+            24,
+            0
+          ]
+        },
+        {
+          "name": "rightArm",
+          "parent": "body",
+          "pivot": [
+            -5,
+            22,
+            0
+          ]
+        },
+        {
+          "name": "rightItem",
+          "parent": "rightArm",
+          "pivot": [
+            -5.5,
+            16,
+            0.5
+          ],
+          "texture_meshes": [
             {
-              "origin": [
-                -6.25,
-                15.5,
-                2.5
-              ],
-              "size": [
-                1.5,
-                1,
-                12
-              ],
-              "uv": [
-                0,
+              "local_pivot": [
+                8,
+                8,
                 0
-              ]
-            },
+              ],
+              "position": [
+                -5.5,
+                16,
+                0.5
+              ],
+              "rotation": [
+                90,
+                0,
+                -45
+              ],
+              "texture": "sword_iron"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.warchief.soldier_sword_gold",
+        "texture_width": 16,
+        "texture_height": 16,
+        "visible_bounds_width": 2,
+        "visible_bounds_height": 3,
+        "visible_bounds_offset": [
+          0,
+          1.25,
+          0
+        ]
+      },
+      "bones": [
+        {
+          "name": "body",
+          "pivot": [
+            0,
+            24,
+            0
+          ]
+        },
+        {
+          "name": "rightArm",
+          "parent": "body",
+          "pivot": [
+            -5,
+            22,
+            0
+          ]
+        },
+        {
+          "name": "rightItem",
+          "parent": "rightArm",
+          "pivot": [
+            -5.5,
+            16,
+            0.5
+          ],
+          "texture_meshes": [
             {
-              "origin": [
-                -6,
-                15.5,
-                14.5
-              ],
-              "size": [
-                1,
-                1,
-                2
-              ],
-              "uv": [
-                0,
+              "local_pivot": [
+                8,
+                8,
                 0
-              ]
+              ],
+              "position": [
+                -5.5,
+                16,
+                0.5
+              ],
+              "rotation": [
+                90,
+                0,
+                -45
+              ],
+              "texture": "sword_gold"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.warchief.soldier_sword_diamond",
+        "texture_width": 16,
+        "texture_height": 16,
+        "visible_bounds_width": 2,
+        "visible_bounds_height": 3,
+        "visible_bounds_offset": [
+          0,
+          1.25,
+          0
+        ]
+      },
+      "bones": [
+        {
+          "name": "body",
+          "pivot": [
+            0,
+            24,
+            0
+          ]
+        },
+        {
+          "name": "rightArm",
+          "parent": "body",
+          "pivot": [
+            -5,
+            22,
+            0
+          ]
+        },
+        {
+          "name": "rightItem",
+          "parent": "rightArm",
+          "pivot": [
+            -5.5,
+            16,
+            0.5
+          ],
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                8,
+                8,
+                0
+              ],
+              "position": [
+                -5.5,
+                16,
+                0.5
+              ],
+              "rotation": [
+                90,
+                0,
+                -45
+              ],
+              "texture": "sword_diamond"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": {
+        "identifier": "geometry.warchief.soldier_sword_netherite",
+        "texture_width": 16,
+        "texture_height": 16,
+        "visible_bounds_width": 2,
+        "visible_bounds_height": 3,
+        "visible_bounds_offset": [
+          0,
+          1.25,
+          0
+        ]
+      },
+      "bones": [
+        {
+          "name": "body",
+          "pivot": [
+            0,
+            24,
+            0
+          ]
+        },
+        {
+          "name": "rightArm",
+          "parent": "body",
+          "pivot": [
+            -5,
+            22,
+            0
+          ]
+        },
+        {
+          "name": "rightItem",
+          "parent": "rightArm",
+          "pivot": [
+            -5.5,
+            16,
+            0.5
+          ],
+          "texture_meshes": [
+            {
+              "local_pivot": [
+                8,
+                8,
+                0
+              ],
+              "position": [
+                -5.5,
+                16,
+                0.5
+              ],
+              "rotation": [
+                90,
+                0,
+                -45
+              ],
+              "texture": "sword_netherite"
             }
           ]
         }
