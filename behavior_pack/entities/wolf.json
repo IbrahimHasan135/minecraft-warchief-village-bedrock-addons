@@ -559,29 +559,32 @@
         "slots": [
           {
             "slot": 0,
-            "item": "stone_sword",
+            "item": "minecraft:stone_sword",
             "accepted_items": [
-              "wooden_sword",
-              "stone_sword",
-              "iron_sword",
-              "golden_sword",
-              "diamond_sword",
-              "netherite_sword"
+              "minecraft:wooden_sword",
+              "minecraft:stone_sword",
+              "minecraft:iron_sword",
+              "minecraft:golden_sword",
+              "minecraft:diamond_sword",
+              "minecraft:netherite_sword"
             ]
           },
           {
             "slot": 1,
-            "item": "leather_chestplate",
+            "item": "minecraft:leather_chestplate",
             "accepted_items": [
-              "leather_chestplate",
-              "chainmail_chestplate",
-              "iron_chestplate",
-              "golden_chestplate",
-              "diamond_chestplate",
-              "netherite_chestplate"
+              "minecraft:leather_chestplate",
+              "minecraft:chainmail_chestplate",
+              "minecraft:iron_chestplate",
+              "minecraft:golden_chestplate",
+              "minecraft:diamond_chestplate",
+              "minecraft:netherite_chestplate"
             ]
           }
         ]
+      },
+      "minecraft:entity_armor_equipment_slot_mapping": {
+        "armor_slot": "slot.armor.chest"
       },
       "minecraft:type_family": {
         "family": [
@@ -868,7 +871,7 @@
             "drop_chance": 0
           },
           {
-            "slot": "slot.armor.body",
+            "slot": "slot.armor.chest",
             "drop_chance": 0
           }
         ]

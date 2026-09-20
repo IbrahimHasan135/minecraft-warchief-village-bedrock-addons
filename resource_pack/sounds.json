@@ -30,7 +30,7 @@
           "hurt.reduced": "mob.villager.hit",
           "pant": "mob.villager.idle",
           "shake": "mob.villager.idle",
-          "step": "mob.wolf.step",
+          "step": "mob.pillager.step",
           "whine": "mob.villager.no"
         },
         "pitch": [

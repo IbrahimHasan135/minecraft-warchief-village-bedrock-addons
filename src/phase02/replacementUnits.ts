@@ -83,7 +83,7 @@ const ARMOR_POINTS: Record<string, number> = {
 
 const ARMOR_SLOTS: readonly ArmorSlotState[] = [
   {
-    equipmentSlot: EquipmentSlot.Body,
+    equipmentSlot: EquipmentSlot.Chest,
     key: "chest",
     propertyItem: "warchief:p02_armor_chest_item",
     propertySource: "warchief:p02_armor_chest_source",
@@ -398,7 +398,7 @@ function equipArmor(player: Player, target: Entity, itemTypeId: string, armorSlo
   target.setDynamicProperty(armorSlot.propertySource, PLAYER_EQUIPMENT_SOURCE);
 
   const actual = equippable.getEquipment(armorSlot.equipmentSlot)?.typeId ?? "empty";
-  notify(player, `${getUnitLabel(target)} menerima ${toReadableItemName(itemTypeId)}. Body: ${actual}.`);
+  notify(player, `${getUnitLabel(target)} menerima ${toReadableItemName(itemTypeId)}. Chest: ${actual}.`);
 }
 
 function feedCustomUnit(player: Player, target: Entity, itemTypeId: string): void {
@@ -546,7 +546,7 @@ function logEquipmentSlotsOnce(entity: Entity): void {
     console.warn(
       `[Warchief Equipment Debug] Entity=${getUnitLabel(entity)} Mainhand=${
         equippable.getEquipment(EquipmentSlot.Mainhand)?.typeId ?? "empty"
-      } Body=${equippable.getEquipment(EquipmentSlot.Body)?.typeId ?? "empty"} Attachables=enabled ArmorHidden=false`
+      } Chest=${equippable.getEquipment(EquipmentSlot.Chest)?.typeId ?? "empty"} Attachables=enabled ArmorHidden=false`
     );
     entity.setDynamicProperty(EQUIPMENT_DEBUG_LOGGED_PROPERTY, true);
   } catch (error) {
