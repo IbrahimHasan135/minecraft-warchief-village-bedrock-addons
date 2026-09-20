@@ -4,6 +4,7 @@
       "iron_golem": {
         "events": {
           "ambient": "mob.villager.idle",
+          "ambient.baby": "mob.villager.idle",
           "death": "mob.villager.death",
           "hurt": "mob.villager.hit",
           "step": {
@@ -23,6 +24,7 @@
         "__molang_version": 13,
         "events": {
           "ambient": "mob.villager.idle",
+          "ambient.baby": "mob.villager.idle",
           "death": "mob.villager.death",
           "eat": "mob.villager.yes",
           "growl": "mob.villager.no",
