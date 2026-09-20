@@ -100,97 +100,194 @@ Exit Criteria:
 ## Phase 1 — Pillager-Style Prototype Units Using Vanilla Behaviors
 
 Goal:
-Get two controllable/testable prototype units on-screen quickly by reusing vanilla behavior:
+Build a technical gameplay prototype that proves the Warchief unit loop before final custom entities are authored:
 
-- Iron Golem becomes the first temporary Villager Soldier prototype.
-- Wolf becomes the first temporary Mercenary prototype.
+- Vanilla Wolf acts as the temporary behavior shell for the future `warchief:mercenary`.
+- Vanilla Iron Golem acts as the temporary behavior shell for the future `warchief:villager_soldier`.
+- Both use Pillager/Illager-compatible humanoid visuals as temporary art.
+- One Emerald is the temporary recruitment/taming item for both prototypes.
+- Right-click/use is the intended sword-equipment interaction.
+- Any normal vanilla Banner is the temporary Iron Golem command item.
 
 Important:
-This phase is intentionally a prototype. It may temporarily override vanilla Iron Golem and Wolf visuals/behavior resources to prove the art and command loop quickly. Later phases should move this into proper custom `warchief:villager_soldier` and `warchief:mercenary` entities.
+This phase may temporarily override vanilla Wolf and Iron Golem resources. That is acceptable only for prototype learning. Phase 2 must migrate the result into proper custom `warchief:*` entities and restore vanilla Wolf/Iron Golem behavior if Phase 1 overrides them.
 
-Requested Prototype Behavior:
-- Spawn Iron Golem and it visually appears as a Pillager/Illager-style humanoid.
-- Spawn Wolf and it visually appears as a Pillager/Illager-style humanoid.
-- Both should use prototype Pillager-like textures.
-- Sounds should be changed toward Villager-style sounds where the Bedrock format allows it.
-- Wolf should still follow its owner using vanilla wolf/tame behavior.
-- Wolf sit animation does not need to exist. If vanilla sitting state causes bad visual behavior, document it and suppress/ignore it if feasible.
-- Try to make Iron Golem follow the player when the player holds any vanilla Banner item.
-- If Iron Golem banner-follow is not feasible without Script API or custom AI work, document the limitation and defer it.
-- Try a simple weapon/equipment test with swords for both prototype units.
+Phase 1 must not implement:
+- Final custom `warchief:villager_soldier`.
+- Final custom `warchief:mercenary`.
+- Final Soldier ownership rules.
+- Military Token.
+- Librarian trades.
+- Raids.
+- Final visuals or final balancing.
+
+Prototype Scope:
+- Wolf:
+  - visually appears humanoid/Pillager-like;
+  - can be recruited/tamed with exactly 1 Emerald;
+  - follows its recruiting owner;
+  - preserves follow/stay behavior state if possible;
+  - does not require a correct humanoid sit animation;
+  - accepts right-click/use sword equipment after Emerald recruitment;
+  - detects sword tier;
+  - changes attack damage by sword tier;
+  - attempts visible held-sword rendering if feasible.
+- Iron Golem:
+  - visually appears humanoid/Pillager-like;
+  - can be recruited with exactly 1 Emerald;
+  - still moves and fights;
+  - is reduced from vanilla Golem-level strength into soldier-scale combat;
+  - accepts right-click/use sword equipment after Emerald recruitment;
+  - detects sword tier;
+  - changes attack damage by sword tier;
+  - follows its recruiting player holding any normal vanilla Banner within a reasonable radius;
+  - stops command-follow when Banner is removed.
 
 Phase 1 Implementation Approach:
-- Resource Pack first:
-  - Make Iron Golem render with Pillager/Illager-compatible geometry/texture if possible.
-  - Make Wolf render with Pillager/Illager-compatible geometry/texture if possible.
-  - Prefer existing vanilla animation references if stable.
-  - Add local fallback geometry/animation files only if direct vanilla references fail.
-- Behavior Pack second:
-  - Change or add behavior only if required for equip/follow tests.
-  - Avoid complex ownership code in this phase.
-  - Avoid final custom entity architecture in this phase unless it is easier than overriding vanilla visuals.
-- Script API only if needed:
-  - Detect player holding any Banner.
-  - Find nearby Iron Golem prototypes.
-  - Apply simple follow/move behavior if available in Bedrock `1.26.40`.
+1. Snapshot vanilla Wolf, Iron Golem, and relevant Pillager/Illager client definitions from the current official vanilla templates.
+2. Build Resource Pack visual override:
+   - start with Pillager/Illager-compatible geometry and animations;
+   - use temporary `mercenary_prototype` and `villager_soldier_prototype` textures;
+   - add local fallback geometry/animations if vanilla references or bones do not line up.
+3. Verify movement and animations do not catastrophically deform the prototypes.
+4. Add Emerald recruitment/taming for Wolf and Iron Golem.
+5. Preserve or emulate owner follow/command gating after Emerald recruitment.
+6. Normalize prototype health and damage:
+   - Wolf/Mercenary shell starts around 24 health;
+   - Iron-Golem/Soldier shell starts around 28 health;
+   - base no-sword damage starts around 2.
+7. Add owner-gated right-click/use sword interaction.
+8. Add sword tier state and attack damage groups:
+   - wooden sword: 4;
+   - stone sword: 5;
+   - iron sword: 6;
+   - diamond sword: 8;
+   - netherite sword: 9.
+9. Attempt visible main-hand sword rendering.
+10. Add owner-gated Banner-follow to Iron Golem using data-driven `minecraft:behavior.tempt` first if it can satisfy the owner gate.
+11. Use stable Script API only as a fallback for Emerald recruitment, sword interaction, or banner command if data-driven components fail.
+12. Run the full test matrix and document what must migrate to Phase 2 custom entities.
 
-Weapon/Equipment Test Decision:
-- First test interaction method: right-click/use interaction while holding a valid sword.
-- Fallback test method: drop sword near the unit and observe whether pickup/equip can be made reliable.
-- If neither is reliable for overridden vanilla Iron Golem/Wolf, document it and move real weapon assignment to the custom entity phase.
+Emerald Recruitment Strategy:
+- Player holds exactly 1 Emerald.
+- Player right-clicks/uses on Wolf or Iron Golem prototype.
+- Prototype becomes recruited/owned by that player.
+- Exactly 1 Emerald is consumed.
+- Unrecruited prototypes should not accept sword equipment or command-follow.
+- For Wolf, prefer `minecraft:tameable` with `minecraft:emerald` as the tame item.
+- For Iron Golem, test `minecraft:tameable` first; if native owner behavior fails, use `minecraft:interact` or stable Script API owner marker.
 
-Checkpoint A — Visual Override:
-- Iron Golem spawns.
-- Wolf spawns.
-- Iron Golem appears as a Pillager/Illager-style humanoid.
-- Wolf appears as a Pillager/Illager-style humanoid.
-- Textures load without missing-texture purple/black output.
-- Animations are not catastrophically broken.
+Interaction Strategy:
+- Primary sword method:
+  - prototype is already recruited by the interacting player;
+  - player holds valid sword;
+  - player right-clicks/uses on Wolf or Iron Golem prototype;
+  - entity receives weapon state/equipment;
+  - one sword leaves or is consumed from player inventory without duplication.
+- Preferred data-driven candidates:
+  - `minecraft:interact` with item filters, `equip_item_slot`, and event triggers;
+  - `minecraft:equippable` if it works reliably for these vanilla overrides.
+- Script API fallback:
+  - `world.beforeEvents.playerInteractWithEntity` can inspect `player`, `target`, and `itemStack`;
+  - owner/recruit marker can be checked before equipment changes;
+  - equipment mutation must be deferred with `system.run` if required by stable API restrictions;
+  - duplication prevention is mandatory.
+- Drop-pickup is not an intended mechanic. It is only a diagnostic fallback if direct interaction cannot be made to work.
 
-Checkpoint B — Vanilla Behavior Preservation:
-- Iron Golem can still move and attack hostiles.
-- Wolf can still be tamed or owned using vanilla behavior if the phase keeps vanilla Wolf behavior.
-- Wolf follows owner after tame.
-- World does not crash or spam content errors.
+Banner Follow Strategy:
+- Use `minecraft:behavior.tempt` on the Iron Golem prototype as the first attempt.
+- Banner-follow must be gated behind Emerald recruitment when feasible.
+- Support normal vanilla Banner colors, not only white banner.
+- Main-hand Banner follow is required.
+- Off-hand Banner follow is research-only and must not block Phase 1.
+- Combat/self-defense may outrank Banner follow.
+- Banner follow should outrank idle/random stroll.
+- If `behavior.tempt` fails, document the exact reason before trying Script API fallback.
 
-Checkpoint C — Sound Test:
-- Spawn Iron Golem prototype and trigger idle/hurt/death if practical.
-- Spawn Wolf prototype and trigger idle/hurt/death if practical.
-- Verify whether Villager-like sound replacement works.
-- If sound replacement does not work cleanly, document which sounds remain vanilla.
+Checkpoint A — Vanilla Template Snapshot:
+- Current vanilla Wolf behavior definition is available as reference.
+- Current vanilla Iron Golem behavior definition is available as reference.
+- Current Pillager/Illager client visual definitions are available as reference.
+- Any copied/derived files have a clear reason and minimal changes.
 
-Checkpoint D — Sword Test:
-- Test right-click/use on Iron Golem prototype while holding:
-  - wooden sword
-  - stone sword
-  - iron sword
-  - diamond sword
-  - netherite sword
-- Test right-click/use on Wolf prototype with the same swords.
-- If right-click/use cannot be captured, test sword drop/pickup.
-- Record exactly which method works.
-- Record whether sword is visual only, stat-changing, consumed, dropped, or ignored.
+Checkpoint B — Visual Override:
+- Wolf spawns and appears humanoid/Pillager-like.
+- Iron Golem spawns and appears humanoid/Pillager-like.
+- Prototype textures load without missing-texture output.
+- Walking and attack animations are usable enough for gameplay testing.
+- If vanilla animations fail, fallback geometry/animation path is documented.
 
-Checkpoint E — Banner Follow Test:
-- Hold any vanilla Banner in main hand.
-- Test whether nearby Iron Golem prototype follows.
-- Test whether removing Banner stops follow.
-- If off-hand is available, test off-hand separately.
-- If not feasible in Phase 1, document why and defer to the custom soldier command system.
+Checkpoint C — Wolf Behavior Preservation:
+- Wolf can be recruited/tamed with exactly 1 Emerald.
+- Recruited Wolf follows its owner.
+- Tamed Wolf can stop following through the vanilla stay/sit behavior state if possible.
+- Any ugly or missing sitting animation is documented but does not fail the phase by itself.
+
+Checkpoint D — Iron Golem Behavior Preservation and Rebalance:
+- Iron Golem can be recruited with exactly 1 Emerald, or the native blocker is documented and Script API fallback is tested.
+- Iron Golem prototype still navigates.
+- Iron Golem prototype still targets/fights hostile mobs.
+- Health and attack no longer feel like vanilla Iron Golem scale.
+- Any remaining launch/knockback issue is documented.
+
+Checkpoint E — Sword Interaction and Damage:
+- Sword interaction before Emerald recruitment is denied or documented as a limitation.
+- Right-click/use is tested on both prototypes with:
+  - `minecraft:wooden_sword`;
+  - `minecraft:stone_sword`;
+  - `minecraft:iron_sword`;
+  - `minecraft:diamond_sword`;
+  - `minecraft:netherite_sword`.
+- Sword tier is detected.
+- Attack damage changes by tier.
+- Item consumption/equip behavior is documented.
+- No item duplication is observed in basic testing.
+- Visible held-sword result is classified:
+  - Level A: real main-hand item renders;
+  - Level B: render-controller/attachable visual works;
+  - Level C: stat change works but held visual is deferred.
+
+Checkpoint F — Banner Follow:
+- Iron Golem prototype follows the recruiting player holding a vanilla Banner in main hand.
+- Removing Banner stops command-follow.
+- Multiple banner colors are tested.
+- Off-hand Banner behavior is tested if practical and documented as blocker or non-blocker.
+
+Checkpoint G — Sound Identity:
+- Villager-like sound replacement is attempted only after core visuals/interactions work.
+- Idle/hurt/death or other practical sound triggers are tested.
+- Any unchanged vanilla Wolf/Iron Golem sounds are documented.
+
+Checkpoint H — Phase 1 Report:
+- Created/changed files are listed.
+- Data-driven vs Script API choices are documented.
+- Failed experiments are documented.
+- Phase 2 migration notes are written.
+- Manual Bedrock test results and content-log notes are recorded.
 
 Acceptance Criteria:
-- [ ] Iron Golem prototype can be spawned and is visually Pillager/Illager-style.
 - [ ] Wolf prototype can be spawned and is visually Pillager/Illager-style.
-- [ ] Wolf still follows owner through vanilla behavior, unless a documented Bedrock limitation blocks it.
-- [ ] Iron Golem still has basic combat/movement, unless a documented visual override limitation blocks it.
-- [ ] Villager-style sound replacement is tested and documented.
-- [ ] Sword interaction method is tested and documented.
-- [ ] Banner-follow feasibility is tested and documented.
+- [ ] Iron Golem prototype can be spawned and is visually Pillager/Illager-style.
+- [ ] Wolf can be recruited/tamed with exactly 1 Emerald and owner-follow still works.
+- [ ] Wolf stay/sit behavioral state is preserved or a limitation is documented.
+- [ ] Iron Golem can be recruited with exactly 1 Emerald or a fallback/limitation is documented.
+- [ ] Iron Golem still has basic navigation/combat.
+- [ ] Iron Golem combat is reduced toward soldier-scale values.
+- [ ] Right-click/use sword interaction is tested for both prototypes after Emerald recruitment.
+- [ ] Unrecruited sword interaction is denied or documented.
+- [ ] Sword tier changes damage or the blocker is documented.
+- [ ] Item consumption/equip behavior avoids obvious duplication.
+- [ ] Visible sword rendering is attempted and classified.
+- [ ] Iron Golem Banner-follow works for the recruiting player with main-hand Banner, or the blocker is documented.
+- [ ] Villager-like sound replacement is tested after core mechanics.
+- [ ] Phase 2 migration notes exist.
 - [ ] Content log has no repeated severe errors.
 
 Exit Criteria:
-- It is clear whether the project can continue texture-first using vanilla-like models/animations.
-- It is clear which parts must become custom entities/scripts in the next phase.
+- It is clear whether vanilla Wolf/Iron Golem overrides are useful enough as prototypes.
+- It is clear whether sword equipment should use `minecraft:interact`, `minecraft:equippable`, Script API, or a later custom-entity path.
+- It is clear whether Banner-follow can use `minecraft:behavior.tempt`.
+- It is clear which behaviors/visuals must move into custom Phase 2 entities.
 
 ---
 

@@ -17,6 +17,7 @@ Use:
 - Vanilla **Wolf** as the temporary behavior shell for the future `warchief:mercenary`.
 - Vanilla **Iron Golem** as the temporary behavior shell for the future `warchief:villager_soldier`.
 - Pillager/Illager-compatible humanoid visuals as temporary art.
+- One **Emerald** as the temporary recruitment/taming item for both prototypes.
 - Right-click/use interaction for sword equipment.
 - A normal vanilla Banner as the temporary command item for the Iron Golem prototype.
 - Simplified rebalanced combat stats.
@@ -95,7 +96,44 @@ https://aka.ms/behaviorpacktemplate
 
 # 3. Key Phase 01 Decisions
 
-## 3.1 Sword interaction
+## 3.1 Emerald recruitment / taming
+
+Primary recruitment method:
+
+```text
+Player holds 1 Emerald
+        +
+right-click / use on prototype unit
+        ↓
+unit becomes owned/recruited by that player
+        ↓
+1 Emerald is consumed
+```
+
+This applies to both Phase 01 prototypes:
+
+- Wolf/Mercenary shell.
+- Iron-Golem/Soldier shell.
+
+Expected rule:
+
+```text
+not recruited
+→ does not accept sword equipment
+→ does not obey command-follow
+
+recruited by Player A
+→ accepts sword equipment from Player A
+→ follows/commands for Player A
+```
+
+For the Wolf prototype, prefer changing/augmenting vanilla Wolf taming so `minecraft:emerald` is the required tame item with 100% success.
+
+For the Iron Golem prototype, test whether adding `minecraft:tameable` with `minecraft:emerald` can create a usable owner relationship. If native tame ownership does not work cleanly on Iron Golem, use `minecraft:interact` or stable Script API fallback to store a prototype owner marker.
+
+Phase 01 ownership is still prototype ownership. It is allowed to be simpler than the final multiplayer-safe ownership system, but it must prove that the command/equipment loop can be gated behind Emerald recruitment.
+
+## 3.2 Sword interaction
 
 Primary gameplay method:
 
@@ -128,11 +166,12 @@ Phase 01 must prove:
 ### Wolf prototype
 
 - [ ] Wolf visually appears humanoid / Pillager-like.
-- [ ] Wolf can still be tamed using vanilla Wolf mechanics.
+- [ ] Wolf can be tamed/recruited with exactly 1 Emerald.
 - [ ] Wolf still follows its owner.
 - [ ] Wolf stay/sit **behavioral state** is preserved if possible.
 - [ ] A matching humanoid sitting animation is not required.
-- [ ] Player can right-click it with a sword.
+- [ ] Player can right-click it with a sword after Emerald recruitment.
+- [ ] Non-owner sword interaction is denied or documented as a prototype limitation.
 - [ ] Sword tier is detected.
 - [ ] Sword can be represented visually if feasible.
 - [ ] Sword tier changes attack damage.
@@ -141,40 +180,50 @@ Phase 01 must prove:
 ### Iron Golem prototype
 
 - [ ] Iron Golem visually appears humanoid / Pillager-like.
+- [ ] Iron Golem can be recruited with exactly 1 Emerald.
 - [ ] It still moves and fights.
 - [ ] Its excessive vanilla strength is reduced.
-- [ ] Player can right-click it with a sword.
+- [ ] Player can right-click it with a sword after Emerald recruitment.
+- [ ] Non-owner sword interaction is denied or documented as a prototype limitation.
 - [ ] Sword tier is detected.
 - [ ] Sword can be represented visually if feasible.
 - [ ] Sword tier changes attack damage.
-- [ ] It follows a player holding any vanilla Banner within a reasonable radius.
+- [ ] It follows its recruiting player holding any vanilla Banner within a reasonable radius.
 - [ ] Removing the Banner stops command-follow behavior.
 
 ---
 
 # 5. Important Prototype Limitation
 
-Phase 01 does **not** implement final ownership rules for Iron Golem.
+Phase 01 implements **prototype ownership**, not the final production ownership system.
 
 During Phase 01:
 
 ```text
-any eligible player holding a recognized Banner
-→ may attract/follow-command the Iron Golem prototype
+Player A gives 1 Emerald
+→ prototype owner/recruited player = Player A
+→ Player A can equip/command the prototype
 ```
 
-This is acceptable because Phase 01 proves the mechanic only.
+This is required because Phase 01 must prove the loop:
+
+```text
+Emerald recruit
+→ owner-gated equipment
+→ owner-gated command/follow
+```
 
 Final rule:
 
 ```text
-only the owner who recruited the soldier
-→ can command it
+ownership persists safely across multiplayer and reloads
 ```
 
 belongs to later custom-entity/ownership phases.
 
-Wolf ownership remains vanilla taming ownership in Phase 01.
+Wolf ownership may use vanilla taming ownership in Phase 01, but its tame item should be Emerald rather than Bone.
+
+Iron Golem ownership may be less native than Wolf ownership. If native `minecraft:tameable` does not produce the needed owner relationship for Iron Golem, document the blocker and use a minimal Script API owner marker for this prototype.
 
 ---
 
@@ -185,14 +234,15 @@ Implement in this order:
 1. Snapshot vanilla Wolf and Iron Golem definitions from current official template.
 2. Build Resource Pack visual override.
 3. Verify movement/animations do not catastrophically break.
-4. Preserve Wolf taming and follow.
-5. Normalize prototype health/damage.
-6. Add direct sword interaction.
-7. Add sword tier state.
-8. Try actual main-hand item rendering.
-9. Add Banner-follow to Iron Golem.
-10. Run test matrix.
-11. Document what needs migration to custom entities in Phase 02.
+4. Add Emerald recruitment/taming for Wolf and Iron Golem.
+5. Preserve or emulate owner follow/command gating after Emerald recruitment.
+6. Normalize prototype health/damage.
+7. Add owner-gated direct sword interaction.
+8. Add sword tier state.
+9. Try actual main-hand item rendering.
+10. Add owner-gated Banner-follow to Iron Golem.
+11. Run test matrix.
+12. Document what needs migration to custom entities in Phase 02.
 
 Do not start with Script API if data-driven components solve the requirement cleanly.
 
@@ -283,12 +333,14 @@ The Wolf is the temporary shell for Mercenary behavior because vanilla Wolf alre
 
 Preserve these as much as possible.
 
+For Phase 01, replace Bone as the prototype tame/recruit item with Emerald if the vanilla Wolf definition supports it cleanly.
+
 Expected prototype flow:
 
 ```text
 spawn Wolf prototype
       ↓
-tame with Bone normally
+tame/recruit with 1 Emerald
       ↓
 Wolf owner = Player A
       ↓
@@ -301,7 +353,7 @@ Wolf retains owner-follow
 
 Do not make sword interaction perform taming in Phase 01.
 
-That belongs to the final Mercenary architecture.
+Emerald recruitment is the only intended Phase 01 recruitment method.
 
 ---
 
@@ -474,7 +526,80 @@ If modifying a vanilla entity definition makes a synced property difficult or ri
 
 ---
 
-# 16. Direct Sword Interaction — Preferred Data-Driven Path
+# 16. Emerald Recruitment — Preferred Data-Driven Path
+
+Primary candidates:
+
+```text
+minecraft:tameable
+minecraft:interact
+```
+
+For Wolf:
+
+- Prefer `minecraft:tameable` with `tame_items` set to `minecraft:emerald`.
+- Use `probability: 1` so 1 Emerald always recruits/tames the prototype.
+- Preserve owner-follow and stay/sit behavior.
+
+Conceptual Wolf pattern:
+
+```json
+"minecraft:tameable": {
+  "probability": 1.0,
+  "tame_items": [
+    "minecraft:emerald"
+  ],
+  "tame_event": {
+    "event": "minecraft:on_tame",
+    "target": "self"
+  }
+}
+```
+
+For Iron Golem:
+
+- First test whether `minecraft:tameable` can be added cleanly and produce useful ownership.
+- If native ownership does not work, use `minecraft:interact` to consume Emerald and trigger a recruited component group/property.
+- If data-driven ownership cannot identify the interacting player reliably enough, use stable Script API as fallback.
+
+Conceptual interact fallback:
+
+```json
+"minecraft:interact": {
+  "interactions": [
+    {
+      "interact_text": "action.interact.tame",
+      "use_item": true,
+      "on_interact": {
+        "filters": {
+          "all_of": [
+            {
+              "test": "has_equipment",
+              "subject": "other",
+              "domain": "hand",
+              "value": "minecraft:emerald"
+            }
+          ]
+        },
+        "event": "warchief:prototype_recruit",
+        "target": "self"
+      }
+    }
+  ]
+}
+```
+
+The exact item consumption behavior must be verified. If `use_item` does not consume exactly one Emerald for the chosen implementation, Script API must handle inventory safely and prevent duplication.
+
+Recommended prototype owner state:
+
+- Native tame owner for Wolf if possible.
+- Native tame owner for Iron Golem if possible.
+- Script-owned dynamic property or tag only if native ownership cannot support the prototype.
+
+---
+
+# 17. Direct Sword Interaction — Preferred Data-Driven Path
 
 Primary candidate:
 
@@ -490,6 +615,8 @@ The documentation supports:
 - event trigger;
 - `equip_item_slot`;
 - main-hand equipment slot naming.
+
+Sword interaction must be gated behind Emerald recruitment. If the owner/recruited player cannot be checked cleanly in data-driven JSON, use Script API fallback for the owner check.
 
 Conceptual pattern:
 
@@ -533,7 +660,7 @@ minecraft:netherite_sword
 
 ---
 
-# 17. `minecraft:equippable` Test
+# 18. `minecraft:equippable` Test
 
 Also test whether `minecraft:equippable` can provide a cleaner native equipment path for these overridden entities.
 
@@ -570,9 +697,16 @@ If not, use `minecraft:interact` or Script API.
 
 ---
 
-# 18. Script API Fallback for Sword Interaction
+# 19. Script API Fallback for Sword Interaction
 
 If native `minecraft:interact` / `minecraft:equippable` cannot reliably distinguish or equip the sword on the overridden vanilla entity, use stable Script API.
+
+Use this fallback also when data-driven JSON cannot enforce:
+
+```text
+only the player who recruited with Emerald
+→ can equip/change sword
+```
 
 The stable API exposes `PlayerInteractWithEntityBeforeEvent`, which provides:
 
@@ -611,6 +745,8 @@ world.beforeEvents.playerInteractWithEntity.subscribe((event) => {
     target.typeId !== "minecraft:iron_golem"
   ) return;
 
+  // Prototype owner check belongs here if data-driven ownership is not enough.
+
   system.run(() => {
     const equippable = target.getComponent(EntityComponentTypes.Equippable);
     if (!equippable) {
@@ -637,7 +773,7 @@ Phase 01 may use this only as fallback.
 
 ---
 
-# 19. Item Consumption Rules
+# 20. Item Consumption Rules
 
 Recommended:
 
@@ -670,7 +806,7 @@ Avoid silent duplication.
 
 ---
 
-# 20. Visible Sword Goal
+# 21. Visible Sword Goal
 
 Phase 01 should attempt to make the sword visibly appear in the humanoid unit's hand.
 
@@ -694,7 +830,7 @@ Do **not** fail the entire phase solely because vanilla shell entities do not re
 
 ---
 
-# 21. Humanoid Held Item Considerations
+# 22. Humanoid Held Item Considerations
 
 A Wolf or Iron Golem was not authored as a player-like held-item entity.
 
@@ -711,30 +847,28 @@ Do not fake a permanent sword texture directly into the skin, because Phase 01 m
 
 ---
 
-# 22. Banner Follow — Preferred Phase 01 Method
+# 23. Banner Follow — Preferred Phase 01 Method
 
-For Phase 01, the cleanest first experiment is **data-driven `minecraft:behavior.tempt`**.
+For Phase 01, the cleanest first experiment is **data-driven `minecraft:behavior.tempt`**, but only if it can be combined with the Emerald recruitment requirement without creating misleading behavior.
 
 Microsoft documents `minecraft:behavior.tempt` as a behavior that makes a mob follow a player holding specified items using pathfinding.
 
 That maps almost exactly to the Phase 01 requirement:
 
 ```text
-player holds Banner
-→ prototype Iron Golem follows player
+recruited owner holds Banner
+→ prototype Iron Golem follows recruited owner
 
-player no longer holds Banner
+recruited owner no longer holds Banner
 → tempt condition ends
 → prototype stops following
 ```
 
-This does not require taming or ownership.
-
-That is ideal for this prototype.
+If pure `minecraft:behavior.tempt` follows any player with a Banner, that is no longer a complete success after the Emerald recruitment update. It may still be useful as a movement experiment, but the result must be documented as not owner-gated and either fixed with Script API fallback or deferred to Phase 02.
 
 ---
 
-# 23. Banner IDs
+# 24. Banner IDs
 
 Phase 01 requirement:
 
@@ -769,7 +903,7 @@ Codex should verify IDs against the target Bedrock version rather than assuming 
 
 ---
 
-# 24. Banner `minecraft:behavior.tempt` Prototype
+# 25. Banner `minecraft:behavior.tempt` Prototype
 
 Conceptual Iron Golem override component:
 
@@ -812,7 +946,7 @@ Why it is attractive:
 
 ---
 
-# 25. Banner Follow Priority
+# 26. Banner Follow Priority
 
 AI goal priority matters.
 
@@ -832,7 +966,7 @@ Do not blindly use priority `3` if it conflicts with critical combat goals.
 
 ---
 
-# 26. Banner Main Hand vs Off-Hand
+# 27. Banner Main Hand vs Off-Hand
 
 `minecraft:behavior.tempt` should first be tested using normal held-item behavior.
 
@@ -852,7 +986,7 @@ Later Script API command logic can explicitly inspect equipment slots if final d
 
 ---
 
-# 27. Banner Script API Fallback
+# 28. Banner Script API Fallback
 
 Only if `minecraft:behavior.tempt` cannot reliably satisfy the Phase 01 command test:
 
@@ -869,7 +1003,7 @@ The preferred Phase 01 design is still data-driven temptation.
 
 ---
 
-# 28. Iron Golem Health / Damage Override
+# 29. Iron Golem Health / Damage Override
 
 Prototype health example:
 
@@ -904,7 +1038,7 @@ The goal is:
 
 ---
 
-# 29. Wolf Health / Damage Override
+# 30. Wolf Health / Damage Override
 
 Prototype health example:
 
@@ -928,7 +1062,7 @@ unless a specific conflict is documented.
 
 ---
 
-# 30. Sounds
+# 31. Sounds
 
 Phase 01 may test Villager-like sound identity.
 
@@ -945,7 +1079,7 @@ Do not block Phase 01 on audio polish.
 
 ---
 
-# 31. Suggested Phase 01 File Layout
+# 32. Suggested Phase 01 File Layout
 
 ```text
 behavior_pack/
@@ -984,7 +1118,7 @@ Do not add script code merely because the folder exists.
 
 ---
 
-# 32. Debug Logging
+# 33. Debug Logging
 
 Use consistent prefix:
 
@@ -1004,7 +1138,7 @@ Avoid per-tick spam.
 
 ---
 
-# 33. Phase 01 Test Matrix
+# 34. Phase 01 Test Matrix
 
 ## Test 1 — Wolf visual
 
@@ -1017,19 +1151,24 @@ Expected:
 - texture not purple/black;
 - movement usable.
 
-## Test 2 — Wolf vanilla ownership
+## Test 2 — Wolf Emerald recruitment
 
-1. Tame with Bone.
-2. Walk away.
-3. Verify follow.
-4. Trigger stay/sit.
-5. Walk away again.
-6. Resume follow.
+1. Hold exactly 1 Emerald.
+2. Right-click/use on Wolf prototype.
+3. Verify Emerald is consumed.
+4. Walk away.
+5. Verify follow.
+6. Trigger stay/sit.
+7. Walk away again.
+8. Resume follow.
 
 Expected:
-- ownership behavior survives visual override.
+- Emerald recruitment succeeds;
+- owner behavior survives visual override.
 
 ## Test 3 — Wolf sword interaction
+
+First recruit the Wolf with 1 Emerald.
 
 Test:
 - Wooden Sword
@@ -1046,6 +1185,12 @@ For each:
 5. verify weapon state;
 6. verify visible held item if supported;
 7. verify damage changes.
+
+Also test sword interaction before Emerald recruitment.
+
+Expected:
+- unrecruited Wolf does not accept equipment, or the limitation is documented;
+- recruited Wolf accepts owner equipment.
 
 ## Test 4 — Wolf damage
 
@@ -1081,27 +1226,43 @@ Expected:
 
 ## Test 7 — Iron Golem sword interaction
 
+First recruit the Iron Golem with 1 Emerald.
+
 Repeat all sword tiers.
 
 Expected:
 - same state/damage progression concept as Wolf;
-- held-item rendering attempted.
+- held-item rendering attempted;
+- unrecruited Iron Golem does not accept equipment, or the limitation is documented.
 
-## Test 8 — Banner follow
+## Test 8 — Iron Golem Emerald recruitment
 
 1. Spawn Iron Golem prototype.
-2. Stand within command radius.
-3. Hold one vanilla Banner.
-4. Walk 10–20 blocks.
-5. Verify prototype follows.
-6. Remove Banner from hand.
-7. Walk farther.
+2. Hold exactly 1 Emerald.
+3. Right-click/use on Iron Golem prototype.
+4. Verify Emerald is consumed.
+5. Record whether native tame ownership or Script API owner marker is used.
 
 Expected:
-- follows while Banner is held;
+- Iron Golem can enter recruited state;
+- the recruiting player is recorded well enough to gate Phase 01 equipment and command tests.
+
+## Test 9 — Banner follow
+
+1. Spawn Iron Golem prototype.
+2. Recruit with 1 Emerald.
+3. Stand within command radius.
+4. Hold one vanilla Banner.
+5. Walk 10-20 blocks.
+6. Verify prototype follows.
+7. Remove Banner from hand.
+8. Walk farther.
+
+Expected:
+- follows recruited owner while Banner is held;
 - stops being tempted/commanded when Banner is removed.
 
-## Test 9 — Banner color coverage
+## Test 10 — Banner color coverage
 
 Test at least:
 - white;
@@ -1111,11 +1272,12 @@ Test at least:
 
 Then verify implementation includes all standard banner color IDs.
 
-## Test 10 — Combat vs Banner priority
+## Test 11 — Combat vs Banner priority
 
-1. Hold Banner.
-2. Cause valid hostile target to appear.
-3. Observe prototype.
+1. Recruit Iron Golem with 1 Emerald.
+2. Hold Banner.
+3. Cause valid hostile target to appear.
+4. Observe prototype.
 
 Desired behavior:
 - entity may engage nearby hostile based on combat priority;
@@ -1123,8 +1285,9 @@ Desired behavior:
 
 Document actual behavior.
 
-## Test 11 — Save/reload
+## Test 12 — Save/reload
 
+Recruit with 1 Emerald.
 Equip sword.
 
 Save world.
@@ -1133,12 +1296,13 @@ Reload.
 
 Expected:
 - entity remains valid;
+- recruited/owner state persists if implementation supports persistence;
 - weapon state persists if implementation uses persistent entity property/equipment;
 - no load-time event incorrectly duplicates equipment.
 
 ---
 
-# 34. Phase 01 Performance Rules
+# 35. Phase 01 Performance Rules
 
 Do not:
 
@@ -1157,7 +1321,7 @@ persisted entity state
 
 ---
 
-# 35. Known Risks
+# 36. Known Risks
 
 ## Risk A — overriding vanilla entities globally
 
@@ -1196,13 +1360,24 @@ Mitigation:
 
 ## Risk E — Banner tempt follows any player
 
-Expected in Phase 01.
+No longer desired after the Emerald recruitment update.
 
-Final ownership-aware command logic comes later.
+Mitigation:
+- gate Banner command behind Emerald recruitment;
+- if pure `minecraft:behavior.tempt` cannot know the recruiting player, document the limitation and use a minimal Script API fallback or defer final owner-aware command to Phase 02.
+
+## Risk F — Iron Golem native ownership may not work
+
+Iron Golem is not normally authored as a tameable owner-follow mob.
+
+Mitigation:
+- test `minecraft:tameable` first;
+- if it fails, use `minecraft:interact` plus Script API owner marker for the prototype;
+- document exactly what must become custom entity logic in Phase 02.
 
 ---
 
-# 36. Phase 01 Acceptance Criteria
+# 37. Phase 01 Acceptance Criteria
 
 ## Visual
 
@@ -1213,21 +1388,25 @@ Final ownership-aware command logic comes later.
 
 ## Wolf
 
-- [ ] Can still be tamed.
+- [ ] Can be recruited/tamed with exactly 1 Emerald.
 - [ ] Follows vanilla owner.
 - [ ] Stay/sit behavior state still functions or limitation is documented.
-- [ ] Sword interaction works by right-click/use.
+- [ ] Sword interaction works by right-click/use after Emerald recruitment.
+- [ ] Unrecruited sword interaction is denied or documented.
 
 ## Iron Golem
 
+- [ ] Can be recruited with exactly 1 Emerald.
 - [ ] Can still move.
 - [ ] Can fight hostile mobs.
 - [ ] Vanilla excessive combat strength has been reduced.
-- [ ] Sword interaction works by right-click/use.
-- [ ] Follows Banner holder using `minecraft:behavior.tempt`, or fallback is documented.
+- [ ] Sword interaction works by right-click/use after Emerald recruitment.
+- [ ] Unrecruited sword interaction is denied or documented.
+- [ ] Follows recruiting player holding Banner, or fallback/limitation is documented.
 
 ## Equipment
 
+- [ ] Equipment is gated behind Emerald recruitment.
 - [ ] All five sword tiers are recognized.
 - [ ] Sword tier changes attack damage.
 - [ ] Item consumption does not duplicate swords.
@@ -1236,7 +1415,7 @@ Final ownership-aware command logic comes later.
 
 ## Banner
 
-- [ ] Main-hand vanilla Banner triggers follow behavior.
+- [ ] Main-hand vanilla Banner triggers follow behavior after Emerald recruitment.
 - [ ] Removing Banner stops follow behavior.
 - [ ] More than one Banner color works.
 - [ ] All standard banner variants are represented in the implementation.
@@ -1251,7 +1430,7 @@ Final ownership-aware command logic comes later.
 
 ---
 
-# 37. Phase 01 Deliverables
+# 38. Phase 01 Deliverables
 
 Codex must provide:
 
@@ -1272,7 +1451,7 @@ Codex must provide:
 
 ## Wolf Prototype
 - Visual:
-- Taming:
+- Emerald recruitment:
 - Follow:
 - Stay:
 - Sword interaction:
@@ -1281,6 +1460,8 @@ Codex must provide:
 
 ## Iron Golem Prototype
 - Visual:
+- Emerald recruitment:
+- Owner/marker method:
 - Combat:
 - Rebalanced stats:
 - Sword interaction:
@@ -1289,6 +1470,7 @@ Codex must provide:
 
 ## Banner Method
 - minecraft:behavior.tempt result:
+- Owner-gated command result:
 - Main-hand:
 - Off-hand:
 - Banner variants:
@@ -1307,7 +1489,7 @@ Codex must provide:
 
 ---
 
-# 38. Codex Execution Instructions
+# 39. Codex Execution Instructions
 
 Codex must:
 
@@ -1315,30 +1497,32 @@ Codex must:
 2. Obtain the current vanilla Wolf/Iron Golem definitions from an appropriate current reference/template.
 3. Do not rewrite vanilla behavior from memory.
 4. Implement the Resource Pack visual prototype first.
-5. Preserve Wolf taming/follow behavior.
-6. Normalize Wolf/Iron Golem combat stats.
-7. Use right-click/use for sword equipment.
-8. Try native `minecraft:interact` / `minecraft:equippable` before adding Script API.
-9. Implement sword-tier damage.
-10. Attempt actual held-sword visualization.
-11. Implement Iron Golem Banner-follow using `minecraft:behavior.tempt` as the first choice.
-12. Use all vanilla Banner color IDs, not only white Banner.
-13. Use Script API only if the data-driven approach cannot satisfy the prototype.
-14. Run the test matrix.
-15. Produce `PHASE_01_RESULT.md`.
-16. Stop after Phase 01.
+5. Implement Emerald recruitment for Wolf and Iron Golem.
+6. Preserve Wolf owner follow/stay behavior after Emerald recruitment.
+7. Gate equipment and command behavior behind Emerald recruitment.
+8. Normalize Wolf/Iron Golem combat stats.
+9. Use right-click/use for sword equipment.
+10. Try native `minecraft:interact` / `minecraft:equippable` before adding Script API.
+11. Implement sword-tier damage.
+12. Attempt actual held-sword visualization.
+13. Implement Iron Golem Banner-follow using `minecraft:behavior.tempt` as the first choice if it can be owner-gated; otherwise document and use fallback.
+14. Use all vanilla Banner color IDs, not only white Banner.
+15. Use Script API only if the data-driven approach cannot satisfy the prototype.
+16. Run the test matrix.
+17. Produce `PHASE_01_RESULT.md`.
+18. Stop after Phase 01.
 
 Do not proceed into custom `warchief:villager_soldier` or `warchief:mercenary` implementation unless Phase 02 is explicitly requested.
 
 ---
 
-# 39. Phase 01 Success Definition
+# 40. Phase 01 Success Definition
 
 Phase 01 is successful if it proves this loop:
 
 ```text
 WOLF PROTOTYPE
-vanilla tame
+right-click/use with 1 Emerald
 → humanoid mercenary visual
 → follows owner
 → player right-clicks with sword
@@ -1348,10 +1532,12 @@ vanilla tame
 
 IRON GOLEM PROTOTYPE
 humanoid villager-soldier visual
+→ player right-clicks with 1 Emerald
+→ prototype records/recruits owner
 → player right-clicks with sword
 → sword tier recognized
 → soldier-scale damage
-→ player holds any Banner
+→ owner holds any Banner
 → entity follows
 → Banner removed
 → entity stops command-follow
