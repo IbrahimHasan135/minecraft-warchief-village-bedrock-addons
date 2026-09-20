@@ -18,7 +18,12 @@
       },
       "geometry": {
         "default": "geometry.warchief.humanoid",
-        "sword": "geometry.warchief.soldier_sword"
+        "sword_wood": "geometry.warchief.soldier_sword_wood",
+        "sword_stone": "geometry.warchief.soldier_sword_stone",
+        "sword_iron": "geometry.warchief.soldier_sword_iron",
+        "sword_gold": "geometry.warchief.soldier_sword_gold",
+        "sword_diamond": "geometry.warchief.soldier_sword_diamond",
+        "sword_netherite": "geometry.warchief.soldier_sword_netherite"
       },
       "spawn_egg": {
         "base_color": "#5d6b36",
