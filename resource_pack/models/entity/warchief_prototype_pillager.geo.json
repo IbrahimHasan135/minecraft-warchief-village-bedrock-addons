@@ -83,7 +83,7 @@
         ]
       },
       {
-        "name": "rightarm",
+        "name": "rightArm",
         "parent": "body",
         "pivot": [ -5.0, 22.0, 0.0 ],
         "cubes": [
@@ -101,7 +101,7 @@
         "parent": "rightArm"
       },
       {
-        "name": "leftarm",
+        "name": "leftArm",
         "parent": "body",
         "pivot": [ 5.0, 22.0, 0.0 ],
         "mirror": true,

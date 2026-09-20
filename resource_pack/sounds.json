@@ -24,9 +24,12 @@
         "events": {
           "ambient": "mob.villager.idle",
           "death": "mob.villager.death",
+          "eat": "mob.villager.yes",
           "growl": "mob.villager.no",
           "hurt": "mob.villager.hit",
+          "hurt.reduced": "mob.villager.hit",
           "pant": "mob.villager.idle",
+          "shake": "mob.villager.idle",
           "step": "mob.wolf.step",
           "whine": "mob.villager.no"
         },
@@ -34,6 +37,101 @@
           0.8,
           1.2
         ],
+        "variants": {
+          "key": "query.is_baby ? 'baby' : query.property('minecraft:sound_variant')",
+          "map": {
+            "adult": {
+              "events": {
+                "ambient": "mob.villager.idle",
+                "death": "mob.villager.death",
+                "growl": "mob.villager.no",
+                "hurt": "mob.villager.hit",
+                "pant": "mob.villager.idle",
+                "whine": "mob.villager.no"
+              }
+            },
+            "baby": {
+              "events": {
+                "ambient": "mob.villager.idle",
+                "death": "mob.villager.death",
+                "growl": "mob.villager.no",
+                "hurt": "mob.villager.hit",
+                "pant": "mob.villager.idle",
+                "whine": "mob.villager.no"
+              }
+            },
+            "big": {
+              "events": {
+                "ambient": "mob.villager.idle",
+                "death": "mob.villager.death",
+                "growl": "mob.villager.no",
+                "hurt": "mob.villager.hit",
+                "pant": "mob.villager.idle",
+                "whine": "mob.villager.no"
+              }
+            },
+            "cute": {
+              "events": {
+                "ambient": "mob.villager.idle",
+                "death": "mob.villager.death",
+                "growl": "mob.villager.no",
+                "hurt": "mob.villager.hit",
+                "pant": "mob.villager.idle",
+                "whine": "mob.villager.no"
+              }
+            },
+            "default": {
+              "events": {
+                "ambient": "mob.villager.idle",
+                "death": "mob.villager.death",
+                "growl": "mob.villager.no",
+                "hurt": "mob.villager.hit",
+                "pant": "mob.villager.idle",
+                "whine": "mob.villager.no"
+              }
+            },
+            "grumpy": {
+              "events": {
+                "ambient": "mob.villager.idle",
+                "death": "mob.villager.death",
+                "growl": "mob.villager.no",
+                "hurt": "mob.villager.hit",
+                "pant": "mob.villager.idle",
+                "whine": "mob.villager.no"
+              }
+            },
+            "mad": {
+              "events": {
+                "ambient": "mob.villager.idle",
+                "death": "mob.villager.death",
+                "growl": "mob.villager.no",
+                "hurt": "mob.villager.hit",
+                "pant": "mob.villager.idle",
+                "whine": "mob.villager.no"
+              }
+            },
+            "puglin": {
+              "events": {
+                "ambient": "mob.villager.idle",
+                "death": "mob.villager.death",
+                "growl": "mob.villager.no",
+                "hurt": "mob.villager.hit",
+                "pant": "mob.villager.idle",
+                "whine": "mob.villager.no"
+              }
+            },
+            "sad": {
+              "events": {
+                "ambient": "mob.villager.idle",
+                "death": "mob.villager.death",
+                "growl": "mob.villager.no",
+                "hurt": "mob.villager.hit",
+                "pant": "mob.villager.idle",
+                "whine": "mob.villager.no"
+              }
+            }
+          }
+        },
         "volume": 1.0
       }
     }

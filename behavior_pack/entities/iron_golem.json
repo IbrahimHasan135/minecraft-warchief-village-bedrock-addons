@@ -32,7 +32,8 @@
         "look_distance": 6,
         "priority": 7
       },
-      "minecraft:behavior.melee_box_attack": {
+      "minecraft:behavior.melee_attack": {
+        "speed_multiplier": 1.0,
         "track_target": true,
         "priority": 1
       },
@@ -412,7 +413,6 @@
       "minecraft:pushable_by_entity": {},
       "minecraft:type_family": {
         "family": [
-          "irongolem",
           "villager_soldier",
           "warchief_unit",
           "mob"

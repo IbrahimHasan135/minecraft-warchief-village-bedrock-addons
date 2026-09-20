@@ -52,6 +52,34 @@ const SWORD_DAMAGE: Record<string, number> = {
   "minecraft:netherite_sword": 8
 };
 
+const ARMOR_POINTS: Record<string, number> = {
+  "minecraft:leather_helmet": 1,
+  "minecraft:leather_chestplate": 3,
+  "minecraft:leather_leggings": 2,
+  "minecraft:leather_boots": 1,
+  "minecraft:chainmail_helmet": 2,
+  "minecraft:chainmail_chestplate": 5,
+  "minecraft:chainmail_leggings": 4,
+  "minecraft:chainmail_boots": 1,
+  "minecraft:iron_helmet": 2,
+  "minecraft:iron_chestplate": 6,
+  "minecraft:iron_leggings": 5,
+  "minecraft:iron_boots": 2,
+  "minecraft:golden_helmet": 2,
+  "minecraft:golden_chestplate": 5,
+  "minecraft:golden_leggings": 3,
+  "minecraft:golden_boots": 1,
+  "minecraft:diamond_helmet": 3,
+  "minecraft:diamond_chestplate": 8,
+  "minecraft:diamond_leggings": 6,
+  "minecraft:diamond_boots": 3,
+  "minecraft:netherite_helmet": 3,
+  "minecraft:netherite_chestplate": 8,
+  "minecraft:netherite_leggings": 6,
+  "minecraft:netherite_boots": 3,
+  "minecraft:turtle_helmet": 2
+};
+
 const ARMOR_SLOTS: readonly ArmorSlotState[] = [
   {
     equipmentSlot: EquipmentSlot.Head,
@@ -137,9 +165,18 @@ export function registerPhase02ReplacementUnits(): void {
 
   world.afterEvents.entityHurt.subscribe((event) => {
     const attacker = event.damageSource.damagingEntity;
+    const hurtEntity = event.hurtEntity;
+
+    if (REPLACED_TYPES.has(hurtEntity.typeId)) {
+      applyArmorProtection(hurtEntity, event.damage);
+    }
 
     if (!attacker || !REPLACED_TYPES.has(attacker.typeId) || !isRecruited(attacker)) {
       return;
+    }
+
+    if (attacker.typeId === VILLAGER_SOLDIER) {
+      suppressSoldierLaunch(hurtEntity);
     }
 
     if (damageNormalizationBypass.has(attacker.id)) {
@@ -184,6 +221,42 @@ export function registerPhase02ReplacementUnits(): void {
   system.run(() => {
     console.warn("[Warchief Village] Phase 02 replacement unit systems loaded.");
   });
+}
+
+function applyArmorProtection(entity: Entity, damage: number): void {
+  if (damage <= 0) {
+    return;
+  }
+
+  const armorPoints = getEquippedArmorPoints(entity);
+
+  if (armorPoints <= 0) {
+    return;
+  }
+
+  const reduction = Math.min(0.8, armorPoints * 0.04);
+  refundExcessDamage(entity, damage * reduction);
+}
+
+function getEquippedArmorPoints(entity: Entity): number {
+  return ARMOR_SLOTS.reduce((total, armorSlot) => {
+    const armorItem = getStringProperty(entity, armorSlot.propertyItem);
+    return total + (armorItem ? ARMOR_POINTS[armorItem] ?? 0 : 0);
+  }, 0);
+}
+
+function suppressSoldierLaunch(entity: Entity): void {
+  system.runTimeout(() => {
+    if (!entity.isValid) {
+      return;
+    }
+
+    try {
+      entity.clearVelocity();
+    } catch (error) {
+      console.warn(`[Warchief Village] Phase 02 knockback suppress failed: ${String(error)}`);
+    }
+  }, 1);
 }
 
 function initializeCustomUnit(entity: Entity): void {

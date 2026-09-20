@@ -68,3 +68,12 @@ No separate `warchief:villager_soldier` or `warchief:mercenary` entity is introd
 - Bedrock may consume the Iron Blocks/Pumpkin before `minecraft:from_player` applies the disable group. Runtime test must confirm whether blocks remain or are consumed.
 - Some vanilla Wolf-specific interactions remain in the base behavior file for compatibility; report any interaction that still feels like a dog instead of Mercenary.
 - Sound mapping depends on Bedrock event keys. If a specific action still plays Wolf/Iron Golem audio, add that event key to `resource_pack/sounds.json`.
+
+## Phase 02 Follow-Up Fix Notes
+
+- Mercenary Wolf sound variants are mapped back to Villager-style sounds so non-default Wolf variants should not leak vanilla Wolf audio.
+- Villager Soldier melee behavior is switched to normal `minecraft:behavior.melee_attack`, and Soldier hits clear target velocity after the hit to suppress the Iron Golem-style launch.
+- Player-provided armor now has a scripted defensive effect based on armor points, so armor affects survival even if visual rendering is still being validated.
+- Sword damage remains script-normalized by equipped sword type.
+- The Pillager prototype geometry bone names were aligned to `rightArm` and `leftArm` so vanilla attachables have the expected arm bones/locators for held item and armor rendering tests.
+- If equipment still does not appear visually after this fix, Phase 02 should treat it as an attachable/render-controller limitation and record the exact content-log message.
