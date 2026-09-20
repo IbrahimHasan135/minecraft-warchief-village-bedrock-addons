@@ -330,3 +330,149 @@ No new custom attack animation was introduced in this patch.
 
 Attack animation will be handled as a separate pass after held-item and body
 equipment rendering are confirmed stable on the custom geometry.
+
+
+---
+
+## 2026-09-20 — Authoritative Equipment Logic Fix
+
+This section overrides older equipment-replacement notes where they conflict.
+
+### Scope frozen for this patch
+
+No visual-model, animation, render-controller, AI, patrol/follow, recruitment, or
+health behavior was changed.
+
+Equipment target remains:
+
+```text
+Mainhand = Sword
+Chest    = Chestplate
+```
+
+### Unified replacement transaction
+
+Weapon and chestplate replacement now use the same transaction:
+
+```text
+read saved item + provenance
+        ↓
+read actual slot only for rollback/debug
+        ↓
+apply new actual equipment
+        ↓
+verify through Script API when readable
+        ↓
+consume player's new item
+        ↓
+refund previous SAVED player-provided item exactly once
+        ↓
+persist new item + source=player
+```
+
+The old weapon/armor logic duplication was removed so refund behavior cannot
+silently diverge between sword and chestplate.
+
+### Provenance rule
+
+Refund is based on:
+
+```text
+saved item
++
+saved source
+```
+
+not the current actual equipment slot.
+
+Example:
+
+```text
+saved item   = minecraft:iron_sword
+saved source = player
+actual slot  = minecraft:stone_sword   (stale/desynced)
+```
+
+When replacing with Diamond Sword, the refunded item is still:
+
+```text
+minecraft:iron_sword
+```
+
+because Iron is the player-provided gear owned by the player.
+
+### Actual equipment assignment
+
+Primary path:
+
+```text
+EntityEquippableComponent.setEquipment()
+```
+
+If the component is unavailable or the write/readback fails, the system falls
+back to the official entity equipment command slots:
+
+```text
+slot.weapon.mainhand
+slot.armor.chest
+```
+
+The fallback uses `/replaceitem`.
+
+The system no longer falsely reports a command fallback as verified when Script
+API readback is unavailable. Results distinguish:
+
+```text
+verified=true  -> actual slot was read back successfully
+verified=false -> command completed but Script API readback is unavailable
+```
+
+### Consumption safety
+
+The new player item is consumed only after an actual-equipment write path
+succeeds.
+
+If inventory consumption unexpectedly fails, the previous actual/saved item is
+re-applied as rollback.
+
+### Default vs player gear
+
+```text
+Default Stone Sword -> Iron Sword
+refund Stone: NO
+
+Iron Sword(player) -> Diamond Sword
+refund Iron: YES, exactly 1x
+
+Default Leather Chestplate -> Iron Chestplate
+refund Leather: NO
+
+Iron Chestplate(player) -> Diamond Chestplate
+refund Iron Chestplate: YES, exactly 1x
+```
+
+### Load recovery
+
+`initializeCustomUnit()` still calls `ensureEquipment()`.
+
+The ensure path now uses the same actual-equipment assignment service as runtime
+replacement, including command fallback.
+
+This keeps future visual work aligned to real Minecraft equipment slots rather
+than dynamic properties only.
+
+### Runtime acceptance tests
+
+1. Recruit fresh Soldier and Mercenary.
+2. Give Iron Sword.
+3. Confirm one Iron Sword is consumed.
+4. Give Diamond Sword.
+5. Confirm the previous Iron Sword is returned exactly once.
+6. Give Iron Chestplate.
+7. Confirm one Iron Chestplate is consumed.
+8. Give Diamond Chestplate.
+9. Confirm the previous Iron Chestplate is returned exactly once.
+10. Save/reload and repeat an upgrade.
+11. Kill the unit and verify only currently saved player-provided gear drops once.
+
+Visual rendering is intentionally not part of this equipment-logic patch.
