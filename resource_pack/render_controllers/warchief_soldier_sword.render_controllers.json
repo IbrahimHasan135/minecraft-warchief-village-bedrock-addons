@@ -1,0 +1,28 @@
+{
+  "format_version": "1.8.0",
+  "render_controllers": {
+    "controller.render.warchief.soldier_sword": {
+      "arrays": {
+        "textures": {
+          "Array.sword_textures": [
+            "Texture.sword_wood",
+            "Texture.sword_stone",
+            "Texture.sword_iron",
+            "Texture.sword_gold",
+            "Texture.sword_diamond",
+            "Texture.sword_netherite"
+          ]
+        }
+      },
+      "geometry": "Geometry.sword",
+      "materials": [
+        {
+          "*": "Material.sword"
+        }
+      ],
+      "textures": [
+        "Array.sword_textures[v.warchief_sword_index]"
+      ]
+    }
+  }
+}
