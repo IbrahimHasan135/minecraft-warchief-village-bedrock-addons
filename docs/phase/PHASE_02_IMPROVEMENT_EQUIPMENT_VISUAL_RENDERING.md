@@ -1895,3 +1895,104 @@ with the current Pillager-compatible visual foundation.
 
 - Script API `EquipmentSlot`  
   https://learn.microsoft.com/en-us/minecraft/creator/scriptapi/minecraft/server/equipmentslot?view=minecraft-bedrock-stable
+
+
+---
+
+# 2026-09-20 — Custom Geometry Becomes the Authoritative Visual Base
+
+The current implementation now uses:
+
+```text
+geometry.warchief.humanoid
+```
+
+from:
+
+```text
+resource_pack/models/entity/warchief_humanoid.geo.json
+```
+
+This custom geometry is the authoritative Phase 02 visual base.
+
+Do not switch the Soldier/Mercenary client entity back to
+`geometry.pillager` or to Vindicator geometry without a new explicit design
+decision.
+
+## Current equipment target
+
+```text
+Mainhand:
+  default Stone Sword
+  replaceable by player swords
+
+Body:
+  default Leather Chestplate
+  replaceable by player chestplates
+```
+
+## Replacement correctness rule
+
+A dynamic property does not count as an equipped upgrade.
+
+Success requires:
+
+```text
+requested item
+=
+actual EntityEquippableComponent slot item
+```
+
+For weapons verify:
+
+```ts
+EquipmentSlot.Mainhand
+```
+
+For chest armor verify:
+
+```ts
+EquipmentSlot.Body
+```
+
+## Stale-slot recovery
+
+On entity spawn/load, if saved equipment differs from the actual slot, the
+actual slot must be corrected.
+
+Do not preserve a mismatched item just because its equipment source is already
+`player`.
+
+## Replacement/refund behavior
+
+Default gear:
+
+```text
+Stone Sword -> player Iron Sword
+Leather Chestplate -> player Iron Chestplate
+```
+
+does not refund default gear.
+
+Player gear:
+
+```text
+Iron Sword -> Diamond Sword
+Iron Chestplate -> Diamond Chestplate
+```
+
+must return the replaced Iron item exactly once.
+
+## Current stop point
+
+Do not add custom attack animation until the following are confirmed in-game:
+
+- Stone Sword visible;
+- sword replacement visible;
+- Leather Chestplate visible and aligned;
+- chestplate replacement visible;
+- old player-provided sword refunds once;
+- old player-provided chestplate refunds once.
+
+Once those pass, implement the attack animation as a separate, isolated client
+animation/controller change.
