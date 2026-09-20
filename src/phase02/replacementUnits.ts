@@ -144,6 +144,14 @@ export function registerPhase02ReplacementUnits(): void {
 
     if (item && armorSlot) {
       event.cancel = true;
+
+      if (target.typeId === VILLAGER_SOLDIER) {
+        system.run(() =>
+          notify(event.player, "Villager Soldier memakai Iron Chestplate permanen; armor tidak dapat diganti.")
+        );
+        return;
+      }
+
       const sourceSlotIndex = event.player.selectedSlotIndex;
       system.run(() => equipArmor(event.player, target, item.typeId, armorSlot, sourceSlotIndex));
       return;
@@ -276,8 +284,21 @@ function initializeCustomUnit(entity: Entity): void {
   }
 
   ensureEquipment(entity, EquipmentSlot.Mainhand, weapon, weaponSource);
+  syncSoldierWeaponVisual(entity, weapon);
+
+  if (entity.typeId === VILLAGER_SOLDIER) {
+    return;
+  }
 
   for (const armorSlot of ARMOR_SLOTS) {
+    if (entity.typeId === VILLAGER_SOLDIER) {
+      const soldierArmor = "minecraft:iron_chestplate";
+      entity.setDynamicProperty(armorSlot.propertyItem, soldierArmor);
+      entity.setDynamicProperty(armorSlot.propertySource, DEFAULT_WEAPON_SOURCE);
+      ensureEquipment(entity, armorSlot.equipmentSlot, soldierArmor, DEFAULT_WEAPON_SOURCE);
+      continue;
+    }
+
     const armorSource = getEquipmentSource(entity, armorSlot.propertySource, DEFAULT_WEAPON_SOURCE);
     const armorItem = getStringProperty(entity, armorSlot.propertyItem) ?? DEFAULT_ARMOR[armorSlot.key];
 
@@ -398,6 +419,10 @@ function replaceUnitEquipment(
   target.setDynamicProperty(config.savedItemProperty, itemTypeId);
   target.setDynamicProperty(config.sourceProperty, PLAYER_EQUIPMENT_SOURCE);
 
+  if (target.typeId === VILLAGER_SOLDIER && config.slot === EquipmentSlot.Mainhand) {
+    syncSoldierWeaponVisual(target, itemTypeId);
+  }
+
   const stateText = applied.verified
     ? `${config.label}: ${applied.actual ?? itemTypeId}`
     : `${config.label}: ${itemTypeId} via command fallback (readback unavailable)`;
@@ -486,6 +511,23 @@ function dropPlayerProvidedEquipment(entity: Entity): void {
       spawnSingleItem(entity, armor);
     }
   }
+}
+
+function syncSoldierWeaponVisual(entity: Entity, itemTypeId: string): void {
+  if (entity.typeId !== VILLAGER_SOLDIER) {
+    return;
+  }
+
+  const eventByWeapon: Record<string, string> = {
+    "minecraft:wooden_sword": "warchief:set_weapon_visual_wood",
+    "minecraft:stone_sword": "warchief:set_weapon_visual_stone",
+    "minecraft:iron_sword": "warchief:set_weapon_visual_iron",
+    "minecraft:golden_sword": "warchief:set_weapon_visual_gold",
+    "minecraft:diamond_sword": "warchief:set_weapon_visual_diamond",
+    "minecraft:netherite_sword": "warchief:set_weapon_visual_netherite"
+  };
+
+  triggerEntityEvent(entity, eventByWeapon[itemTypeId] ?? "warchief:set_weapon_visual_stone");
 }
 
 function equipVisual(entity: Entity, slot: EquipmentSlot, itemTypeId: string): boolean {
