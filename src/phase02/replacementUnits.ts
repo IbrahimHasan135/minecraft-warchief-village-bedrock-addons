@@ -286,10 +286,6 @@ function initializeCustomUnit(entity: Entity): void {
   ensureEquipment(entity, EquipmentSlot.Mainhand, weapon, weaponSource);
   syncSoldierWeaponVisual(entity, weapon);
 
-  if (entity.typeId === VILLAGER_SOLDIER) {
-    return;
-  }
-
   for (const armorSlot of ARMOR_SLOTS) {
     if (entity.typeId === VILLAGER_SOLDIER) {
       const soldierArmor = "minecraft:iron_chestplate";
@@ -501,6 +497,10 @@ function dropPlayerProvidedEquipment(entity: Entity): void {
 
   if (weapon && weaponSource === PLAYER_EQUIPMENT_SOURCE) {
     spawnSingleItem(entity, weapon);
+  }
+
+  if (entity.typeId === VILLAGER_SOLDIER) {
+    return;
   }
 
   for (const armorSlot of ARMOR_SLOTS) {
