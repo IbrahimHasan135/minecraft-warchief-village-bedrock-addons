@@ -12,16 +12,16 @@ Date: 2026-09-20
   - Right-click/use Wolf or Iron Golem with `1 Emerald` to recruit.
   - The Emerald is consumed from the selected hotbar slot.
   - Wolf recruitment calls `EntityTameableComponent.tame(player)` so vanilla owner-follow/stay behavior can continue.
-  - Iron Golem recruitment stores a Script API owner marker because vanilla Iron Golem is not a tameable entity.
+  - Iron Golem now has a Phase 01 `minecraft:tameable` override and script also calls `EntityTameableComponent.tame(player)`.
   - Right-click/use a recruited unit with a sword to assign a weapon tier.
   - Sword assignment is owner-gated.
   - Sword tiers normalize melee damage to the assigned tier instead of stacking raw bonus on top of vanilla damage.
-  - Iron Golem follows its recruiting owner while that owner holds `minecraft:banner` or any item id containing `banner`.
+  - Iron Golem uses native `minecraft:behavior.follow_owner` instead of the old script teleport-follow loop.
 - Added a Phase 01 Iron Golem behavior override:
   - Health set to Pillager-scale `24`.
   - Base attack set to `3`.
   - Base movement set to `0.35`.
-- Added Resource Pack sound mapping so the Wolf prototype uses Villager-style ambient/hurt/death sounds.
+- Added Resource Pack sound mapping so the Wolf and Iron Golem prototypes use Villager-style ambient/hurt/death sounds.
 - Expanded validation so all BP/RP JSON files are parsed, not only manifests.
 
 ## Asset Paths
@@ -84,21 +84,21 @@ Then:
 6. Confirm chat shows it was recruited.
 7. Right-click/use it with a sword.
 8. Confirm one sword is consumed and chat reports the weapon tier.
-9. Hold any vanilla Banner, including a White Banner.
-10. Move more than roughly 6 blocks away.
-11. Confirm the recruited Iron Golem moves near you through the Phase 01 follow prototype.
-12. Stop holding the Banner and confirm command-follow no longer updates.
-13. Confirm Iron Golem movement feels closer to Wolf/Pillager pace than vanilla Golem pace.
-14. Confirm base Iron Golem combat is Pillager-scale, not vanilla Golem-scale.
+9. Move roughly 4-10 blocks away after recruitment.
+10. Confirm the recruited Iron Golem pathfinds toward you like a tamed follower instead of being pulled/teleported.
+11. Confirm the Iron Golem faces/moves naturally while following.
+12. Confirm Iron Golem movement feels closer to Wolf/Pillager pace than vanilla Golem pace.
+13. Confirm base Iron Golem combat is Pillager-scale, not vanilla Golem-scale.
+14. Confirm idle/hurt/death sounds are Villager-style, not Iron Golem sounds.
 
 ## Known Prototype Limitations
 
-- Wolf uses true Script API tame ownership; Iron Golem uses a dynamic owner marker.
-- Iron Golem banner-follow is a prototype teleport-follow loop, not final pathfinding.
+- Wolf uses true Script API tame ownership; Iron Golem now also attempts true tame ownership through a Phase 01 vanilla override.
+- Native `minecraft:behavior.follow_owner` cannot be cleanly gated by holding a Banner. Phase 01 now prioritizes natural owner-follow behavior over the old Banner teleport-follow prototype.
 - Iron Golem now uses a Phase 01 vanilla override to reduce base health/attack/movement to Pillager-scale.
 - Visible held sword depends on whether the vanilla entity exposes a usable `minecraft:equippable` mainhand slot at runtime. The script attempts visual equip and reports if damage is active but visual slot is unavailable.
 - Wolf sitting state is preserved behaviorally by vanilla tame logic, but the humanoid visual still uses Pillager-style animations and is not expected to have a correct sitting pose in Phase 01.
-- Wolf sound mapping is overridden to Villager-style events; any remaining Wolf-specific sound should be logged as a resource-pack mapping gap.
+- Wolf and Iron Golem sound mappings are overridden to Villager-style events; any remaining original mob sound should be logged as a resource-pack mapping gap.
 
 ## Documentation Checked
 

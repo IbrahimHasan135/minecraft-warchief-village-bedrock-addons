@@ -72,14 +72,13 @@ Warchief_Village_RP/
 - [ ] Chat confirms sword tier.
 - [ ] Iron Golem base combat feels Pillager-scale, not vanilla Golem-scale.
 - [ ] Iron Golem walks faster than vanilla Golem and closer to Wolf/Pillager pace.
-- [ ] Hold any vanilla Banner, including White Banner.
-- [ ] Move more than roughly 6 blocks away.
-- [ ] Recruited Iron Golem moves near the recruiting player.
-- [ ] Stop holding Banner.
-- [ ] Command-follow stops updating.
+- [ ] Move roughly 4-10 blocks away after recruitment.
+- [ ] Recruited Iron Golem pathfinds toward the recruiting player naturally, not like it is being pulled/teleported.
+- [ ] Iron Golem faces/moves naturally while following.
+- [ ] Iron Golem ambient/hurt/death sounds are Villager-style.
 
 ## Expected Prototype Limitations
 
-- Iron Golem follow is a Phase 01 teleport-follow prototype, not final pathfinding.
+- Iron Golem follow now uses native `minecraft:behavior.follow_owner`; this means Phase 01 follow is owner-based, not Banner-gated.
 - Held sword visual depends on whether the vanilla entity exposes a mainhand equipment slot at runtime.
 - Wolf sitting behavior may still exist, but the temporary humanoid model does not have a polished sit animation.

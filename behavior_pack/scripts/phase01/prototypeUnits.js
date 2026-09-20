@@ -4,9 +4,6 @@ const OWNER_NAME_PROPERTY = "warchief:p01_owner_name";
 const WEAPON_PROPERTY = "warchief:p01_weapon";
 const EQUIPPED_VISUAL_PROPERTY = "warchief:p01_equipped_visual";
 const PROTOTYPE_TYPES = new Set(["minecraft:wolf", "minecraft:iron_golem"]);
-const FOLLOW_DISTANCE = 5;
-const FOLLOW_TELEPORT_DISTANCE = 64;
-const FOLLOW_TICK_INTERVAL = 5;
 const PROTOTYPE_BASE_DAMAGE = 3;
 const PROTOTYPE_MOVE_SPEED = 0.35;
 const PROTOTYPE_HEALTH = 24;
@@ -74,7 +71,6 @@ export function registerPhase01PrototypeUnits() {
             damageNormalizationBypass.delete(attacker.id);
         }
     });
-    system.runInterval(updatePrototypeFollowers, FOLLOW_TICK_INTERVAL);
     system.run(() => {
         console.warn("[Warchief Village] Phase 01 prototype unit systems loaded.");
     });
@@ -95,14 +91,12 @@ function recruitPrototypeUnit(player, target) {
     target.setDynamicProperty(OWNER_NAME_PROPERTY, player.name);
     target.nameTag = target.typeId === "minecraft:wolf" ? "Mercenary Prototype" : "Villager Soldier Prototype";
     normalizePrototypeAttributes(target);
-    if (target.typeId === "minecraft:wolf") {
-        const tameable = target.getComponent(EntityComponentTypes.Tameable);
-        try {
-            tameable?.tame(player);
-        }
-        catch (error) {
-            console.warn(`[Warchief Village] Phase 01 wolf tame failed: ${String(error)}`);
-        }
+    const tameable = target.getComponent(EntityComponentTypes.Tameable);
+    try {
+        tameable?.tame(player);
+    }
+    catch (error) {
+        console.warn(`[Warchief Village] Phase 01 tame failed for ${target.typeId}: ${String(error)}`);
     }
     notify(player, `${target.nameTag} direkrut dengan 1 Emerald.`);
 }
@@ -132,43 +126,6 @@ function equipPrototypeUnit(player, target, swordTypeId) {
     target.setDynamicProperty(EQUIPPED_VISUAL_PROPERTY, visualEquipped);
     notify(player, `${target.nameTag || "Prototype unit"} menerima ${SWORD_LABEL[swordTypeId]}${visualEquipped ? "." : " (damage aktif, visual slot belum tersedia di entity vanilla ini)."}`);
 }
-function updatePrototypeFollowers() {
-    for (const player of world.getAllPlayers()) {
-        if (!player.isValid || !isHoldingBanner(player)) {
-            continue;
-        }
-        const soldiers = player.dimension.getEntities({
-            type: "minecraft:iron_golem",
-            location: player.location,
-            maxDistance: FOLLOW_TELEPORT_DISTANCE
-        });
-        for (const soldier of soldiers) {
-            if (!isOwnedBy(soldier, player)) {
-                continue;
-            }
-            normalizePrototypeAttributes(soldier);
-            applyPrototypeFollowSpeed(soldier);
-            const distance = distanceBetween(player, soldier);
-            if (distance <= FOLLOW_DISTANCE) {
-                continue;
-            }
-            const destination = {
-                x: player.location.x - 1.5,
-                y: player.location.y,
-                z: player.location.z - 1.5
-            };
-            try {
-                soldier.teleport(destination, {
-                    checkForBlocks: false,
-                    facingLocation: player.location
-                });
-            }
-            catch (error) {
-                console.warn(`[Warchief Village] Phase 01 banner follow failed: ${String(error)}`);
-            }
-        }
-    }
-}
 function normalizePrototypeAttributes(entity) {
     normalizeCurrentHealth(entity);
     normalizeMovementSpeed(entity);
@@ -195,17 +152,6 @@ function normalizeMovementSpeed(entity) {
     }
     catch (error) {
         console.warn(`[Warchief Village] Phase 01 movement normalize failed: ${String(error)}`);
-    }
-}
-function applyPrototypeFollowSpeed(entity) {
-    try {
-        entity.addEffect("speed", 30, {
-            amplifier: 1,
-            showParticles: false
-        });
-    }
-    catch (error) {
-        console.warn(`[Warchief Village] Phase 01 speed effect failed: ${String(error)}`);
     }
 }
 function refundExcessDamage(entity, amount) {
@@ -248,17 +194,6 @@ function isRecruited(entity) {
 }
 function isOwnedBy(entity, player) {
     return entity.getDynamicProperty(OWNER_PROPERTY) === player.id;
-}
-function isHoldingBanner(player) {
-    const inventory = player.getComponent(EntityComponentTypes.Inventory);
-    const item = inventory?.container?.getItem(player.selectedSlotIndex);
-    return Boolean(item?.typeId === "minecraft:banner" || item?.typeId.endsWith("_banner") || item?.typeId.includes("banner"));
-}
-function distanceBetween(player, entity) {
-    const dx = player.location.x - entity.location.x;
-    const dy = player.location.y - entity.location.y;
-    const dz = player.location.z - entity.location.z;
-    return Math.sqrt(dx * dx + dy * dy + dz * dz);
 }
 function notify(player, message) {
     try {
