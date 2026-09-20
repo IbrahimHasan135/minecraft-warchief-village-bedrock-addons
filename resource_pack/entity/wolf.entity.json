@@ -10,7 +10,7 @@
         "default": "textures/entity/warchief/mercenary_prototype"
       },
       "geometry": {
-        "default": "geometry.pillager"
+        "default": "geometry.warchief.humanoid"
       },
       "spawn_egg": {
         "base_color": "#2f3338",
