@@ -1996,3 +1996,50 @@ Do not add custom attack animation until the following are confirmed in-game:
 
 Once those pass, implement the attack animation as a separate, isolated client
 animation/controller change.
+
+
+---
+
+# 2026-09-20 — Equipment Logic Is Now Frozen Before Visual Work
+
+The current equipment implementation now has a single replacement algorithm for
+both Sword and Chestplate.
+
+## Do not redesign equipment while debugging visuals
+
+The authoritative runtime slots are:
+
+```text
+EquipmentSlot.Mainhand
+EquipmentSlot.Chest
+```
+
+Actual assignment uses Script API first and official command-slot fallback:
+
+```text
+slot.weapon.mainhand
+slot.armor.chest
+```
+
+Refund ownership is determined by saved provenance, not by whatever item happens
+to be readable from the actual slot at that moment.
+
+This is specifically designed so later held-item / armor visual work can operate
+on real Minecraft equipment slots without changing gameplay ownership logic.
+
+## Visual debugging rule
+
+If an equipment interaction succeeds and the log reports a verified actual slot,
+do not modify equipment logic to solve the visual problem.
+
+Move only to:
+
+```text
+attachable binding
+rightItem
+armor bone mapping
+render controller
+animation controller
+```
+
+after equipment behavior acceptance tests pass.
