@@ -53,10 +53,11 @@ Warchief_Village_RP/
 - [ ] One Emerald is consumed.
 - [ ] Chat confirms recruitment.
 - [ ] Wolf follows the recruiting player.
+- [ ] Wolf ambient/hurt/death sounds are Villager-style.
 - [ ] Right-click/use the recruited Wolf with a sword.
 - [ ] One sword is consumed.
 - [ ] Chat confirms sword tier.
-- [ ] Wolf deals sword-tier bonus damage in combat.
+- [ ] Wolf melee damage matches the prototype tier instead of stacking uncontrolled bonus damage.
 
 ### Iron Golem / Villager Soldier Prototype
 
@@ -69,7 +70,9 @@ Warchief_Village_RP/
 - [ ] Right-click/use the recruited Iron Golem with a sword.
 - [ ] One sword is consumed.
 - [ ] Chat confirms sword tier.
-- [ ] Hold any vanilla Banner.
+- [ ] Iron Golem base combat feels Pillager-scale, not vanilla Golem-scale.
+- [ ] Iron Golem walks faster than vanilla Golem and closer to Wolf/Pillager pace.
+- [ ] Hold any vanilla Banner, including White Banner.
 - [ ] Move more than roughly 6 blocks away.
 - [ ] Recruited Iron Golem moves near the recruiting player.
 - [ ] Stop holding Banner.
@@ -78,6 +81,5 @@ Warchief_Village_RP/
 ## Expected Prototype Limitations
 
 - Iron Golem follow is a Phase 01 teleport-follow prototype, not final pathfinding.
-- Iron Golem base vanilla attack may still be high because Phase 01 does not replace the full vanilla behavior file.
 - Held sword visual depends on whether the vanilla entity exposes a mainhand equipment slot at runtime.
 - Wolf sitting behavior may still exist, but the temporary humanoid model does not have a polished sit animation.

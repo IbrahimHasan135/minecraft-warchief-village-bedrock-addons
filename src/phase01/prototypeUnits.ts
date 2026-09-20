@@ -5,6 +5,7 @@ import {
   EntityEquippableComponent,
   EntityHealthComponent,
   EntityInventoryComponent,
+  EntityMovementComponent,
   EntityTameableComponent,
   EquipmentSlot,
   ItemStack,
@@ -19,9 +20,14 @@ const WEAPON_PROPERTY = "warchief:p01_weapon";
 const EQUIPPED_VISUAL_PROPERTY = "warchief:p01_equipped_visual";
 
 const PROTOTYPE_TYPES = new Set(["minecraft:wolf", "minecraft:iron_golem"]);
-const FOLLOW_DISTANCE = 6;
-const FOLLOW_TELEPORT_DISTANCE = 18;
-const FOLLOW_TICK_INTERVAL = 20;
+const FOLLOW_DISTANCE = 5;
+const FOLLOW_TELEPORT_DISTANCE = 64;
+const FOLLOW_TICK_INTERVAL = 5;
+const PROTOTYPE_BASE_DAMAGE = 3;
+const PROTOTYPE_MOVE_SPEED = 0.35;
+const PROTOTYPE_HEALTH = 24;
+
+const damageNormalizationBypass = new Set<string>();
 
 const SWORD_DAMAGE: Record<string, number> = {
   "minecraft:wooden_sword": 4,
@@ -62,27 +68,40 @@ export function registerPhase01PrototypeUnits(): void {
     }
   });
 
-  world.afterEvents.entityHitEntity.subscribe((event) => {
-    const attacker = event.damagingEntity;
+  world.afterEvents.entityHurt.subscribe((event) => {
+    const attacker = event.damageSource.damagingEntity;
 
-    if (!PROTOTYPE_TYPES.has(attacker.typeId) || !isRecruited(attacker)) {
+    if (!attacker || !PROTOTYPE_TYPES.has(attacker.typeId) || !isRecruited(attacker)) {
+      return;
+    }
+
+    if (damageNormalizationBypass.has(attacker.id)) {
       return;
     }
 
     const weaponType = attacker.getDynamicProperty(WEAPON_PROPERTY);
-    const bonusDamage = typeof weaponType === "string" ? SWORD_DAMAGE[weaponType] : undefined;
+    const desiredDamage =
+      typeof weaponType === "string" ? SWORD_DAMAGE[weaponType] ?? PROTOTYPE_BASE_DAMAGE : PROTOTYPE_BASE_DAMAGE;
 
-    if (!bonusDamage || bonusDamage <= 0) {
+    if (event.damage === desiredDamage) {
+      return;
+    }
+
+    if (event.damage > desiredDamage) {
+      refundExcessDamage(event.hurtEntity, event.damage - desiredDamage);
       return;
     }
 
     try {
-      event.hitEntity.applyDamage(bonusDamage, {
+      damageNormalizationBypass.add(attacker.id);
+      event.hurtEntity.applyDamage(desiredDamage - event.damage, {
         cause: EntityDamageCause.entityAttack,
         damagingEntity: attacker
       });
+      system.runTimeout(() => damageNormalizationBypass.delete(attacker.id), 1);
     } catch (error) {
       console.warn(`[Warchief Village] Phase 01 damage apply failed: ${String(error)}`);
+      damageNormalizationBypass.delete(attacker.id);
     }
   });
 
@@ -111,7 +130,7 @@ function recruitPrototypeUnit(player: Player, target: Entity): void {
   target.setDynamicProperty(OWNER_PROPERTY, player.id);
   target.setDynamicProperty(OWNER_NAME_PROPERTY, player.name);
   target.nameTag = target.typeId === "minecraft:wolf" ? "Mercenary Prototype" : "Villager Soldier Prototype";
-  normalizeCurrentHealth(target);
+  normalizePrototypeAttributes(target);
 
   if (target.typeId === "minecraft:wolf") {
     const tameable = target.getComponent(EntityComponentTypes.Tameable) as EntityTameableComponent | undefined;
@@ -182,6 +201,9 @@ function updatePrototypeFollowers(): void {
         continue;
       }
 
+      normalizePrototypeAttributes(soldier);
+      applyPrototypeFollowSpeed(soldier);
+
       const distance = distanceBetween(player, soldier);
 
       if (distance <= FOLLOW_DISTANCE) {
@@ -195,8 +217,8 @@ function updatePrototypeFollowers(): void {
       };
 
       try {
-        soldier.tryTeleport(destination, {
-          checkForBlocks: true,
+        soldier.teleport(destination, {
+          checkForBlocks: false,
           facingLocation: player.location
         });
       } catch (error) {
@@ -204,6 +226,11 @@ function updatePrototypeFollowers(): void {
       }
     }
   }
+}
+
+function normalizePrototypeAttributes(entity: Entity): void {
+  normalizeCurrentHealth(entity);
+  normalizeMovementSpeed(entity);
 }
 
 function normalizeCurrentHealth(entity: Entity): void {
@@ -214,10 +241,52 @@ function normalizeCurrentHealth(entity: Entity): void {
   }
 
   try {
-    const targetHealth = entity.typeId === "minecraft:wolf" ? 20 : 40;
-    health.setCurrentValue(Math.min(health.effectiveMax, targetHealth));
+    health.setCurrentValue(Math.min(health.effectiveMax, PROTOTYPE_HEALTH));
   } catch (error) {
     console.warn(`[Warchief Village] Phase 01 health normalize failed: ${String(error)}`);
+  }
+}
+
+function normalizeMovementSpeed(entity: Entity): void {
+  const movement = entity.getComponent(EntityComponentTypes.Movement) as EntityMovementComponent | undefined;
+
+  if (!movement) {
+    return;
+  }
+
+  try {
+    movement.setCurrentValue(Math.min(movement.effectiveMax, PROTOTYPE_MOVE_SPEED));
+  } catch (error) {
+    console.warn(`[Warchief Village] Phase 01 movement normalize failed: ${String(error)}`);
+  }
+}
+
+function applyPrototypeFollowSpeed(entity: Entity): void {
+  try {
+    entity.addEffect("speed", 30, {
+      amplifier: 1,
+      showParticles: false
+    });
+  } catch (error) {
+    console.warn(`[Warchief Village] Phase 01 speed effect failed: ${String(error)}`);
+  }
+}
+
+function refundExcessDamage(entity: Entity, amount: number): void {
+  if (amount <= 0 || !entity.isValid) {
+    return;
+  }
+
+  const health = entity.getComponent(EntityComponentTypes.Health) as EntityHealthComponent | undefined;
+
+  if (!health) {
+    return;
+  }
+
+  try {
+    health.setCurrentValue(Math.min(health.effectiveMax, health.currentValue + amount));
+  } catch (error) {
+    console.warn(`[Warchief Village] Phase 01 damage refund failed: ${String(error)}`);
   }
 }
 
@@ -258,7 +327,9 @@ function isOwnedBy(entity: Entity, player: Player): boolean {
 function isHoldingBanner(player: Player): boolean {
   const inventory = player.getComponent(EntityComponentTypes.Inventory) as EntityInventoryComponent | undefined;
   const item = inventory?.container?.getItem(player.selectedSlotIndex);
-  return item?.typeId.endsWith("_banner") ?? false;
+  return Boolean(
+    item?.typeId === "minecraft:banner" || item?.typeId.endsWith("_banner") || item?.typeId.includes("banner")
+  );
 }
 
 function distanceBetween(player: Player, entity: Entity): number {

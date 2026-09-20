@@ -1,0 +1,25 @@
+{
+  "entity_sounds": {
+    "entities": {
+      "wolf": {
+        "events": {
+          "ambient": "mob.villager.idle",
+          "death": "mob.villager.death",
+          "eat": "",
+          "growl": "mob.villager.no",
+          "hurt": "mob.villager.hit",
+          "hurt.reduced": "mob.villager.hit",
+          "pant": "mob.villager.idle",
+          "shake": "mob.villager.idle",
+          "step": "mob.wolf.step",
+          "whine": "mob.villager.no"
+        },
+        "pitch": [
+          0.8,
+          1.2
+        ],
+        "volume": 1.0
+      }
+    }
+  }
+}

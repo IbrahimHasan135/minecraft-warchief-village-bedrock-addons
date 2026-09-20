@@ -15,8 +15,13 @@ Date: 2026-09-20
   - Iron Golem recruitment stores a Script API owner marker because vanilla Iron Golem is not a tameable entity.
   - Right-click/use a recruited unit with a sword to assign a weapon tier.
   - Sword assignment is owner-gated.
-  - Sword tiers add Script API bonus damage on melee hit.
-  - Iron Golem follows its recruiting owner while that owner holds any item ending with `_banner`.
+  - Sword tiers normalize melee damage to the assigned tier instead of stacking raw bonus on top of vanilla damage.
+  - Iron Golem follows its recruiting owner while that owner holds `minecraft:banner` or any item id containing `banner`.
+- Added a Phase 01 Iron Golem behavior override:
+  - Health set to Pillager-scale `24`.
+  - Base attack set to `3`.
+  - Base movement set to `0.35`.
+- Added Resource Pack sound mapping so the Wolf prototype uses Villager-style ambient/hurt/death sounds.
 - Expanded validation so all BP/RP JSON files are parsed, not only manifests.
 
 ## Asset Paths
@@ -31,6 +36,10 @@ Date: 2026-09-20
   - `resource_pack/entity/wolf.entity.json`
 - Iron Golem client override:
   - `resource_pack/entity/iron_golem.entity.json`
+- Wolf sound override:
+  - `resource_pack/sounds.json`
+- Iron Golem behavior override:
+  - `behavior_pack/entities/iron_golem.json`
 
 Current texture source is the vanilla Pillager texture from Mojang's public `bedrock-samples` repository. You can replace the two PNG files above with custom skins later while keeping the same paths.
 
@@ -60,9 +69,10 @@ Use a clean test world with both packs enabled.
 5. Confirm one Emerald is consumed.
 6. Confirm chat shows it was recruited.
 7. Walk away and confirm the Wolf follows like a tamed Wolf.
-8. Right-click/use it with a sword.
-9. Confirm one sword is consumed and chat reports the weapon tier.
-10. Attack/let it attack a hostile mob and confirm it deals weapon-tier bonus damage.
+8. Confirm idle/hurt/death sounds are Villager-style, not Wolf barks.
+9. Right-click/use it with a sword.
+10. Confirm one sword is consumed and chat reports the weapon tier.
+11. Attack/let it attack a hostile mob and confirm melee damage matches the assigned prototype tier.
 
 Then:
 
@@ -74,19 +84,21 @@ Then:
 6. Confirm chat shows it was recruited.
 7. Right-click/use it with a sword.
 8. Confirm one sword is consumed and chat reports the weapon tier.
-9. Hold any vanilla Banner.
+9. Hold any vanilla Banner, including a White Banner.
 10. Move more than roughly 6 blocks away.
 11. Confirm the recruited Iron Golem moves near you through the Phase 01 follow prototype.
 12. Stop holding the Banner and confirm command-follow no longer updates.
+13. Confirm Iron Golem movement feels closer to Wolf/Pillager pace than vanilla Golem pace.
+14. Confirm base Iron Golem combat is Pillager-scale, not vanilla Golem-scale.
 
 ## Known Prototype Limitations
 
 - Wolf uses true Script API tame ownership; Iron Golem uses a dynamic owner marker.
 - Iron Golem banner-follow is a prototype teleport-follow loop, not final pathfinding.
-- Vanilla Iron Golem base combat strength is not fully reduced yet because this phase avoids replacing the large vanilla behavior file. Sword tiers currently add bonus damage on top of vanilla melee behavior.
+- Iron Golem now uses a Phase 01 vanilla override to reduce base health/attack/movement to Pillager-scale.
 - Visible held sword depends on whether the vanilla entity exposes a usable `minecraft:equippable` mainhand slot at runtime. The script attempts visual equip and reports if damage is active but visual slot is unavailable.
 - Wolf sitting state is preserved behaviorally by vanilla tame logic, but the humanoid visual still uses Pillager-style animations and is not expected to have a correct sitting pose in Phase 01.
-- Villager sounds are not implemented in this pass; the focus is recruitment, owner gating, equipment tiering, and command follow.
+- Wolf sound mapping is overridden to Villager-style events; any remaining Wolf-specific sound should be logged as a resource-pack mapping gap.
 
 ## Documentation Checked
 
