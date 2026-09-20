@@ -323,12 +323,7 @@ function equipWeapon(player: Player, target: Entity, itemTypeId: string): void {
     | EntityEquippableComponent
     | undefined;
 
-  if (!equippable) {
-    notify(player, `${getUnitLabel(target)} tidak memiliki equipment component.`);
-    return;
-  }
-
-  const previousActual = equippable.getEquipment(EquipmentSlot.Mainhand)?.typeId;
+  const previousActual = equippable?.getEquipment(EquipmentSlot.Mainhand)?.typeId;
   const previousSaved = getStringProperty(target, WEAPON_ITEM_PROPERTY);
   const previousWeapon = previousActual ?? previousSaved;
   const previousSource = getEquipmentSource(target, WEAPON_SOURCE_PROPERTY, DEFAULT_WEAPON_SOURCE);
@@ -353,7 +348,7 @@ function equipWeapon(player: Player, target: Entity, itemTypeId: string): void {
   target.setDynamicProperty(WEAPON_ITEM_PROPERTY, itemTypeId);
   target.setDynamicProperty(WEAPON_SOURCE_PROPERTY, PLAYER_EQUIPMENT_SOURCE);
 
-  const actual = equippable.getEquipment(EquipmentSlot.Mainhand)?.typeId ?? "empty";
+  const actual = equippable?.getEquipment(EquipmentSlot.Mainhand)?.typeId ?? itemTypeId;
   notify(player, `${getUnitLabel(target)} menerima ${toReadableItemName(itemTypeId)}. Mainhand: ${actual}.`);
 }
 
@@ -367,12 +362,7 @@ function equipArmor(player: Player, target: Entity, itemTypeId: string, armorSlo
     | EntityEquippableComponent
     | undefined;
 
-  if (!equippable) {
-    notify(player, `${getUnitLabel(target)} tidak memiliki equipment component.`);
-    return;
-  }
-
-  const previousActual = equippable.getEquipment(armorSlot.equipmentSlot)?.typeId;
+  const previousActual = equippable?.getEquipment(armorSlot.equipmentSlot)?.typeId;
   const previousSaved = getStringProperty(target, armorSlot.propertyItem);
   const previousArmor = previousActual ?? previousSaved;
   const previousSource = getEquipmentSource(target, armorSlot.propertySource, DEFAULT_WEAPON_SOURCE);
@@ -397,7 +387,7 @@ function equipArmor(player: Player, target: Entity, itemTypeId: string, armorSlo
   target.setDynamicProperty(armorSlot.propertyItem, itemTypeId);
   target.setDynamicProperty(armorSlot.propertySource, PLAYER_EQUIPMENT_SOURCE);
 
-  const actual = equippable.getEquipment(armorSlot.equipmentSlot)?.typeId ?? "empty";
+  const actual = equippable?.getEquipment(armorSlot.equipmentSlot)?.typeId ?? itemTypeId;
   notify(player, `${getUnitLabel(target)} menerima ${toReadableItemName(itemTypeId)}. Chest: ${actual}.`);
 }
 
@@ -478,7 +468,7 @@ function equipVisual(entity: Entity, slot: EquipmentSlot, itemTypeId: string): b
     | undefined;
 
   if (!equippable) {
-    return false;
+    return equipVisualWithCommand(entity, slot, itemTypeId);
   }
 
   try {
@@ -493,10 +483,14 @@ function equipVisual(entity: Entity, slot: EquipmentSlot, itemTypeId: string): b
       );
     }
 
-    return accepted && after === itemTypeId;
+    if (accepted && after === itemTypeId) {
+      return true;
+    }
+
+    return equipVisualWithCommand(entity, slot, itemTypeId);
   } catch (error) {
     console.warn(`[Warchief Village] Phase 02 visual equip failed for ${entity.typeId}: ${String(error)}`);
-    return false;
+    return equipVisualWithCommand(entity, slot, itemTypeId);
   }
 }
 
@@ -506,6 +500,7 @@ function ensureEquipment(entity: Entity, slot: EquipmentSlot, itemTypeId: string
     | undefined;
 
   if (!equippable) {
+    equipVisualWithCommand(entity, slot, itemTypeId);
     return;
   }
 
@@ -539,6 +534,12 @@ function logEquipmentSlotsOnce(entity: Entity): void {
     | undefined;
 
   if (!equippable) {
+    console.warn(
+      `[Warchief Equipment Debug] Entity=${getUnitLabel(
+        entity
+      )} EquippableComponent=missing; command fallback enabled.`
+    );
+    entity.setDynamicProperty(EQUIPMENT_DEBUG_LOGGED_PROPERTY, true);
     return;
   }
 
@@ -551,6 +552,40 @@ function logEquipmentSlotsOnce(entity: Entity): void {
     entity.setDynamicProperty(EQUIPMENT_DEBUG_LOGGED_PROPERTY, true);
   } catch (error) {
     console.warn(`[Warchief Village] Phase 02 equipment debug failed for ${entity.typeId}: ${String(error)}`);
+  }
+}
+
+function equipVisualWithCommand(entity: Entity, slot: EquipmentSlot, itemTypeId: string): boolean {
+  const slotName = getCommandSlotName(slot);
+
+  if (!slotName) {
+    return false;
+  }
+
+  try {
+    entity.runCommand(`replaceitem entity @s ${slotName} 0 ${itemTypeId} 1`);
+    console.warn(
+      `[Warchief Equipment Debug] command equip fallback: entity=${entity.typeId} slot=${slotName} item=${itemTypeId}`
+    );
+    return true;
+  } catch (error) {
+    console.warn(
+      `[Warchief Village] Phase 02 command equip failed for ${entity.typeId} slot=${slotName} item=${itemTypeId}: ${String(
+        error
+      )}`
+    );
+    return false;
+  }
+}
+
+function getCommandSlotName(slot: EquipmentSlot): string | undefined {
+  switch (slot) {
+    case EquipmentSlot.Mainhand:
+      return "slot.weapon.mainhand";
+    case EquipmentSlot.Chest:
+      return "slot.armor.chest";
+    default:
+      return undefined;
   }
 }
 
