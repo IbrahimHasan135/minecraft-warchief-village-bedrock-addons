@@ -1,2 +1,4 @@
 pack.name=Warchief Village Behavior Pack
 pack.description=Warchief Village gameplay systems
+entity.minecraft:iron_golem.name=Villager Soldier
+entity.minecraft:wolf.name=Mercenary

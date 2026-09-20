@@ -144,8 +144,8 @@
       },
       "minecraft:can_climb": {},
       "minecraft:collision_box": {
-        "height": 2.9,
-        "width": 1.4
+        "height": 1.95,
+        "width": 0.6
       },
       "minecraft:conditional_bandwidth_optimization": {},
       "minecraft:damage_sensor": {
@@ -155,7 +155,7 @@
         }
       },
       "minecraft:follow_range": {
-        "value": 64
+        "value": 10
       },
       "minecraft:health": {
         "max": 24,
@@ -173,47 +173,38 @@
           }
         ]
       },
-      "minecraft:interact": {
-        "interactions": [
+      "minecraft:equippable": {
+        "slots": [
           {
-            "health_amount": 25,
-            "interact_text": "action.interact.repair",
-            "on_interact": {
-              "filters": {
-                "all_of": [
-                  {
-                    "subject": "other",
-                    "test": "is_family",
-                    "value": "player"
-                  },
-                  {
-                    "domain": "hand",
-                    "subject": "other",
-                    "test": "has_equipment",
-                    "value": "iron_ingot"
-                  },
-                  {
-                    "test": "is_missing_health"
-                  }
-                ]
-              }
-            },
-            "play_sounds": "irongolem.repair",
-            "swing": false,
-            "use_item": true
+            "accepted_items": [
+              "wooden_sword",
+              "stone_sword",
+              "iron_sword",
+              "golden_sword",
+              "diamond_sword",
+              "netherite_sword"
+            ],
+            "item": "stone_sword",
+            "slot": 0
+          },
+          {
+            "slot": 1
+          },
+          {
+            "slot": 2
+          },
+          {
+            "slot": 3
+          },
+          {
+            "slot": 4
           }
         ]
       },
       "minecraft:is_hidden_when_invisible": {},
       "minecraft:jump.static": {},
-      "minecraft:knockback_resistance": {
-        "value": 1.0
-      },
       "minecraft:leashable": {},
       "minecraft:leashable_to": {},
-      "minecraft:loot": {
-        "table": "loot_tables/entities/iron_golem.json"
-      },
       "minecraft:movement": {
         "value": 0.35
       },
@@ -231,8 +222,12 @@
       },
       "minecraft:navigation.walk": {
         "avoid_damage_blocks": true,
-        "avoid_water": true,
-        "can_path_over_water": false,
+        "can_open_doors": true,
+        "can_pass_doors": true,
+        "can_path_over_water": true,
+        "can_sink": false,
+        "can_swim": true,
+        "can_walk": true,
         "using_door_annotation": true
       },
       "minecraft:persistent": {},
@@ -418,72 +413,47 @@
       "minecraft:type_family": {
         "family": [
           "irongolem",
+          "villager_soldier",
+          "warchief_unit",
           "mob"
         ]
       },
-      "minecraft:apply_knockback_rules": {
-        "presets": [
-          {
-            "horizontal_power": 0.52,
-            "vertical_power": 0.39,
-            "vertical_velocity_cap": 0.8
-          }
-        ]
-      }
+      "minecraft:spawn_egg_interaction": {}
     },
     "component_groups": {
       "warchief:mode_follow": {
         "minecraft:behavior.follow_owner": {
+          "can_teleport": true,
+          "max_distance": 40,
+          "post_teleport_distance": 3,
           "priority": 5,
           "speed_multiplier": 1.1,
           "start_distance": 5,
-          "stop_distance": 2,
-          "can_teleport": true,
-          "max_distance": 40
+          "stop_distance": 2
         }
       },
       "warchief:mode_patrol": {
-        "minecraft:home": {
-          "restriction_radius": 10,
-          "restriction_type": "random_movement"
-        },
         "minecraft:behavior.move_towards_home_restriction": {
           "priority": 5,
           "speed_multiplier": 1.0
         },
         "minecraft:behavior.random_stroll": {
+          "interval": 40,
           "priority": 6,
           "speed_multiplier": 0.8,
-          "interval": 40,
           "xz_dist": 8,
           "y_dist": 3
+        },
+        "minecraft:home": {
+          "restriction_radius": 10,
+          "restriction_type": "random_movement"
         }
       },
-      "warchief:prototype_tamed": {
+      "warchief:recruited": {
         "minecraft:is_tamed": {}
       },
-      "minecraft:player_created": {
-        "minecraft:behavior.hurt_by_target": {
-          "entity_types": {
-            "filters": {
-              "all_of": [
-                {
-                  "test": "is_family",
-                  "operator": "not",
-                  "subject": "other",
-                  "value": "player"
-                },
-                {
-                  "test": "is_family",
-                  "operator": "not",
-                  "subject": "other",
-                  "value": "creeper"
-                }
-              ]
-            }
-          },
-          "priority": 2
-        }
+      "warchief:disable_player_created_golem": {
+        "minecraft:instant_despawn": {}
       },
       "minecraft:village_created": {
         "minecraft:behavior.defend_village_target": {
@@ -529,7 +499,7 @@
       "minecraft:from_player": {
         "add": {
           "component_groups": [
-            "minecraft:player_created"
+            "warchief:disable_player_created_golem"
           ]
         }
       },
@@ -543,32 +513,32 @@
       "warchief:on_tame": {
         "add": {
           "component_groups": [
-            "warchief:prototype_tamed",
+            "warchief:recruited",
             "warchief:mode_patrol"
           ]
         }
       },
       "warchief:set_follow": {
-        "remove": {
-          "component_groups": [
-            "warchief:mode_patrol"
-          ]
-        },
         "add": {
           "component_groups": [
             "warchief:mode_follow"
+          ]
+        },
+        "remove": {
+          "component_groups": [
+            "warchief:mode_patrol"
           ]
         }
       },
       "warchief:set_patrol": {
-        "remove": {
-          "component_groups": [
-            "warchief:mode_follow"
-          ]
-        },
         "add": {
           "component_groups": [
             "warchief:mode_patrol"
+          ]
+        },
+        "remove": {
+          "component_groups": [
+            "warchief:mode_follow"
           ]
         }
       }

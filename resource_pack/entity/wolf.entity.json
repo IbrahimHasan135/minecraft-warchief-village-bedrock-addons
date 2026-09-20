@@ -13,7 +13,8 @@
         "default": "geometry.pillager"
       },
       "spawn_egg": {
-        "texture": "spawn_egg_wolf"
+        "base_color": "#2f3338",
+        "overlay_color": "#7c1f24"
       },
       "scripts": {
         "pre_animation": [
@@ -53,8 +54,7 @@
       "render_controllers": [
         "controller.render.pillager"
       ],
-      "enable_attachables": true,
-      "hide_armor": true
+      "enable_attachables": true
     }
   }
 }

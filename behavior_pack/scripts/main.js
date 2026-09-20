@@ -1,3 +1,3 @@
-import { registerPhase01PrototypeUnits } from "./phase01/prototypeUnits";
-registerPhase01PrototypeUnits();
+import { registerPhase02ReplacementUnits } from "./phase02/replacementUnits";
+registerPhase02ReplacementUnits();
 //# sourceMappingURL=main.js.map

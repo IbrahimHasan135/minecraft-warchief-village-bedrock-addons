@@ -100,21 +100,21 @@ Exit Criteria:
 ## Phase 1 — Pillager-Style Prototype Units Using Vanilla Behaviors
 
 Goal:
-Build a technical gameplay prototype that proves the Warchief unit loop before final custom entities are authored:
+Build a technical gameplay prototype that proves the Warchief unit loop on top of the two vanilla entities that will be fully replaced:
 
-- Vanilla Wolf acts as the temporary behavior shell for the future `warchief:mercenary`.
-- Vanilla Iron Golem acts as the temporary behavior shell for the future `warchief:villager_soldier`.
+- Vanilla Wolf acts as the Mercenary replacement base.
+- Vanilla Iron Golem acts as the Villager Soldier replacement base.
 - Both use Pillager/Illager-compatible humanoid visuals as temporary art.
 - One Emerald is the temporary recruitment/taming item for both prototypes.
 - Right-click/use is the intended sword-equipment interaction.
 - Any normal vanilla Banner is the temporary Iron Golem command item.
 
 Important:
-This phase may temporarily override vanilla Wolf and Iron Golem resources. That is acceptable only for prototype learning. Phase 2 must migrate the result into proper custom `warchief:*` entities and restore vanilla Wolf/Iron Golem behavior if Phase 1 overrides them.
+This phase overrides vanilla Wolf and Iron Golem resources intentionally. Phase 2 must master those same replacements rather than branching into separate `warchief:*` custom entities.
 
 Phase 1 must not implement:
-- Final custom `warchief:villager_soldier`.
-- Final custom `warchief:mercenary`.
+- Separate custom `warchief:villager_soldier`.
+- Separate custom `warchief:mercenary`.
 - Final Soldier ownership rules.
 - Military Token.
 - Librarian trades.
@@ -166,7 +166,7 @@ Phase 1 Implementation Approach:
 9. Attempt visible main-hand sword rendering.
 10. Add owner-gated Banner-follow to Iron Golem using data-driven `minecraft:behavior.tempt` first if it can satisfy the owner gate.
 11. Use stable Script API only as a fallback for Emerald recruitment, sword interaction, or banner command if data-driven components fail.
-12. Run the full test matrix and document what must migrate to Phase 2 custom entities.
+12. Run the full test matrix and document what must be mastered in Phase 2 full replacement.
 
 Emerald Recruitment Strategy:
 - Player holds exactly 1 Emerald.
@@ -291,44 +291,74 @@ Exit Criteria:
 
 ---
 
-## Phase 2 — Custom Soldier and Mercenary Core
+## Phase 2 — Full Replacement Soldier and Mercenary Core
 
 Goal:
-Move from temporary vanilla overrides to proper custom entities:
+Master the Phase 1 vanilla replacements instead of creating new custom entity IDs:
 
 ```text
-warchief:villager_soldier
-warchief:mercenary
+minecraft:iron_golem  → Villager Soldier
+minecraft:wolf        → Mercenary
 ```
 
 Scope:
-- Create custom entity definitions.
-- Reuse Phase 1 Pillager/Illager-style assets.
-- Create stable spawn/testing commands or debug functions.
-- Preserve basic movement and combat.
-- Mercenary follows owner.
-- Soldier can be prepared for command behavior.
+- Keep Iron Golem and Wolf as the active replaced entities.
+- Keep Pillager-compatible model/animation/texture overrides.
+- Rename entity display and spawn eggs to Villager Soldier and Mercenary.
+- Make both entities recruitable with exactly 1 Emerald.
+- Give both entities default Stone Sword state.
+- Support player-provided sword/armor equipment with provenance tracking.
+- Return only player-provided equipment on death.
+- Heal with recognized food through Script API, not Iron Ingot repair.
+- Keep Mercenary on native Wolf-style follow.
+- Keep Villager Soldier on PATROL/FOLLOW command mode.
+- Remove Iron Golem-scale combat, knockback, water sinking, and valuable default loot.
+- Disable the vanilla player-built Iron Golem ritual so it does not leave any spawned entity alive.
 
 Checkpoint:
-- Custom Soldier exists independently from Iron Golem.
-- Custom Mercenary exists independently from Wolf.
-- Vanilla Iron Golem and Wolf can be restored if Phase 1 overrode them.
+- `minecraft:iron_golem` visually and behaviorally functions as Villager Soldier.
+- `minecraft:wolf` visually and behaviorally functions as Mercenary.
+- No separate `warchief:villager_soldier` or `warchief:mercenary` entity path is introduced.
+- Spawn eggs show Warchief names.
+- Equipment and death-drop rules are state-aware.
 
 Tests:
-- Summon Soldier.
-- Summon Mercenary.
+- Spawn Iron Golem / Villager Soldier from Creative spawn egg.
+- Spawn Wolf / Mercenary from Creative spawn egg.
+- `/summon minecraft:iron_golem`.
+- `/summon minecraft:wolf`.
+- Recruit each with 1 Emerald.
+- Give sword and armor after recruitment.
+- Replace player-provided equipment and confirm old item returns exactly once.
+- Kill unit with only default Stone Sword and confirm no default weapon drop.
+- Kill unit with player-provided equipment and confirm each item drops exactly once.
+- Damage unit, feed valid food, confirm heal +4 HP and exactly 1 food consumed.
+- Try Iron Ingot on Soldier and confirm no repair/heal.
+- Toggle Villager Soldier PATROL/FOLLOW with empty-hand interaction.
+- Confirm Mercenary can use Wolf-style sit/stay to stop following.
+- Test shallow water crossing.
+- Build the vanilla Iron Golem structure and confirm no entity remains spawned.
 - Trigger combat against vanilla hostile mobs.
 - Save/reload world.
 - Confirm entity remains valid after reload.
 
 Acceptance Criteria:
-- [ ] `warchief:villager_soldier` spawns.
-- [ ] `warchief:mercenary` spawns.
+- [ ] `minecraft:iron_golem` spawn egg/name presents as Villager Soldier.
+- [ ] `minecraft:wolf` spawn egg/name presents as Mercenary.
 - [ ] Both render correctly.
 - [ ] Both can move.
 - [ ] Both can fight at a basic level.
-- [ ] Vanilla Iron Golem and Wolf behavior is not permanently hijacked for final gameplay.
-- [ ] Known Phase 1 visual/sound limitations are resolved or documented.
+- [ ] Both use Villager-style sounds where practical.
+- [ ] Both can be recruited with exactly 1 Emerald.
+- [ ] Both can receive sword/armor after recruitment.
+- [ ] Default Stone Sword is not returned as player loot.
+- [ ] Player-provided equipment returns exactly once on death.
+- [ ] Soldier PATROL/FOLLOW works without Banner.
+- [ ] Mercenary follows owner and can use sit/stay to stop following.
+- [ ] Iron Ingot repair is removed from Soldier.
+- [ ] Food healing works with recognized food items.
+- [ ] Player-built Iron Golem ritual leaves no spawned entity alive.
+- [ ] Known Phase 2 limitations are documented.
 
 ---
 

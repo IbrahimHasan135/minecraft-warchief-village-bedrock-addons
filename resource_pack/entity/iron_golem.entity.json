@@ -13,7 +13,8 @@
         "default": "geometry.pillager"
       },
       "spawn_egg": {
-        "texture": "spawn_egg_iron_golem"
+        "base_color": "#5d6b36",
+        "overlay_color": "#8a633d"
       },
       "scripts": {
         "pre_animation": [
@@ -53,8 +54,7 @@
       "render_controllers": [
         "controller.render.pillager"
       ],
-      "enable_attachables": true,
-      "hide_armor": true
+      "enable_attachables": true
     }
   }
 }

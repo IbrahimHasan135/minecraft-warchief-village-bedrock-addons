@@ -1,2 +1,8 @@
 pack.name=Warchief Village Resource Pack
 pack.description=Warchief Village visual resources
+entity.minecraft:iron_golem.name=Villager Soldier
+entity.minecraft:wolf.name=Mercenary
+item.spawn_egg.entity.minecraft:iron_golem.name=Spawn Villager Soldier
+item.spawn_egg.entity.minecraft:wolf.name=Spawn Mercenary
+item.spawn_egg.entity.iron_golem.name=Spawn Villager Soldier
+item.spawn_egg.entity.wolf.name=Spawn Mercenary

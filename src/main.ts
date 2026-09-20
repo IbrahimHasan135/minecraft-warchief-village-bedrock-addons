@@ -1,3 +1,3 @@
-import { registerPhase01PrototypeUnits } from "./phase01/prototypeUnits";
+import { registerPhase02ReplacementUnits } from "./phase02/replacementUnits";
 
-registerPhase01PrototypeUnits();
+registerPhase02ReplacementUnits();
