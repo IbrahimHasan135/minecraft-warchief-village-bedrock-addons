@@ -189,3 +189,144 @@ the server-side equipment capability of the vanilla replacement identifier.
 
 Do not classify this improvement as visually complete until the runtime test is
 performed in Bedrock.
+
+
+---
+
+## 2026-09-20 — Custom Warchief Geometry + Equipment Replacement Fix
+
+This section is authoritative for the current `main` branch.
+
+### Custom geometry
+
+The repository now uses:
+
+```text
+resource_pack/models/entity/warchief_humanoid.geo.json
+geometry.warchief.humanoid
+```
+
+for both replacement client entities.
+
+The Soldier and Mercenary no longer reference `geometry.pillager` directly.
+
+The custom geometry keeps the Pillager-like visual proportions/UV layout while
+providing explicit humanoid bones:
+
+```text
+body
+head
+nose
+rightArm
+rightItem
+leftArm
+leftItem
+rightLeg
+leftLeg
+```
+
+This is now the visual base for future armor, held-item, and attack-animation work.
+
+### Default equipment
+
+Phase 02 still targets only:
+
+```text
+Mainhand = minecraft:stone_sword
+Body     = minecraft:leather_chestplate
+```
+
+Helmet, leggings, and boots are not part of the current target.
+
+The initialization path calls Script API equipment synchronization so a fresh
+unit should have the Stone Sword in `EquipmentSlot.Mainhand` and Leather
+Chestplate in `EquipmentSlot.Body`.
+
+### Fixed stale player equipment synchronization
+
+The previous implementation could keep the wrong actual item when persistent
+state was already marked as player equipment.
+
+The old behavior was effectively:
+
+```text
+source == player
+AND slot already contains any item
+→ do not synchronize
+```
+
+That guard has been removed.
+
+Now if persistent equipment says Iron but the actual slot still contains
+Leather/Stone, the actual slot is set to the persisted item.
+
+### Weapon replacement
+
+Weapon replacement now:
+
+```text
+read actual Mainhand
+→ attempt new Mainhand item
+→ verify actual slot
+→ consume player's new sword
+→ return old player-provided sword exactly once
+→ persist new player item
+```
+
+Default Stone Sword is not refunded when first replaced.
+
+The success chat includes the actual Mainhand value.
+
+### Body armor replacement
+
+Body armor replacement follows the same pattern:
+
+```text
+read actual Body slot
+→ attempt new chestplate
+→ verify actual Body slot
+→ consume player's new chestplate
+→ return old player-provided chestplate exactly once
+→ persist new player item
+```
+
+Default Leather Chestplate is not refunded when first replaced.
+
+The success chat includes the actual Body slot value.
+
+### Runtime validation required
+
+Fresh unit:
+
+```text
+Stone Sword visible in hand
+Leather Chestplate visible on body
+```
+
+Give Iron Sword:
+
+```text
+Mainhand: minecraft:iron_sword
+```
+
+Give Iron Chestplate:
+
+```text
+Body: minecraft:iron_chestplate
+```
+
+Then replace player Iron gear with Diamond gear.
+
+Expected:
+
+```text
+old Iron item returned exactly once
+new Diamond item remains equipped
+```
+
+### Attack animation
+
+No new custom attack animation was introduced in this patch.
+
+Attack animation will be handled as a separate pass after held-item and body
+equipment rendering are confirmed stable on the custom geometry.
