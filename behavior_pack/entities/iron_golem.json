@@ -408,10 +408,14 @@
       },
       "minecraft:spawn_egg_interaction": {},
       "minecraft:equipment": {
-        "table": "loot_tables/entities/warchief_default_loadout.json",
+        "table": "loot_tables/entities/warchief_soldier_default_loadout.json",
         "slot_drop_chance": [
           {
             "slot": "slot.weapon.mainhand",
+            "drop_chance": 0
+          },
+          {
+            "slot": "slot.armor.chest",
             "drop_chance": 0
           }
         ]
