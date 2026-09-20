@@ -10,7 +10,7 @@
         "default": "textures/entity/warchief/villager_soldier_prototype"
       },
       "geometry": {
-        "default": "geometry.pillager"
+        "default": "geometry.warchief.humanoid"
       },
       "spawn_egg": {
         "base_color": "#5d6b36",
