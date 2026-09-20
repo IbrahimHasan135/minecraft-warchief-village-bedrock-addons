@@ -81,13 +81,15 @@ export function registerPhase02ReplacementUnits() {
         }
         if (item && item.typeId in SWORD_DAMAGE) {
             event.cancel = true;
-            system.run(() => equipWeapon(event.player, target, item.typeId));
+            const sourceSlotIndex = event.player.selectedSlotIndex;
+            system.run(() => equipWeapon(event.player, target, item.typeId, sourceSlotIndex));
             return;
         }
         const armorSlot = item ? getArmorSlot(item.typeId) : undefined;
         if (item && armorSlot) {
             event.cancel = true;
-            system.run(() => equipArmor(event.player, target, item.typeId, armorSlot));
+            const sourceSlotIndex = event.player.selectedSlotIndex;
+            system.run(() => equipArmor(event.player, target, item.typeId, armorSlot, sourceSlotIndex));
             return;
         }
         if (item && isFood(item)) {
@@ -233,23 +235,23 @@ function recruitCustomUnit(player, target) {
     }
     notify(player, "Mercenary direkrut. Mode: FOLLOW.");
 }
-function equipWeapon(player, target, itemTypeId) {
+function equipWeapon(player, target, itemTypeId, sourceSlotIndex) {
     replaceUnitEquipment(player, target, itemTypeId, {
         slot: EquipmentSlot.Mainhand,
         savedItemProperty: WEAPON_ITEM_PROPERTY,
         sourceProperty: WEAPON_SOURCE_PROPERTY,
         label: "Mainhand"
-    });
+    }, sourceSlotIndex);
 }
-function equipArmor(player, target, itemTypeId, armorSlot) {
+function equipArmor(player, target, itemTypeId, armorSlot, sourceSlotIndex) {
     replaceUnitEquipment(player, target, itemTypeId, {
         slot: armorSlot.equipmentSlot,
         savedItemProperty: armorSlot.propertyItem,
         sourceProperty: armorSlot.propertySource,
         label: "Chest"
-    });
+    }, sourceSlotIndex);
 }
-function replaceUnitEquipment(player, target, itemTypeId, config) {
+function replaceUnitEquipment(player, target, itemTypeId, config, sourceSlotIndex) {
     if (!isOwnedBy(target, player)) {
         const itemKind = config.label === "Mainhand" ? "equipment" : "armor";
         notify(player, `Rekrut ${getUnitLabel(target)} dengan 1 Emerald dulu sebelum memberi ${itemKind}.`);
@@ -264,7 +266,7 @@ function replaceUnitEquipment(player, target, itemTypeId, config) {
         notify(player, `Gagal memasang ${toReadableItemName(itemTypeId)} ke ${config.label}.`);
         return;
     }
-    if (!consumeSelectedItem(player, itemTypeId)) {
+    if (!consumeSelectedItem(player, itemTypeId, sourceSlotIndex)) {
         if (rollbackItem) {
             applyActualEquipment(target, config.slot, rollbackItem);
         }
@@ -465,15 +467,16 @@ function isFood(item) {
 function getArmorSlot(itemTypeId) {
     return ARMOR_SLOTS.find((slot) => slot.suffixes.some((suffix) => itemTypeId.endsWith(suffix)));
 }
-function consumeSelectedItem(player, expectedTypeId) {
+function consumeSelectedItem(player, expectedTypeId, sourceSlotIndex) {
     const inventory = player.getComponent(EntityComponentTypes.Inventory);
     const container = inventory?.container;
     if (!container) {
         return false;
     }
-    const selectedSlot = player.selectedSlotIndex;
+    const selectedSlot = sourceSlotIndex ?? player.selectedSlotIndex;
     const item = container.getItem(selectedSlot);
     if (!item || item.typeId !== expectedTypeId) {
+        console.warn(`[Warchief Equipment Debug] consume mismatch: player=${player.name} expected=${expectedTypeId} sourceSlot=${selectedSlot} actual=${item?.typeId ?? "empty"} currentSelected=${player.selectedSlotIndex}`);
         return false;
     }
     if (item.amount <= 1) {
