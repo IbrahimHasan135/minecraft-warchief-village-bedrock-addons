@@ -129,3 +129,65 @@ If equipment slots are populated in `[Warchief Equipment Debug]` but visuals rem
 ### Content Log Messages
 
 Record any runtime warning mentioning attachable, geometry, bone, render controller, material, texture, equipment, equippable, or slot.
+
+
+---
+
+## 2026-09-20 — Equipment Rendering Audit Patch
+
+Phase 02 equipment scope has been reduced to the two visuals that matter for the
+current prototype:
+
+```text
+Mainhand: Stone Sword
+Body: Leather Chestplate
+```
+
+Helmet, leggings, and boots are no longer part of the Phase 02 default loadout.
+
+### Repository changes applied
+
+- `minecraft:equippable` reduced to two entries: sword + body armor.
+- Native `minecraft:equipment` added to both replacement entities.
+- New `warchief_default_loadout.json` equipment table added.
+- Default native loadout = Stone Sword + Leather Chestplate.
+- Script armor slot changed to `EquipmentSlot.Body`.
+- Client entities explicitly set:
+  - `enable_attachables: true`
+  - `hide_armor: false`
+- Runtime equipment diagnostics now verify:
+  - `setEquipment()` return value;
+  - item read back from the same slot.
+
+### Current status
+
+```text
+CODE UPDATED
+DOCUMENTATION UPDATED
+IN-GAME VISUAL VALIDATION REQUIRED
+```
+
+### Required next test
+
+For both Villager Soldier and Mercenary, verify the log reports:
+
+```text
+Mainhand=minecraft:stone_sword
+Body=minecraft:leather_chestplate
+```
+
+Then visually confirm:
+
+```text
+Stone Sword visible
+Leather Chestplate visible
+```
+
+If the slots are populated but the visuals are still absent, the remaining
+problem is on the Resource Pack / actor rendering side.
+
+If `setEquipment()` is rejected or the slot reads back empty, the problem is
+the server-side equipment capability of the vanilla replacement identifier.
+
+Do not classify this improvement as visually complete until the runtime test is
+performed in Bedrock.
