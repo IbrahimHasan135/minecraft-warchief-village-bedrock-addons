@@ -24,7 +24,7 @@ No separate `warchief:villager_soldier` or `warchief:mercenary` entity is introd
 - Villager Soldier movement is set to humanoid speed and no longer uses Iron Golem repair, loot, heavy knockback, or water-sinking navigation.
 - Mercenary uses Emerald tame/recruitment instead of Bone.
 - Mercenary keeps Wolf-style sit/stay so the player can stop/resume follow.
-- Both entities get default Stone Sword state on spawn/load.
+- Both entities target a default Stone Sword in Mainhand and Leather Chestplate in Body equipment on spawn/load.
 - Player-provided sword/armor provenance is tracked through Script API dynamic properties.
 - Default Stone Sword is not manually dropped on death.
 - Player-provided weapon/armor is manually dropped exactly once by the Phase 02 script.
@@ -53,7 +53,7 @@ No separate `warchief:villager_soldier` or `warchief:mercenary` entity is introd
 7. Confirm Mercenary follows like Wolf and can sit/stay when empty-clicked.
 8. Empty-click Villager Soldier after recruitment and confirm PATROL/FOLLOW toggles.
 9. Give an Iron Sword; confirm item is consumed and damage/equipment state changes.
-10. Give Iron Chestplate or other armor; confirm item is consumed and visual/drop behavior is tested.
+10. Give an Iron Chestplate; confirm it replaces the default Leather Chestplate and visual/drop behavior is tested.
 11. Kill a unit with only default Stone Sword; expected manual script drop is nothing.
 12. Kill a unit with player-provided equipment; expected drop is exactly one of each player-provided item.
 13. Damage a unit and feed any food; expected heal is +4 HP and one food consumed.
@@ -86,11 +86,11 @@ No separate `warchief:villager_soldier` or `warchief:mercenary` entity is introd
 - Attack animation: humanoid attack controller is included in both replacement client entities.
 
 ### Default Loadout
-- Stone Sword slot: assigned through Script API on spawn/load when not player-provided.
-- Leather Helmet slot: assigned through Script API on spawn/load when not player-provided.
-- Leather Chestplate slot: assigned through Script API on spawn/load when not player-provided.
-- Leather Leggings slot: assigned through Script API on spawn/load when not player-provided.
-- Leather Boots slot: assigned through Script API on spawn/load when not player-provided.
+- Stone Sword Mainhand: assigned through native equipment + Script API validation.
+- Leather Chestplate Body: assigned through native equipment + Script API validation.
+- Helmet: intentionally out of scope for Phase 02.
+- Leggings: intentionally out of scope for Phase 02.
+- Boots: intentionally out of scope for Phase 02.
 
 ### Weapon Visual
 - Stone Sword: requires Minecraft runtime validation.
@@ -98,11 +98,9 @@ No separate `warchief:villager_soldier` or `warchief:mercenary` entity is introd
 - Diamond Sword: requires Minecraft runtime validation after player upgrade.
 
 ### Armor Visual
-- Leather Helmet: requires Minecraft runtime validation.
-- Leather Chestplate: requires Minecraft runtime validation.
-- Leather Leggings: requires Minecraft runtime validation.
-- Leather Boots: requires Minecraft runtime validation.
-- Iron Chestplate: requires Minecraft runtime validation after player upgrade.
+- Leather Chestplate / Body: requires Minecraft runtime validation.
+- Iron Chestplate / Body: requires Minecraft runtime validation after player upgrade.
+- Helmet/Leggings/Boots: intentionally not part of the Phase 02 target.
 
 ### Geometry
 - bone hierarchy: humanoid Pillager-style geometry retained.
@@ -119,8 +117,8 @@ No separate `warchief:villager_soldier` or `warchief:mercenary` entity is introd
 - render controllers: base entity remains on Pillager render controller; equipment should render through attachables.
 
 ### Save / Reload
-- default equipment: Script API re-applies default slots on load if not player-provided.
-- player equipment: Script API re-applies saved player-provided slots on load.
+- default equipment: native equipment provides the baseline; Script API validates/re-applies Mainhand + Body when needed.
+- player equipment: Script API re-applies saved player-provided Mainhand + Body equipment on load.
 
 ### Known Visual Limitations
 
