@@ -12,9 +12,19 @@
             "Texture.sword_diamond",
             "Texture.sword_netherite"
           ]
+        },
+        "geometries": {
+          "Array.sword_geometries": [
+            "Geometry.sword_wood",
+            "Geometry.sword_stone",
+            "Geometry.sword_iron",
+            "Geometry.sword_gold",
+            "Geometry.sword_diamond",
+            "Geometry.sword_netherite"
+          ]
         }
       },
-      "geometry": "Geometry.sword",
+      "geometry": "Array.sword_geometries[v.warchief_sword_index]",
       "materials": [
         {
           "*": "Material.sword"
