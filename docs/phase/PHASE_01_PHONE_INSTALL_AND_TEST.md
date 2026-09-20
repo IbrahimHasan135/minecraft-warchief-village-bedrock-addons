@@ -58,6 +58,7 @@ Warchief_Village_RP/
 - [ ] One sword is consumed.
 - [ ] Chat confirms sword tier.
 - [ ] Wolf melee damage matches the prototype tier instead of stacking uncontrolled bonus damage.
+- [ ] Without a sword, Wolf baseline health/damage feels Pillager-scale.
 
 ### Iron Golem / Villager Soldier Prototype
 
@@ -66,19 +67,32 @@ Warchief_Village_RP/
 - [ ] Hold Emerald in the selected hotbar slot.
 - [ ] Right-click/use the Iron Golem.
 - [ ] One Emerald is consumed.
-- [ ] Chat confirms recruitment.
+- [ ] Chat confirms recruitment and default mode is `PATROL`.
+- [ ] Walk away after recruitment.
+- [ ] Iron Golem does not follow immediately while in `PATROL`.
+- [ ] Iron Golem moves locally instead of freezing.
+- [ ] Empty-hand right-click the recruited Iron Golem as owner.
+- [ ] Chat confirms `Villager Soldier: FOLLOW`.
+- [ ] Move roughly 5-15 blocks away.
+- [ ] Recruited Iron Golem pathfinds toward the recruiting player naturally, not like it is being pulled/teleported.
+- [ ] Move far away or create a pathfinding failure.
+- [ ] Native follow recovery teleport is allowed, but it should not spam at normal follow distance.
+- [ ] Empty-hand right-click again.
+- [ ] Chat confirms `Villager Soldier: PATROL`.
+- [ ] Iron Golem stops owner-follow and returns to local patrol behavior.
 - [ ] Right-click/use the recruited Iron Golem with a sword.
 - [ ] One sword is consumed.
 - [ ] Chat confirms sword tier.
 - [ ] Iron Golem base combat feels Pillager-scale, not vanilla Golem-scale.
 - [ ] Iron Golem walks faster than vanilla Golem and closer to Wolf/Pillager pace.
-- [ ] Move roughly 4-10 blocks away after recruitment.
-- [ ] Recruited Iron Golem pathfinds toward the recruiting player naturally, not like it is being pulled/teleported.
 - [ ] Iron Golem faces/moves naturally while following.
 - [ ] Iron Golem ambient/hurt/death sounds are Villager-style.
+- [ ] Non-owner empty-hand right-click does not change command mode.
 
 ## Expected Prototype Limitations
 
-- Iron Golem follow now uses native `minecraft:behavior.follow_owner`; this means Phase 01 follow is owner-based, not Banner-gated.
+- Iron Golem individual command no longer uses Banner. Banner is reserved for possible future mass-command behavior.
+- Iron Golem follow now uses native `minecraft:behavior.follow_owner`; teleport is only native recovery, not a script movement loop.
+- Patrol anchor/home behavior must still be verified in Minecraft because Bedrock controls how `minecraft:home` is anchored when component groups change.
 - Held sword visual depends on whether the vanilla entity exposes a mainhand equipment slot at runtime.
 - Wolf sitting behavior may still exist, but the temporary humanoid model does not have a polished sit animation.

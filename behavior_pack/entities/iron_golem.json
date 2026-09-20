@@ -119,19 +119,6 @@
       "minecraft:behavior.random_look_around": {
         "priority": 8
       },
-      "minecraft:behavior.follow_owner": {
-        "priority": 4,
-        "speed_multiplier": 1.1,
-        "start_distance": 4,
-        "stop_distance": 2,
-        "can_teleport": false,
-        "max_distance": 10
-      },
-      "minecraft:behavior.random_stroll": {
-        "priority": 6,
-        "speed_multiplier": 0.6,
-        "xz_dist": 16
-      },
       "minecraft:behavior.target_when_pushed": {
         "entity_types": [
           {
@@ -445,6 +432,33 @@
       }
     },
     "component_groups": {
+      "warchief:mode_follow": {
+        "minecraft:behavior.follow_owner": {
+          "priority": 5,
+          "speed_multiplier": 1.1,
+          "start_distance": 5,
+          "stop_distance": 2,
+          "can_teleport": true,
+          "max_distance": 40
+        }
+      },
+      "warchief:mode_patrol": {
+        "minecraft:home": {
+          "restriction_radius": 10,
+          "restriction_type": "random_movement"
+        },
+        "minecraft:behavior.move_towards_home_restriction": {
+          "priority": 5,
+          "speed_multiplier": 1.0
+        },
+        "minecraft:behavior.random_stroll": {
+          "priority": 6,
+          "speed_multiplier": 0.8,
+          "interval": 40,
+          "xz_dist": 8,
+          "y_dist": 3
+        }
+      },
       "warchief:prototype_tamed": {
         "minecraft:is_tamed": {}
       },
@@ -529,7 +543,32 @@
       "warchief:on_tame": {
         "add": {
           "component_groups": [
-            "warchief:prototype_tamed"
+            "warchief:prototype_tamed",
+            "warchief:mode_patrol"
+          ]
+        }
+      },
+      "warchief:set_follow": {
+        "remove": {
+          "component_groups": [
+            "warchief:mode_patrol"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "warchief:mode_follow"
+          ]
+        }
+      },
+      "warchief:set_patrol": {
+        "remove": {
+          "component_groups": [
+            "warchief:mode_follow"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "warchief:mode_patrol"
           ]
         }
       }

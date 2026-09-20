@@ -3,6 +3,8 @@ const OWNER_PROPERTY = "warchief:p01_owner_id";
 const OWNER_NAME_PROPERTY = "warchief:p01_owner_name";
 const WEAPON_PROPERTY = "warchief:p01_weapon";
 const EQUIPPED_VISUAL_PROPERTY = "warchief:p01_equipped_visual";
+const COMMAND_MODE_PROPERTY = "warchief:p01_command_mode";
+const PATROL_ANCHOR_PROPERTY = "warchief:p01_patrol_anchor";
 const PROTOTYPE_TYPES = new Set(["minecraft:wolf", "minecraft:iron_golem"]);
 const PROTOTYPE_BASE_DAMAGE = 3;
 const PROTOTYPE_MOVE_SPEED = 0.35;
@@ -28,17 +30,22 @@ export function registerPhase01PrototypeUnits() {
     world.beforeEvents.playerInteractWithEntity.subscribe((event) => {
         const item = event.itemStack;
         const target = event.target;
-        if (!item || !PROTOTYPE_TYPES.has(target.typeId)) {
+        if (!PROTOTYPE_TYPES.has(target.typeId)) {
             return;
         }
-        if (item.typeId === "minecraft:emerald") {
+        if (item?.typeId === "minecraft:emerald") {
             event.cancel = true;
             system.run(() => recruitPrototypeUnit(event.player, target));
             return;
         }
-        if (item.typeId in SWORD_DAMAGE) {
+        if (item && item.typeId in SWORD_DAMAGE) {
             event.cancel = true;
             system.run(() => equipPrototypeUnit(event.player, target, item.typeId));
+            return;
+        }
+        if (target.typeId === "minecraft:iron_golem" && !item) {
+            event.cancel = true;
+            system.run(() => toggleSoldierCommandMode(event.player, target));
         }
     });
     world.afterEvents.entityHurt.subscribe((event) => {
@@ -98,7 +105,37 @@ function recruitPrototypeUnit(player, target) {
     catch (error) {
         console.warn(`[Warchief Village] Phase 01 tame failed for ${target.typeId}: ${String(error)}`);
     }
+    if (target.typeId === "minecraft:iron_golem") {
+        setSoldierCommandMode(target, "patrol");
+        savePatrolAnchor(target);
+        triggerEntityEvent(target, "warchief:set_patrol");
+        notify(player, `${target.nameTag} direkrut dengan 1 Emerald. Mode: PATROL.`);
+        return;
+    }
     notify(player, `${target.nameTag} direkrut dengan 1 Emerald.`);
+}
+function toggleSoldierCommandMode(player, target) {
+    if (!target.isValid || !player.isValid || target.typeId !== "minecraft:iron_golem") {
+        return;
+    }
+    if (!isRecruited(target)) {
+        notify(player, "Rekrut Villager Soldier dengan 1 Emerald dulu.");
+        return;
+    }
+    if (!isOwnedBy(target, player)) {
+        notify(player, "Villager Soldier ini milik player lain.");
+        return;
+    }
+    const nextMode = getSoldierCommandMode(target) === "patrol" ? "follow" : "patrol";
+    setSoldierCommandMode(target, nextMode);
+    if (nextMode === "follow") {
+        triggerEntityEvent(target, "warchief:set_follow");
+        notify(player, "Villager Soldier: FOLLOW");
+        return;
+    }
+    savePatrolAnchor(target);
+    triggerEntityEvent(target, "warchief:set_patrol");
+    notify(player, "Villager Soldier: PATROL");
 }
 function equipPrototypeUnit(player, target, swordTypeId) {
     if (!target.isValid || !player.isValid) {
@@ -193,7 +230,28 @@ function isRecruited(entity) {
     return typeof entity.getDynamicProperty(OWNER_PROPERTY) === "string";
 }
 function isOwnedBy(entity, player) {
+    const tameable = entity.getComponent(EntityComponentTypes.Tameable);
+    if (tameable?.tamedToPlayerId) {
+        return tameable.tamedToPlayerId === player.id;
+    }
     return entity.getDynamicProperty(OWNER_PROPERTY) === player.id;
+}
+function getSoldierCommandMode(entity) {
+    return entity.getDynamicProperty(COMMAND_MODE_PROPERTY) === "follow" ? "follow" : "patrol";
+}
+function setSoldierCommandMode(entity, mode) {
+    entity.setDynamicProperty(COMMAND_MODE_PROPERTY, mode);
+}
+function savePatrolAnchor(entity) {
+    entity.setDynamicProperty(PATROL_ANCHOR_PROPERTY, entity.location);
+}
+function triggerEntityEvent(entity, eventName) {
+    try {
+        entity.triggerEvent(eventName);
+    }
+    catch (error) {
+        console.warn(`[Warchief Village] Phase 01 event ${eventName} failed: ${String(error)}`);
+    }
 }
 function notify(player, message) {
     try {
