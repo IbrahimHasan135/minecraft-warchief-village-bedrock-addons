@@ -135,7 +135,8 @@ export function registerPhase02ReplacementUnits(): void {
 
     if (item && item.typeId in SWORD_DAMAGE) {
       event.cancel = true;
-      system.run(() => equipWeapon(event.player, target, item.typeId));
+      const sourceSlotIndex = event.player.selectedSlotIndex;
+      system.run(() => equipWeapon(event.player, target, item.typeId, sourceSlotIndex));
       return;
     }
 
@@ -143,7 +144,8 @@ export function registerPhase02ReplacementUnits(): void {
 
     if (item && armorSlot) {
       event.cancel = true;
-      system.run(() => equipArmor(event.player, target, item.typeId, armorSlot));
+      const sourceSlotIndex = event.player.selectedSlotIndex;
+      system.run(() => equipArmor(event.player, target, item.typeId, armorSlot, sourceSlotIndex));
       return;
     }
 
@@ -327,29 +329,36 @@ function recruitCustomUnit(player: Player, target: Entity): void {
   notify(player, "Mercenary direkrut. Mode: FOLLOW.");
 }
 
-function equipWeapon(player: Player, target: Entity, itemTypeId: string): void {
+function equipWeapon(player: Player, target: Entity, itemTypeId: string, sourceSlotIndex: number): void {
   replaceUnitEquipment(player, target, itemTypeId, {
     slot: EquipmentSlot.Mainhand,
     savedItemProperty: WEAPON_ITEM_PROPERTY,
     sourceProperty: WEAPON_SOURCE_PROPERTY,
     label: "Mainhand"
-  });
+  }, sourceSlotIndex);
 }
 
-function equipArmor(player: Player, target: Entity, itemTypeId: string, armorSlot: ArmorSlotState): void {
+function equipArmor(
+  player: Player,
+  target: Entity,
+  itemTypeId: string,
+  armorSlot: ArmorSlotState,
+  sourceSlotIndex: number
+): void {
   replaceUnitEquipment(player, target, itemTypeId, {
     slot: armorSlot.equipmentSlot,
     savedItemProperty: armorSlot.propertyItem,
     sourceProperty: armorSlot.propertySource,
     label: "Chest"
-  });
+  }, sourceSlotIndex);
 }
 
 function replaceUnitEquipment(
   player: Player,
   target: Entity,
   itemTypeId: string,
-  config: EquipmentReplacementConfig
+  config: EquipmentReplacementConfig,
+  sourceSlotIndex: number
 ): void {
   if (!isOwnedBy(target, player)) {
     const itemKind = config.label === "Mainhand" ? "equipment" : "armor";
@@ -369,7 +378,7 @@ function replaceUnitEquipment(
     return;
   }
 
-  if (!consumeSelectedItem(player, itemTypeId)) {
+  if (!consumeSelectedItem(player, itemTypeId, sourceSlotIndex)) {
     if (rollbackItem) {
       applyActualEquipment(target, config.slot, rollbackItem);
     }
@@ -649,7 +658,7 @@ function getArmorSlot(itemTypeId: string): ArmorSlotState | undefined {
   return ARMOR_SLOTS.find((slot) => slot.suffixes.some((suffix) => itemTypeId.endsWith(suffix)));
 }
 
-function consumeSelectedItem(player: Player, expectedTypeId: string): boolean {
+function consumeSelectedItem(player: Player, expectedTypeId: string, sourceSlotIndex?: number): boolean {
   const inventory = player.getComponent(EntityComponentTypes.Inventory) as EntityInventoryComponent | undefined;
   const container = inventory?.container;
 
@@ -657,10 +666,13 @@ function consumeSelectedItem(player: Player, expectedTypeId: string): boolean {
     return false;
   }
 
-  const selectedSlot = player.selectedSlotIndex;
+  const selectedSlot = sourceSlotIndex ?? player.selectedSlotIndex;
   const item = container.getItem(selectedSlot);
 
   if (!item || item.typeId !== expectedTypeId) {
+    console.warn(
+      `[Warchief Equipment Debug] consume mismatch: player=${player.name} expected=${expectedTypeId} sourceSlot=${selectedSlot} actual=${item?.typeId ?? "empty"} currentSelected=${player.selectedSlotIndex}`
+    );
     return false;
   }
 
