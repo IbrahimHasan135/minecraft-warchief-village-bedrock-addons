@@ -4,7 +4,22 @@
     "description": {
       "identifier": "minecraft:iron_golem",
       "is_summonable": true,
-      "is_spawnable": true
+      "is_spawnable": true,
+      "properties": {
+        "warchief:weapon_visual": {
+          "type": "enum",
+          "values": [
+            "wood",
+            "stone",
+            "iron",
+            "gold",
+            "diamond",
+            "netherite"
+          ],
+          "default": "stone",
+          "client_sync": true
+        }
+      }
     },
     "components": {
       "minecraft:attack": {
@@ -159,8 +174,8 @@
         "value": 10
       },
       "minecraft:health": {
-        "max": 24,
-        "value": 24
+        "max": 32,
+        "value": 32
       },
       "minecraft:hurt_on_condition": {
         "damage_conditions": [
@@ -544,6 +559,36 @@
           "component_groups": [
             "warchief:mode_follow"
           ]
+        }
+      },
+      "warchief:set_weapon_visual_wood": {
+        "set_property": {
+          "warchief:weapon_visual": "wood"
+        }
+      },
+      "warchief:set_weapon_visual_stone": {
+        "set_property": {
+          "warchief:weapon_visual": "stone"
+        }
+      },
+      "warchief:set_weapon_visual_iron": {
+        "set_property": {
+          "warchief:weapon_visual": "iron"
+        }
+      },
+      "warchief:set_weapon_visual_gold": {
+        "set_property": {
+          "warchief:weapon_visual": "gold"
+        }
+      },
+      "warchief:set_weapon_visual_diamond": {
+        "set_property": {
+          "warchief:weapon_visual": "diamond"
+        }
+      },
+      "warchief:set_weapon_visual_netherite": {
+        "set_property": {
+          "warchief:weapon_visual": "netherite"
         }
       }
     }
