@@ -11,7 +11,7 @@
         "damage": 3
       },
       "minecraft:balloonable": {
-        "mass": 2.0
+        "mass": 2
       },
       "minecraft:behavior.hurt_by_target": {
         "entity_types": {
@@ -33,7 +33,7 @@
         "priority": 7
       },
       "minecraft:behavior.melee_attack": {
-        "speed_multiplier": 1.0,
+        "speed_multiplier": 1,
         "track_target": true,
         "priority": 1
       },
@@ -140,7 +140,7 @@
             }
           }
         ],
-        "percent_chance": 5.0,
+        "percent_chance": 5,
         "priority": 1
       },
       "minecraft:can_climb": {},
@@ -177,6 +177,8 @@
       "minecraft:equippable": {
         "slots": [
           {
+            "slot": 0,
+            "item": "stone_sword",
             "accepted_items": [
               "wooden_sword",
               "stone_sword",
@@ -184,24 +186,11 @@
               "golden_sword",
               "diamond_sword",
               "netherite_sword"
-            ],
-            "item": "stone_sword",
-            "slot": 0
+            ]
           },
           {
-            "accepted_items": [
-              "leather_helmet",
-              "chainmail_helmet",
-              "iron_helmet",
-              "golden_helmet",
-              "diamond_helmet",
-              "netherite_helmet",
-              "turtle_helmet"
-            ],
-            "item": "leather_helmet",
-            "slot": 1
-          },
-          {
+            "slot": 1,
+            "item": "leather_chestplate",
             "accepted_items": [
               "leather_chestplate",
               "chainmail_chestplate",
@@ -209,33 +198,7 @@
               "golden_chestplate",
               "diamond_chestplate",
               "netherite_chestplate"
-            ],
-            "item": "leather_chestplate",
-            "slot": 2
-          },
-          {
-            "accepted_items": [
-              "leather_leggings",
-              "chainmail_leggings",
-              "iron_leggings",
-              "golden_leggings",
-              "diamond_leggings",
-              "netherite_leggings"
-            ],
-            "item": "leather_leggings",
-            "slot": 3
-          },
-          {
-            "accepted_items": [
-              "leather_boots",
-              "chainmail_boots",
-              "iron_boots",
-              "golden_boots",
-              "diamond_boots",
-              "netherite_boots"
-            ],
-            "item": "leather_boots",
-            "slot": 4
+            ]
           }
         ]
       },
@@ -249,7 +212,7 @@
       "minecraft:movement.basic": {},
       "minecraft:nameable": {},
       "minecraft:tameable": {
-        "probability": 1.0,
+        "probability": 1,
         "tame_items": [
           "emerald"
         ],
@@ -455,7 +418,20 @@
           "mob"
         ]
       },
-      "minecraft:spawn_egg_interaction": {}
+      "minecraft:spawn_egg_interaction": {},
+      "minecraft:equipment": {
+        "table": "loot_tables/entities/warchief_default_loadout.json",
+        "slot_drop_chance": [
+          {
+            "slot": "slot.weapon.mainhand",
+            "drop_chance": 0
+          },
+          {
+            "slot": "slot.armor.body",
+            "drop_chance": 0
+          }
+        ]
+      }
     },
     "component_groups": {
       "warchief:mode_follow": {
