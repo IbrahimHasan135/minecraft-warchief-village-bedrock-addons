@@ -25,6 +25,7 @@
         ],
         "animate": [
           "pillager_root_controller",
+          "controller_holding",
           "controller_attack"
         ]
       },
@@ -50,7 +51,8 @@
         "controller_bob": "controller.animation.humanoid.bob",
         "controller_pillager_attack": "controller.animation.pillager.attack",
         "pillager_root_controller": "controller.animation.pillager.root",
-        "riding.body": "animation.humanoid.riding.body"
+        "riding.body": "animation.humanoid.riding.body",
+        "controller_holding": "controller.animation.humanoid.holding"
       },
       "render_controllers": [
         "controller.render.pillager"
