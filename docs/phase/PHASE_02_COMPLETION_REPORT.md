@@ -663,3 +663,118 @@ visual follows the equipped sword tier
 ```
 
 Mercenary behavior must remain unchanged.
+
+
+---
+
+## 2026-09-20 — Final Soldier Role: Fixed Iron Armor + Synced Sword Visual
+
+Villager Soldier is now intentionally differentiated from Mercenary.
+
+### Soldier role
+
+```text
+Villager Soldier / regular army:
+- fixed Iron Chestplate
+- armor cannot be replaced by player
+- 32 HP
+- scripted Iron Chestplate protection
+- sword can still be upgraded/replaced
+- sword visual follows synced weapon tier
+
+Mercenary / special unit:
+- keeps flexible player-provided armor system
+- keeps flexible sword system
+```
+
+### Fixed Soldier armor
+
+The Soldier native loadout now contains:
+
+```text
+Stone Sword
+Iron Chestplate
+```
+
+On spawn/load Script also forces the Soldier armor state to:
+
+```text
+minecraft:iron_chestplate
+source=default
+```
+
+Armor interaction on Soldier is cancelled with an informational message and the
+player's chestplate is not consumed.
+
+Soldier death does not manually drop the permanent Iron Chestplate.
+
+### Soldier survivability
+
+Base Soldier health is now:
+
+```text
+32 HP
+```
+
+The existing scripted armor-protection calculation reads the permanent
+Iron Chestplate state, so the Soldier also receives the Iron chestplate armor
+reduction in addition to the larger health pool.
+
+### Sword gameplay
+
+Sword replacement/provenance remains unchanged.
+
+Player-provided swords can still replace the previous sword, and the previous
+player-provided sword is returned exactly once.
+
+### Sword visual fallback
+
+Because `minecraft:iron_golem` did not reliably render its held-item attachable
+even when weapon gameplay state changed, Soldier now has a separate client-synced
+visual property:
+
+```text
+warchief:weapon_visual
+```
+
+Supported values:
+
+```text
+wood
+stone
+iron
+gold
+diamond
+netherite
+```
+
+Script triggers the corresponding Behavior Pack event after initialization and
+after every successful Soldier sword replacement.
+
+The Resource Pack renders a second overlay geometry:
+
+```text
+geometry.warchief.soldier_sword
+```
+
+attached to the Soldier's right-hand bone hierarchy.
+
+The overlay uses vanilla sword textures:
+
+```text
+textures/items/wood_sword
+textures/items/stone_sword
+textures/items/iron_sword
+textures/items/gold_sword
+textures/items/diamond_sword
+textures/items/netherite_sword
+```
+
+through:
+
+```text
+controller.render.warchief.soldier_sword
+```
+
+This visual layer does not control damage or refund ownership. Gameplay still
+uses the existing Phase 02 equipment transaction and saved weapon state.
