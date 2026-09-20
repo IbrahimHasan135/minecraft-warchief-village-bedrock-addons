@@ -13,6 +13,7 @@ dist/
 build/
 *.tsbuildinfo
 behavior_pack/scripts/*.js.map
+__pycache__/
 
 # Logs
 *.log

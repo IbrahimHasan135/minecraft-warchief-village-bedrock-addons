@@ -7,7 +7,8 @@
     "build": "tsc",
     "watch": "tsc --watch",
     "clean": "rm -f behavior_pack/scripts/*.js behavior_pack/scripts/*.js.map",
-    "validate": "node scripts/validate.js"
+    "validate": "node scripts/validate.js",
+    "package": "python3 tools/package_mcaddon.py"
   },
   "devDependencies": {
     "@minecraft/server": "2.9.0",
