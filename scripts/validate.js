@@ -1,11 +1,28 @@
-import { readFileSync } from "node:fs";
+import { readdirSync, readFileSync } from "node:fs";
+import { join } from "node:path";
 
-const jsonFiles = [
-  "behavior_pack/manifest.json",
-  "resource_pack/manifest.json",
-  "behavior_pack/texts/languages.json",
-  "resource_pack/texts/languages.json"
-];
+const jsonRoots = ["behavior_pack", "resource_pack"];
+
+function collectJsonFiles(root) {
+  const files = [];
+
+  for (const entry of readdirSync(root, { withFileTypes: true })) {
+    const path = join(root, entry.name);
+
+    if (entry.isDirectory()) {
+      files.push(...collectJsonFiles(path));
+      continue;
+    }
+
+    if (entry.isFile() && entry.name.endsWith(".json")) {
+      files.push(path);
+    }
+  }
+
+  return files;
+}
+
+const jsonFiles = jsonRoots.flatMap(collectJsonFiles).sort();
 
 function readJson(path) {
   return JSON.parse(readFileSync(path, "utf8"));
@@ -40,4 +57,4 @@ if (serverDependency?.version !== "2.9.0") {
   throw new Error("Behavior Pack must use stable @minecraft/server version 2.9.0.");
 }
 
-console.log("Phase 00 validation passed.");
+console.log(`Validation passed for ${jsonFiles.length} JSON files.`);

@@ -1,5 +1,3 @@
-import { system } from "@minecraft/server";
-system.run(() => {
-    console.warn("[Warchief Village] Script API smoke test loaded.");
-});
+import { registerPhase01PrototypeUnits } from "./phase01/prototypeUnits";
+registerPhase01PrototypeUnits();
 //# sourceMappingURL=main.js.map
