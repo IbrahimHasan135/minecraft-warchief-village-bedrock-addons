@@ -24,7 +24,8 @@
           "variable.riding_y_offset = variable.riding_y_offset_with_respect_to_player + variable.riding_y_offset_on_vehicle_where_other_entites_can_stand;"
         ],
         "animate": [
-          "pillager_root_controller"
+          "pillager_root_controller",
+          "controller_attack"
         ]
       },
       "animations": {

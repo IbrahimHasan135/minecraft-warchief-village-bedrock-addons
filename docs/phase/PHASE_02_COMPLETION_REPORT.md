@@ -77,3 +77,55 @@ No separate `warchief:villager_soldier` or `warchief:mercenary` entity is introd
 - Sword damage remains script-normalized by equipped sword type.
 - The Pillager prototype geometry bone names were aligned to `rightArm` and `leftArm` so vanilla attachables have the expected arm bones/locators for held item and armor rendering tests.
 - If equipment still does not appear visually after this fix, Phase 02 should treat it as an attachable/render-controller limitation and record the exact content-log message.
+
+## Equipment Visual Rendering Fix
+
+### Client Entity
+- enable_attachables Villager Soldier: present.
+- enable_attachables Mercenary: present.
+- Attack animation: humanoid attack controller is included in both replacement client entities.
+
+### Default Loadout
+- Stone Sword slot: assigned through Script API on spawn/load when not player-provided.
+- Leather Helmet slot: assigned through Script API on spawn/load when not player-provided.
+- Leather Chestplate slot: assigned through Script API on spawn/load when not player-provided.
+- Leather Leggings slot: assigned through Script API on spawn/load when not player-provided.
+- Leather Boots slot: assigned through Script API on spawn/load when not player-provided.
+
+### Weapon Visual
+- Stone Sword: requires Minecraft runtime validation.
+- Iron Sword: requires Minecraft runtime validation after player upgrade.
+- Diamond Sword: requires Minecraft runtime validation after player upgrade.
+
+### Armor Visual
+- Leather Helmet: requires Minecraft runtime validation.
+- Leather Chestplate: requires Minecraft runtime validation.
+- Leather Leggings: requires Minecraft runtime validation.
+- Leather Boots: requires Minecraft runtime validation.
+- Iron Chestplate: requires Minecraft runtime validation after player upgrade.
+
+### Geometry
+- bone hierarchy: humanoid Pillager-style geometry retained.
+- rightArm: present.
+- leftArm: present.
+- head: present.
+- body: present.
+- legs: present.
+- locators: `rightItem` and `leftItem` present.
+
+### Attachables
+- generic/player-specific: vanilla attachable behavior still needs runtime/content-log verification.
+- custom copied attachables: none added in this pass.
+- render controllers: base entity remains on Pillager render controller; equipment should render through attachables.
+
+### Save / Reload
+- default equipment: Script API re-applies default slots on load if not player-provided.
+- player equipment: Script API re-applies saved player-provided slots on load.
+
+### Known Visual Limitations
+
+If equipment slots are populated in `[Warchief Equipment Debug]` but visuals remain absent, the next issue is likely Resource Pack attachable/render-controller compatibility rather than gameplay equipment state.
+
+### Content Log Messages
+
+Record any runtime warning mentioning attachable, geometry, bone, render controller, material, texture, equipment, equippable, or slot.

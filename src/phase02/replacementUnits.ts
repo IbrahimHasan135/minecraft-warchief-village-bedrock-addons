@@ -29,6 +29,7 @@ const DEFAULT_WEAPON = "minecraft:stone_sword";
 const DEFAULT_WEAPON_SOURCE = "default";
 const PLAYER_EQUIPMENT_SOURCE = "player";
 const FOOD_HEAL_AMOUNT = 4;
+const EQUIPMENT_DEBUG_LOGGED_PROPERTY = "warchief:p02_equipment_debug_logged";
 
 type EquipmentSource = "none" | "default" | "player";
 type SoldierCommandMode = "patrol" | "follow";
@@ -110,6 +111,13 @@ const ARMOR_SLOTS: readonly ArmorSlotState[] = [
     suffixes: ["_boots"]
   }
 ];
+
+const DEFAULT_ARMOR: Record<ArmorSlotState["key"], string> = {
+  head: "minecraft:leather_helmet",
+  chest: "minecraft:leather_chestplate",
+  legs: "minecraft:leather_leggings",
+  feet: "minecraft:leather_boots"
+};
 
 export function registerPhase02ReplacementUnits(): void {
   world.afterEvents.entitySpawn.subscribe((event) => {
@@ -275,15 +283,18 @@ function initializeCustomUnit(entity: Entity): void {
     savePatrolAnchor(entity);
   }
 
-  equipVisual(entity, EquipmentSlot.Mainhand, weapon);
+  ensureEquipment(entity, EquipmentSlot.Mainhand, weapon, weaponSource);
 
   for (const armorSlot of ARMOR_SLOTS) {
-    const armorItem = getStringProperty(entity, armorSlot.propertyItem);
+    const armorSource = getEquipmentSource(entity, armorSlot.propertySource, DEFAULT_WEAPON_SOURCE);
+    const armorItem = getStringProperty(entity, armorSlot.propertyItem) ?? DEFAULT_ARMOR[armorSlot.key];
 
-    if (armorItem) {
-      equipVisual(entity, armorSlot.equipmentSlot, armorItem);
-    }
+    entity.setDynamicProperty(armorSlot.propertyItem, armorItem);
+    entity.setDynamicProperty(armorSlot.propertySource, armorSource);
+    ensureEquipment(entity, armorSlot.equipmentSlot, armorItem, armorSource);
   }
+
+  logEquipmentSlotsOnce(entity);
 }
 
 function recruitCustomUnit(player: Player, target: Entity): void {
@@ -459,6 +470,61 @@ function equipVisual(entity: Entity, slot: EquipmentSlot, itemTypeId: string): b
   } catch (error) {
     console.warn(`[Warchief Village] Phase 02 visual equip failed for ${entity.typeId}: ${String(error)}`);
     return false;
+  }
+}
+
+function ensureEquipment(entity: Entity, slot: EquipmentSlot, itemTypeId: string, source: EquipmentSource): void {
+  const equippable = entity.getComponent(EntityComponentTypes.Equippable) as
+    | EntityEquippableComponent
+    | undefined;
+
+  if (!equippable) {
+    return;
+  }
+
+  try {
+    const current = equippable.getEquipment(slot);
+
+    if (current?.typeId === itemTypeId) {
+      return;
+    }
+
+    if (source === PLAYER_EQUIPMENT_SOURCE && current) {
+      return;
+    }
+
+    equippable.setEquipment(slot, new ItemStack(itemTypeId, 1));
+  } catch (error) {
+    console.warn(`[Warchief Village] Phase 02 equipment ensure failed for ${entity.typeId}: ${String(error)}`);
+  }
+}
+
+function logEquipmentSlotsOnce(entity: Entity): void {
+  if (entity.getDynamicProperty(EQUIPMENT_DEBUG_LOGGED_PROPERTY) === true) {
+    return;
+  }
+
+  const equippable = entity.getComponent(EntityComponentTypes.Equippable) as
+    | EntityEquippableComponent
+    | undefined;
+
+  if (!equippable) {
+    return;
+  }
+
+  try {
+    console.warn(
+      `[Warchief Equipment Debug] Entity=${getUnitLabel(entity)} Mainhand=${
+        equippable.getEquipment(EquipmentSlot.Mainhand)?.typeId ?? "empty"
+      } Head=${equippable.getEquipment(EquipmentSlot.Head)?.typeId ?? "empty"} Chest=${
+        equippable.getEquipment(EquipmentSlot.Chest)?.typeId ?? "empty"
+      } Legs=${equippable.getEquipment(EquipmentSlot.Legs)?.typeId ?? "empty"} Feet=${
+        equippable.getEquipment(EquipmentSlot.Feet)?.typeId ?? "empty"
+      } Attachables=enabled`
+    );
+    entity.setDynamicProperty(EQUIPMENT_DEBUG_LOGGED_PROPERTY, true);
+  } catch (error) {
+    console.warn(`[Warchief Village] Phase 02 equipment debug failed for ${entity.typeId}: ${String(error)}`);
   }
 }
 

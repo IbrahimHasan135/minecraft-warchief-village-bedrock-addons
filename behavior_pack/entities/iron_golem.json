@@ -189,15 +189,52 @@
             "slot": 0
           },
           {
+            "accepted_items": [
+              "leather_helmet",
+              "chainmail_helmet",
+              "iron_helmet",
+              "golden_helmet",
+              "diamond_helmet",
+              "netherite_helmet",
+              "turtle_helmet"
+            ],
+            "item": "leather_helmet",
             "slot": 1
           },
           {
+            "accepted_items": [
+              "leather_chestplate",
+              "chainmail_chestplate",
+              "iron_chestplate",
+              "golden_chestplate",
+              "diamond_chestplate",
+              "netherite_chestplate"
+            ],
+            "item": "leather_chestplate",
             "slot": 2
           },
           {
+            "accepted_items": [
+              "leather_leggings",
+              "chainmail_leggings",
+              "iron_leggings",
+              "golden_leggings",
+              "diamond_leggings",
+              "netherite_leggings"
+            ],
+            "item": "leather_leggings",
             "slot": 3
           },
           {
+            "accepted_items": [
+              "leather_boots",
+              "chainmail_boots",
+              "iron_boots",
+              "golden_boots",
+              "diamond_boots",
+              "netherite_boots"
+            ],
+            "item": "leather_boots",
             "slot": 4
           }
         ]
