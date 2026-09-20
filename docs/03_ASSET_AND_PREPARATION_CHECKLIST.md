@@ -19,7 +19,7 @@ The checklist is divided into:
 
 ## Required
 
-- [ ] Minecraft Bedrock target version.
+- [x] Minecraft Bedrock target version: `1.26`.
 - [ ] Development platform:
   - Windows Bedrock
   - Android Bedrock
@@ -108,14 +108,19 @@ Current requirement:
 
 ### Geometry
 
-Prepare or commission:
-- [ ] Player-like humanoid base model.
+Prototype decision:
+- [ ] Use an Illager/Pillager-compatible humanoid base first.
+- [ ] Prefer vanilla Pillager/Illager geometry and animations if they can be referenced cleanly by the target Bedrock version.
+- [ ] If direct vanilla references fail, create or copy a local Pillager-like geometry file in the Resource Pack and keep the same animation assumptions.
+
+Prepare or commission later only if the prototype base is not enough:
+- [ ] Custom humanoid base model.
 - [ ] Villager-inspired head/face.
 - [ ] Weapon hand attachment position.
 - [ ] Armor layer compatibility.
 
 Recommended:
-- Reuse one common humanoid skeleton for Villager Soldier and Mercenary if possible.
+- Reuse one common Illager/Pillager-compatible skeleton for Villager Soldier and Mercenary if possible.
 
 ---
 
@@ -131,6 +136,10 @@ Possible styles:
 - Medieval villager.
 - Guard.
 - Simple soldier uniform.
+
+Current prototype direction:
+- Use the Pillager/Illager body style and replace only the texture first.
+- Villager Soldier texture should look like a recruited village guard, not a hostile Pillager.
 
 Avoid overdesign in MVP.
 
@@ -177,6 +186,11 @@ Prepare one clear art direction.
 Possible concept:
 
 > A wandering humanoid fighter / ronin-like traveler using a Minecraft-compatible player body.
+
+Current prototype direction:
+- Use the same Illager/Pillager-compatible base as Villager Soldier.
+- Differentiate Mercenary through texture first.
+- Avoid creating a custom model unless the shared base blocks gameplay or rendering.
 
 Prepare:
 - [ ] Base geometry.

@@ -1,8 +1,8 @@
 # Docs
 
-This folder is reserved for project documentation that may be moved or added later.
+This folder contains the project documentation and current design source of truth.
 
-Current source-of-truth documents are still in the repository root:
+Current source-of-truth documents:
 
 - `01_GAME_CONCEPT.md`
 - `02_IMPLEMENTATION_AND_ARCHITECTURE.md`

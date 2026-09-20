@@ -568,8 +568,14 @@ Document final behavior after prototype.
 
 Use Resource Pack to create humanoid soldier visuals.
 
+Current prototype direction:
+- Target Minecraft Bedrock version: `1.26`.
+- Use an Illager/Pillager-compatible base for both `warchief:villager_soldier` and `warchief:mercenary`.
+- Try referencing vanilla Pillager/Illager geometry and animations first so the prototype can be texture-first.
+- If the target Bedrock version does not allow stable direct references, add local Resource Pack copies or equivalents of the needed geometry/animations.
+
 Recommended shared base:
-- Player-like geometry.
+- Illager/Pillager-compatible humanoid geometry.
 - Shared skeleton where possible.
 - Shared animation set where possible.
 

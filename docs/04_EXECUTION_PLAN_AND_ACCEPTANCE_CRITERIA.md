@@ -1,0 +1,470 @@
+# Warchief Village Add-On — Condensed Execution Plan and Acceptance Criteria
+
+## 1. Purpose
+
+This file is intended to be given directly to Codex or another coding agent.
+
+The project must still be implemented in phases, but the phases should be large enough for AI-assisted execution. Each phase must produce a usable checkpoint, include clear test steps, and document what worked, what failed, and what remains manual.
+
+For every phase:
+
+1. Inspect the existing repository first.
+2. Preserve existing working behavior unless the phase explicitly replaces it.
+3. Implement only the requested scope.
+4. Test the phase against the listed checklist.
+5. Document changed files and limitations.
+6. Keep source/design changes explicit.
+7. Do not silently redesign gameplay.
+
+The design source of truth is:
+
+1. `docs/01_GAME_CONCEPT.md`
+2. `docs/02_IMPLEMENTATION_AND_ARCHITECTURE.md`
+3. `docs/03_ASSET_AND_PREPARATION_CHECKLIST.md`
+4. This file.
+
+If technical limitations require a design deviation, document the limitation before making a major substitute.
+
+---
+
+# 2. Current Project Decisions
+
+- Target Minecraft Bedrock version: `1.26`.
+- Namespace: `warchief`.
+- Prototype visual strategy: use Pillager/Illager-compatible model, texture, and animation assumptions first.
+- Early units may temporarily override or reuse vanilla entity behavior before custom `warchief:*` entities are introduced.
+- Resource Pack and Behavior Pack should stay separated.
+- Prefer data-driven Bedrock JSON for visuals/entities/items/trades.
+- Use Script API only for dynamic gameplay that cannot be done cleanly with JSON.
+
+---
+
+# 3. Condensed Phase Map
+
+## Phase 0 — Pack Foundation and Version Discovery
+
+Goal:
+Create a loadable Behavior Pack and Resource Pack foundation for Bedrock `1.26`.
+
+Scope:
+- Create valid `manifest.json` files.
+- Confirm pack UUID relationships.
+- Add minimal localization.
+- Add minimal item/entity/resource scaffolding.
+- Decide whether TypeScript tooling is needed immediately or later.
+- Confirm the pack loads in a Bedrock test world.
+
+Checkpoint:
+- `behavior_pack/manifest.json` exists.
+- `resource_pack/manifest.json` exists.
+- Both packs are visible in Minecraft Bedrock.
+- No repeated content log errors from empty scaffolding.
+
+Tests:
+- Open a clean Bedrock test world.
+- Enable Behavior Pack and Resource Pack.
+- Load world.
+- Check content log for manifest/resource errors.
+- Record exact Bedrock version shown by the game.
+
+Exit Criteria:
+- The project has a pack foundation that can be used by Phase 1.
+- Any required experimental toggle is documented.
+
+---
+
+## Phase 1 — Pillager-Style Prototype Units Using Vanilla Behaviors
+
+Goal:
+Get two controllable/testable prototype units on-screen quickly by reusing vanilla behavior:
+
+- Iron Golem becomes the first temporary Villager Soldier prototype.
+- Wolf becomes the first temporary Mercenary prototype.
+
+Important:
+This phase is intentionally a prototype. It may temporarily override vanilla Iron Golem and Wolf visuals/behavior resources to prove the art and command loop quickly. Later phases should move this into proper custom `warchief:villager_soldier` and `warchief:mercenary` entities.
+
+Requested Prototype Behavior:
+- Spawn Iron Golem and it visually appears as a Pillager/Illager-style humanoid.
+- Spawn Wolf and it visually appears as a Pillager/Illager-style humanoid.
+- Both should use prototype Pillager-like textures.
+- Sounds should be changed toward Villager-style sounds where the Bedrock format allows it.
+- Wolf should still follow its owner using vanilla wolf/tame behavior.
+- Wolf sit animation does not need to exist. If vanilla sitting state causes bad visual behavior, document it and suppress/ignore it if feasible.
+- Try to make Iron Golem follow the player when the player holds any vanilla Banner item.
+- If Iron Golem banner-follow is not feasible without Script API or custom AI work, document the limitation and defer it.
+- Try a simple weapon/equipment test with swords for both prototype units.
+
+Phase 1 Implementation Approach:
+- Resource Pack first:
+  - Make Iron Golem render with Pillager/Illager-compatible geometry/texture if possible.
+  - Make Wolf render with Pillager/Illager-compatible geometry/texture if possible.
+  - Prefer existing vanilla animation references if stable.
+  - Add local fallback geometry/animation files only if direct vanilla references fail.
+- Behavior Pack second:
+  - Change or add behavior only if required for equip/follow tests.
+  - Avoid complex ownership code in this phase.
+  - Avoid final custom entity architecture in this phase unless it is easier than overriding vanilla visuals.
+- Script API only if needed:
+  - Detect player holding any Banner.
+  - Find nearby Iron Golem prototypes.
+  - Apply simple follow/move behavior if available in Bedrock `1.26`.
+
+Weapon/Equipment Test Decision:
+- First test interaction method: right-click/use interaction while holding a valid sword.
+- Fallback test method: drop sword near the unit and observe whether pickup/equip can be made reliable.
+- If neither is reliable for overridden vanilla Iron Golem/Wolf, document it and move real weapon assignment to the custom entity phase.
+
+Checkpoint A — Visual Override:
+- Iron Golem spawns.
+- Wolf spawns.
+- Iron Golem appears as a Pillager/Illager-style humanoid.
+- Wolf appears as a Pillager/Illager-style humanoid.
+- Textures load without missing-texture purple/black output.
+- Animations are not catastrophically broken.
+
+Checkpoint B — Vanilla Behavior Preservation:
+- Iron Golem can still move and attack hostiles.
+- Wolf can still be tamed or owned using vanilla behavior if the phase keeps vanilla Wolf behavior.
+- Wolf follows owner after tame.
+- World does not crash or spam content errors.
+
+Checkpoint C — Sound Test:
+- Spawn Iron Golem prototype and trigger idle/hurt/death if practical.
+- Spawn Wolf prototype and trigger idle/hurt/death if practical.
+- Verify whether Villager-like sound replacement works.
+- If sound replacement does not work cleanly, document which sounds remain vanilla.
+
+Checkpoint D — Sword Test:
+- Test right-click/use on Iron Golem prototype while holding:
+  - wooden sword
+  - stone sword
+  - iron sword
+  - diamond sword
+  - netherite sword
+- Test right-click/use on Wolf prototype with the same swords.
+- If right-click/use cannot be captured, test sword drop/pickup.
+- Record exactly which method works.
+- Record whether sword is visual only, stat-changing, consumed, dropped, or ignored.
+
+Checkpoint E — Banner Follow Test:
+- Hold any vanilla Banner in main hand.
+- Test whether nearby Iron Golem prototype follows.
+- Test whether removing Banner stops follow.
+- If off-hand is available, test off-hand separately.
+- If not feasible in Phase 1, document why and defer to the custom soldier command system.
+
+Acceptance Criteria:
+- [ ] Iron Golem prototype can be spawned and is visually Pillager/Illager-style.
+- [ ] Wolf prototype can be spawned and is visually Pillager/Illager-style.
+- [ ] Wolf still follows owner through vanilla behavior, unless a documented Bedrock limitation blocks it.
+- [ ] Iron Golem still has basic combat/movement, unless a documented visual override limitation blocks it.
+- [ ] Villager-style sound replacement is tested and documented.
+- [ ] Sword interaction method is tested and documented.
+- [ ] Banner-follow feasibility is tested and documented.
+- [ ] Content log has no repeated severe errors.
+
+Exit Criteria:
+- It is clear whether the project can continue texture-first using vanilla-like models/animations.
+- It is clear which parts must become custom entities/scripts in the next phase.
+
+---
+
+## Phase 2 — Custom Soldier and Mercenary Core
+
+Goal:
+Move from temporary vanilla overrides to proper custom entities:
+
+```text
+warchief:villager_soldier
+warchief:mercenary
+```
+
+Scope:
+- Create custom entity definitions.
+- Reuse Phase 1 Pillager/Illager-style assets.
+- Create stable spawn/testing commands or debug functions.
+- Preserve basic movement and combat.
+- Mercenary follows owner.
+- Soldier can be prepared for command behavior.
+
+Checkpoint:
+- Custom Soldier exists independently from Iron Golem.
+- Custom Mercenary exists independently from Wolf.
+- Vanilla Iron Golem and Wolf can be restored if Phase 1 overrode them.
+
+Tests:
+- Summon Soldier.
+- Summon Mercenary.
+- Trigger combat against vanilla hostile mobs.
+- Save/reload world.
+- Confirm entity remains valid after reload.
+
+Acceptance Criteria:
+- [ ] `warchief:villager_soldier` spawns.
+- [ ] `warchief:mercenary` spawns.
+- [ ] Both render correctly.
+- [ ] Both can move.
+- [ ] Both can fight at a basic level.
+- [ ] Vanilla Iron Golem and Wolf behavior is not permanently hijacked for final gameplay.
+- [ ] Known Phase 1 visual/sound limitations are resolved or documented.
+
+---
+
+## Phase 3 — Recruitment, Ownership, Equipment, and Command Loop
+
+Goal:
+Implement the core Warchief unit loop in one larger phase.
+
+Scope:
+- `warchief:military_token`
+- Villager conversion into unclaimed Soldier.
+- First valid sword assigns Soldier ownership.
+- Mercenary recruitment.
+- Owner-only equipment changes.
+- Basic armor tier state.
+- Command Banner follow for owned Soldiers.
+- Anchor/hold-position behavior after Banner is removed.
+- Multiplayer ownership checks.
+
+Interaction Rules To Test:
+- Military Token:
+  - right-click/use on eligible adult Villager.
+- Soldier weapon claim:
+  - right-click/use unclaimed Soldier while holding a valid sword first.
+  - dropped sword fallback only if right-click/use is not reliable.
+- Armor:
+  - right-click/use owned unit while holding selected armor representative item.
+- Command Banner:
+  - holding any vanilla Banner or final custom `warchief:command_banner`, depending on what Phase 1 proves.
+
+Checkpoint:
+- A normal Villager can become an unclaimed Soldier.
+- First weapon interaction locks owner.
+- Owner can command and equip.
+- Non-owner cannot steal or modify.
+- Mercenary can be recruited and follow/stay.
+
+Tests:
+- Convert adult Villager.
+- Attempt conversion on baby Villager.
+- Claim Soldier with each sword tier.
+- Attempt second-player steal.
+- Save/reload ownership.
+- Equip/replace weapon.
+- Equip armor tier.
+- Hold Banner and walk away.
+- Remove Banner and confirm anchor behavior.
+- Test two players if available.
+
+Acceptance Criteria:
+- [ ] Token consumed only on successful conversion.
+- [ ] Soldier appears at converted Villager location.
+- [ ] Owner identity persists.
+- [ ] Weapon state persists.
+- [ ] Armor state persists.
+- [ ] Non-owner cannot steal or modify.
+- [ ] Banner follow works for owned Soldiers.
+- [ ] Banner removal leaves Soldiers near release position.
+- [ ] Mercenary follows owner and can stay/resume.
+
+---
+
+## Phase 4 — Librarian Unlock and Expanded Economy
+
+Goal:
+Expose Warchief systems through normal village progression and reduce mandatory grinding.
+
+Scope:
+- Librarian sells Military Token.
+- Librarian sells Command Banner or confirms vanilla Banner is the final command item.
+- Expand priority profession trade catalogs:
+  - Farmer
+  - Mason
+  - Weaponsmith
+  - Armorer
+  - Toolsmith
+  - Librarian
+- Preserve Novice to Master progression.
+- Avoid obvious infinite Emerald loops.
+
+Checkpoint:
+- Warchief gameplay is obtainable from normal survival trading.
+- Resource economy supports village/military growth.
+
+Tests:
+- Level Librarian.
+- Buy Military Token.
+- Buy or obtain Command Banner.
+- Check trade restocking.
+- Check vanilla trades still work.
+- Review expanded profession trades.
+- Try obvious buy/sell exploit routes.
+
+Acceptance Criteria:
+- [ ] Librarian levels normally.
+- [ ] Warchief items appear at intended tiers.
+- [ ] Expanded trades appear by tier.
+- [ ] High-tier resources remain expensive.
+- [ ] No obvious infinite Emerald exploit is found in basic testing.
+
+---
+
+## Phase 5 — Population Validation and Random Attacks
+
+Goal:
+Connect village growth to recurring military pressure.
+
+Scope:
+- Validate vanilla population loop first.
+- Add minimal population support only if vanilla behavior is insufficient.
+- Add random Pillager attack MVP using vanilla hostile mobs.
+- Add basic threat scaling from:
+  - Villager population
+  - Soldier count
+  - High-tier profession count
+- Preserve vanilla Raids.
+
+Checkpoint:
+- Developed villages can grow without manual feeding every Villager.
+- Developed villages can be attacked outside vanilla Bad Omen.
+
+Tests:
+- Create test village with beds, farms, Farmer, bell, and houses.
+- Observe farmer harvest/replant/share/breed loop.
+- Trigger or wait for custom attack.
+- Confirm vanilla Raid still works separately.
+- Confirm attack cooldown prevents spam.
+- Test small and larger village threat levels.
+
+Acceptance Criteria:
+- [ ] Village can grow with infrastructure.
+- [ ] No invisible free population loop is added.
+- [ ] Random attack can occur without Bad Omen.
+- [ ] Vanilla mobs are used.
+- [ ] Larger villages can receive stronger attacks.
+- [ ] Vanilla Raid remains compatible.
+
+---
+
+## Phase 6 — Worldgen Research and Optional Strategic Locations
+
+Goal:
+Determine whether village/outpost density can be safely improved.
+
+Scope:
+- Research native structure distribution options.
+- Research custom structure features.
+- Research script-assisted placement only if needed.
+- Create `docs/WORLDGEN_RESEARCH.md`.
+- Implement only the safest selected approach, if appropriate.
+
+Checkpoint:
+- Worldgen approach is selected based on actual Bedrock capability, not guessing.
+
+Tests:
+- Generate new test worlds.
+- Inspect village spacing.
+- Inspect outpost/camp spacing.
+- Check chunk-generation lag.
+- Check terrain breakage.
+
+Acceptance Criteria:
+- [ ] `docs/WORLDGEN_RESEARCH.md` exists.
+- [ ] Existing-world impact is documented.
+- [ ] New-world requirement is documented.
+- [ ] No severe structure spam or terrain damage.
+
+---
+
+## Phase 7 — Balancing, Visual Polish, and Release Validation
+
+Goal:
+Replace placeholders and validate the full MVP.
+
+Scope:
+- Final or improved Soldier texture.
+- Final or improved Mercenary texture.
+- Armor visuals.
+- Weapon visuals if vanilla held items are insufficient.
+- Item icons.
+- Localization.
+- Balance pass.
+- Release validation.
+
+Checkpoint:
+- MVP is playable as a village leadership/military loop.
+
+Tests:
+- New world.
+- Existing world.
+- Save/reload.
+- Nether travel.
+- End travel.
+- Death/rejoin.
+- Two-player ownership test if available.
+- Simultaneous Banner use.
+- Economy exploit pass.
+- Population pass.
+- Random attack pass.
+- Content log pass.
+
+Acceptance Criteria:
+- [ ] Player can develop normal Villagers.
+- [ ] Librarian unlocks Warchief items.
+- [ ] Villager can become Soldier.
+- [ ] Soldier ownership is multiplayer-safe.
+- [ ] Banner commands owned Soldiers.
+- [ ] Mercenary can be recruited.
+- [ ] Weapons and armor modify units.
+- [ ] Expanded trades reduce mandatory grinding.
+- [ ] Population can grow through infrastructure.
+- [ ] Random attacks create recurring military pressure.
+- [ ] Content log is clean enough for release.
+
+---
+
+# 4. Definition of MVP
+
+The minimum playable Warchief experience is achieved when:
+
+1. Player can develop normal Villagers.
+2. Librarian can sell or unlock Military Token and command item.
+3. Player can convert a Villager into Villager Soldier.
+4. Player can claim Soldier with a weapon.
+5. Soldier ownership is multiplayer-safe.
+6. Banner or selected command item causes owned Soldiers to follow.
+7. Banner removal leaves Soldiers near their position.
+8. Mercenary can be recruited and follows owner.
+9. Weapons and armor modify units.
+10. Expanded Villager trades reduce mandatory grinding.
+11. Population can grow through village infrastructure.
+12. Random Pillager attacks create recurring military pressure.
+
+World-generation density improvements are desirable but should not block the first playable MVP if Bedrock worldgen requires additional research.
+
+---
+
+# 5. Coding-Agent Rules
+
+Codex must:
+
+- Read all design documents before coding.
+- Avoid redefining core gameplay without explicit approval.
+- Prefer larger but still testable phases over many tiny phases.
+- Keep each phase checkpoint-driven.
+- Keep configurable values centralized.
+- Use clear names.
+- Add comments only where useful.
+- Avoid hard-coding player names.
+- Avoid world-wide per-tick scans.
+- Preserve multiplayer ownership.
+- Preserve vanilla Raid mechanics.
+- Preserve normal Minecraft survival.
+- Restore vanilla entity behavior after prototype overrides unless the user explicitly chooses otherwise.
+
+When uncertain about a technical limitation:
+- Investigate.
+- Prototype.
+- Document.
+- Do not invent a silent workaround that changes the gameplay requirement.
