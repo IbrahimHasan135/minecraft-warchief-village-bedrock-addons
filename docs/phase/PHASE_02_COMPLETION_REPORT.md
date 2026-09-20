@@ -575,3 +575,91 @@ Use a fresh Villager Soldier.
 
 If Mercenary behavior changes, treat that as a regression because this patch did
 not intentionally modify Wolf.
+
+
+---
+
+## 2026-09-20 — Soldier Chest Replacement + Held Sword Visual Pass
+
+This pass targets only the two remaining Villager Soldier issues:
+
+```text
+1. Chestplate upgrade transaction could roll back with:
+   "<Chestplate> tidak dikonsumsi; equipment dikembalikan."
+
+2. Soldier weapon gameplay state worked, but held sword was not rendered.
+```
+
+### Chestplate transaction fix
+
+The interaction now captures the player's source hotbar slot during
+`playerInteractWithEntity.beforeEvents` before the work is deferred with
+`system.run()`.
+
+The equipment transaction consumes from that captured slot instead of reading
+`player.selectedSlotIndex` again one tick later.
+
+This prevents a timing mismatch where a wearable chestplate or player slot state
+changes between the before-event and the deferred transaction.
+
+A diagnostic is emitted if the captured slot no longer contains the expected
+item.
+
+### Soldier equipment capability
+
+`minecraft:iron_golem` now includes:
+
+```json
+"minecraft:equip_item": {
+  "can_wear_armor": true
+}
+```
+
+No `minecraft:behavior.equip_item` pickup goal was added.
+
+This is intended to give the Soldier the same class of server-side equipment
+capability used by vanilla equipment-bearing mobs without making the Soldier
+actively pick up dropped items.
+
+### Soldier held-item client hook
+
+The Soldier client entity now explicitly runs:
+
+```text
+controller.animation.humanoid.holding
+```
+
+through the `controller_holding` animation mapping.
+
+No geometry, texture, render controller, or Mercenary client configuration was
+changed.
+
+### Runtime validation
+
+Test a fresh Soldier:
+
+```text
+Leather -> Iron Chestplate
+Iron -> Diamond Chestplate
+
+Stone -> Iron Sword
+Iron -> Netherite Sword
+```
+
+Expected chest behavior:
+
+```text
+new chestplate consumed once
+old player-provided chestplate returned exactly once
+visual follows the new chestplate
+```
+
+Expected sword behavior:
+
+```text
+actual weapon tier remains reflected in combat damage
+held sword becomes visible
+visual follows the equipped sword tier
+```
+
+Mercenary behavior must remain unchanged.
