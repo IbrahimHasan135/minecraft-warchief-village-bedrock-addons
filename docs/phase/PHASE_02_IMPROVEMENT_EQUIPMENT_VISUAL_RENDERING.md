@@ -1645,3 +1645,253 @@ The key success criterion is:
 > Equipment must exist as **real equipped ItemStacks** and must be rendered by the **attachable-enabled humanoid client entity**.
 
 Dynamic properties alone do not count as successful equipment rendering.
+
+
+---
+
+# 2026-09-20 — Authoritative Repository Audit Update
+
+> **This section overrides the older full-armor assumptions above.**
+>
+> Phase 02 visible equipment target is now intentionally limited to:
+>
+> ```text
+> Stone Sword
+> Leather Chestplate / Body Armor
+> ```
+>
+> Do **not** require a default helmet, leggings, or boots in Phase 02.
+
+## What the repository audit proved
+
+The current `main` branch already had:
+
+- `enable_attachables: true` on both replacement client entities;
+- Pillager-compatible `rightArm`, `leftArm`, `rightItem`, and `leftItem` bones;
+- real Script API calls to `EntityEquippableComponent.setEquipment(...)`.
+
+Therefore the old explanation that equipment existed only as a dynamic-property
+gameplay state is no longer accurate for the current implementation.
+
+The remaining problem is more specifically the **server-side equipment-slot
+model of the replacement identifiers**:
+
+```text
+minecraft:iron_golem
+minecraft:wolf
+```
+
+Changing their Resource Pack model to a Pillager-like humanoid does not
+automatically guarantee that the server actor supports all humanoid armor slots.
+
+## Important Bedrock slot behavior
+
+Current Bedrock documentation states that the **second**
+`minecraft:equippable` slot is mapped to body armor for modern worlds.
+
+For this reason, the previous Phase 02 assumption:
+
+```text
+slot 0 = mainhand
+slot 1 = head
+slot 2 = chest
+slot 3 = legs
+slot 4 = feet
+```
+
+must not be used.
+
+The Phase 02 prototype now uses only:
+
+```text
+equippable slot 0 → sword
+equippable slot 1 → body armor / chestplate
+```
+
+The Script API side uses:
+
+```ts
+EquipmentSlot.Mainhand
+EquipmentSlot.Body
+```
+
+## Code changes applied to main
+
+### Behavior Pack
+
+Both:
+
+```text
+behavior_pack/entities/iron_golem.json
+behavior_pack/entities/wolf.json
+```
+
+now define only:
+
+- sword equipment;
+- chestplate/body equipment.
+
+A native `minecraft:equipment` component was also added.
+
+Default native loadout:
+
+```text
+minecraft:stone_sword
+minecraft:leather_chestplate
+```
+
+from:
+
+```text
+behavior_pack/loot_tables/entities/warchief_default_loadout.json
+```
+
+Default equipment has 0% native drop chance because Phase 02 player-provided
+equipment is already handled separately by the provenance/death-drop logic.
+
+### Resource Pack
+
+Both client entities explicitly contain:
+
+```json
+"enable_attachables": true,
+"hide_armor": false
+```
+
+The explicit `hide_armor: false` removes ambiguity because Bedrock documents
+that `hide_armor: true` overrides armor rendering even when attachables are
+enabled.
+
+### Script
+
+Phase 02 armor handling now tracks only:
+
+```text
+Leather / Chainmail / Iron / Golden / Diamond / Netherite Chestplate
+```
+
+through:
+
+```ts
+EquipmentSlot.Body
+```
+
+Helmet, leggings, and boots are intentionally outside this Phase 02 visual test.
+
+The runtime debug log now reports:
+
+```text
+Mainhand=...
+Body=...
+```
+
+Equipment assignment now verifies both:
+
+1. the boolean returned by `setEquipment()`;
+2. the item read back from the same slot immediately afterward.
+
+This is important because a rejected slot must not be mistaken for a Resource
+Pack attachable bug.
+
+## Runtime acceptance test
+
+For each replacement unit:
+
+### Fresh spawn
+
+Expected actual slots:
+
+```text
+Mainhand = minecraft:stone_sword
+Body     = minecraft:leather_chestplate
+```
+
+Expected visible result:
+
+```text
+Stone Sword visible in hand
+Leather Chestplate visible on body
+```
+
+### Upgrade test
+
+Give:
+
+```text
+minecraft:iron_sword
+minecraft:iron_chestplate
+```
+
+Expected:
+
+- actual slots change;
+- visual equipment changes;
+- gameplay damage/armor changes;
+- source state becomes `player`;
+- player-provided gear still drops exactly once on death.
+
+## Failure decision tree
+
+### Case A — `setEquipment()` returns false or slot reads back empty
+
+The failure is still **server-side equipment-slot compatibility**.
+
+Do not create custom attachables yet.
+
+Investigate whether the vanilla replacement identifier itself prevents the
+desired slot from being used.
+
+### Case B — slot contains the correct item, but visual remains absent
+
+The Behavior/Script side is proven working.
+
+Only then continue into:
+
+- client attachable compatibility;
+- actor rendering;
+- geometry binding;
+- held-item locator behavior.
+
+### Case C — Mainhand works but Body fails
+
+Keep Stone Sword rendering.
+
+Treat body armor as an actor-slot limitation of the current prototype and
+evaluate moving Phase 02 production entities to:
+
+```text
+warchief:villager_soldier
+warchief:mercenary
+```
+
+instead of continuing to force full production functionality onto
+`minecraft:iron_golem` / `minecraft:wolf`.
+
+## Architecture fallback
+
+If runtime testing proves that the confirmed Mainhand/Body equipment slots still
+cannot render correctly on the vanilla replacement identifiers, do not keep
+adding Resource Pack hacks.
+
+The preferred production fallback is:
+
+```text
+warchief:villager_soldier
+warchief:mercenary
+```
+
+with the current Pillager-compatible visual foundation.
+
+## Official references
+
+- Client Entity — `enable_attachables`, `hide_armor`  
+  https://learn.microsoft.com/en-us/minecraft/creator/reference/content/entityreference/examples/cliententitydocumentation/cliententitydocumentationintroduction?view=minecraft-bedrock-stable
+
+- `minecraft:equippable`  
+  https://learn.microsoft.com/en-us/minecraft/creator/reference/content/entityreference/examples/entitycomponents/minecraftcomponent_equippable?view=minecraft-bedrock-stable
+
+- Entity armor equipment slot mapping  
+  https://learn.microsoft.com/en-us/minecraft/creator/reference/content/entityreference/examples/entitycomponents/minecraftcomponent_entity_armor_equipment_slot_mapping?view=minecraft-bedrock-stable
+
+- Script API `EquipmentSlot`  
+  https://learn.microsoft.com/en-us/minecraft/creator/scriptapi/minecraft/server/equipmentslot?view=minecraft-bedrock-stable
