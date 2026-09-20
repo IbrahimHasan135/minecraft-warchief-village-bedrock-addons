@@ -1,0 +1,59 @@
+{
+  "format_version": 2,
+  "header": {
+    "name": "Warchief Village BP",
+    "description": "Behavior Pack for the Warchief Village Add-On",
+    "uuid": "d2cce88a-4698-4cde-97af-d967ad61e579",
+    "version": [
+      0,
+      1,
+      0
+    ],
+    "min_engine_version": [
+      1,
+      26,
+      40
+    ]
+  },
+  "modules": [
+    {
+      "type": "data",
+      "uuid": "94a42a9a-7e56-466e-831f-c0a31c77ee75",
+      "version": [
+        0,
+        1,
+        0
+      ]
+    },
+    {
+      "type": "script",
+      "language": "javascript",
+      "uuid": "4f897f7d-2c25-45f0-a488-88b747111b46",
+      "version": [
+        0,
+        1,
+        0
+      ],
+      "entry": "scripts/main.js"
+    }
+  ],
+  "dependencies": [
+    {
+      "uuid": "992535e0-3a03-4caf-94bb-b8456b63cc52",
+      "version": [
+        0,
+        1,
+        0
+      ]
+    },
+    {
+      "module_name": "@minecraft/server",
+      "version": "2.9.0"
+    }
+  ],
+  "metadata": {
+    "authors": [
+      "Ibrahim Hasan"
+    ]
+  }
+}

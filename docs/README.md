@@ -15,3 +15,5 @@ Future docs can include:
 - balancing notes
 - test logs
 - release checklist
+
+Detailed phase handoffs live in `phase/`.

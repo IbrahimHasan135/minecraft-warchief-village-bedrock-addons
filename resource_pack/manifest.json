@@ -1,0 +1,34 @@
+{
+  "format_version": 2,
+  "header": {
+    "name": "Warchief Village RP",
+    "description": "Resource Pack for the Warchief Village Add-On",
+    "uuid": "992535e0-3a03-4caf-94bb-b8456b63cc52",
+    "version": [
+      0,
+      1,
+      0
+    ],
+    "min_engine_version": [
+      1,
+      26,
+      40
+    ]
+  },
+  "modules": [
+    {
+      "type": "resources",
+      "uuid": "084c9e9e-aa67-4d10-ae5a-d13d2e2dc446",
+      "version": [
+        0,
+        1,
+        0
+      ]
+    }
+  ],
+  "metadata": {
+    "authors": [
+      "Ibrahim Hasan"
+    ]
+  }
+}

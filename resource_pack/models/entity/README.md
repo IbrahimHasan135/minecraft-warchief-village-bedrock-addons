@@ -5,7 +5,7 @@ Put Blockbench Bedrock entity geometry here.
 Prototype direction:
 
 - Try using vanilla Pillager/Illager-compatible geometry first.
-- If direct vanilla geometry references fail in Bedrock `1.26`, add a local fallback geometry here.
+- If direct vanilla geometry references fail in Bedrock `1.26.40`, add a local fallback geometry here.
 
 Possible local fallback assets:
 

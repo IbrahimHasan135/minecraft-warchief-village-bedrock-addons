@@ -19,7 +19,7 @@ The checklist is divided into:
 
 ## Required
 
-- [x] Minecraft Bedrock target version: `1.26`.
+- [x] Minecraft Bedrock target version: `1.26.40`.
 - [ ] Development platform:
   - Windows Bedrock
   - Android Bedrock
