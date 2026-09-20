@@ -35,7 +35,7 @@ type EquipmentSource = "none" | "default" | "player";
 type SoldierCommandMode = "patrol" | "follow";
 
 type ArmorSlotState = {
-  readonly key: "head" | "chest" | "legs" | "feet";
+  readonly key: "chest";
   readonly equipmentSlot: EquipmentSlot;
   readonly propertyItem: string;
   readonly propertySource: string;
@@ -83,40 +83,16 @@ const ARMOR_POINTS: Record<string, number> = {
 
 const ARMOR_SLOTS: readonly ArmorSlotState[] = [
   {
-    equipmentSlot: EquipmentSlot.Head,
-    key: "head",
-    propertyItem: "warchief:p02_armor_head_item",
-    propertySource: "warchief:p02_armor_head_source",
-    suffixes: ["_helmet", ":turtle_helmet"]
-  },
-  {
-    equipmentSlot: EquipmentSlot.Chest,
+    equipmentSlot: EquipmentSlot.Body,
     key: "chest",
     propertyItem: "warchief:p02_armor_chest_item",
     propertySource: "warchief:p02_armor_chest_source",
     suffixes: ["_chestplate"]
-  },
-  {
-    equipmentSlot: EquipmentSlot.Legs,
-    key: "legs",
-    propertyItem: "warchief:p02_armor_legs_item",
-    propertySource: "warchief:p02_armor_legs_source",
-    suffixes: ["_leggings"]
-  },
-  {
-    equipmentSlot: EquipmentSlot.Feet,
-    key: "feet",
-    propertyItem: "warchief:p02_armor_feet_item",
-    propertySource: "warchief:p02_armor_feet_source",
-    suffixes: ["_boots"]
   }
 ];
 
 const DEFAULT_ARMOR: Record<ArmorSlotState["key"], string> = {
-  head: "minecraft:leather_helmet",
-  chest: "minecraft:leather_chestplate",
-  legs: "minecraft:leather_leggings",
-  feet: "minecraft:leather_boots"
+  chest: "minecraft:leather_chestplate"
 };
 
 export function registerPhase02ReplacementUnits(): void {
@@ -466,7 +442,18 @@ function equipVisual(entity: Entity, slot: EquipmentSlot, itemTypeId: string): b
   }
 
   try {
-    return equippable.setEquipment(slot, new ItemStack(itemTypeId, 1));
+    const accepted = equippable.setEquipment(slot, new ItemStack(itemTypeId, 1));
+    const after = equippable.getEquipment(slot)?.typeId ?? "empty";
+
+    if (!accepted || after !== itemTypeId) {
+      console.warn(
+        `[Warchief Equipment Debug] setEquipment mismatch: entity=${entity.typeId} slot=${String(
+          slot
+        )} requested=${itemTypeId} accepted=${String(accepted)} after=${after}`
+      );
+    }
+
+    return accepted && after === itemTypeId;
   } catch (error) {
     console.warn(`[Warchief Village] Phase 02 visual equip failed for ${entity.typeId}: ${String(error)}`);
     return false;
@@ -493,7 +480,14 @@ function ensureEquipment(entity: Entity, slot: EquipmentSlot, itemTypeId: string
       return;
     }
 
-    equippable.setEquipment(slot, new ItemStack(itemTypeId, 1));
+    const accepted = equippable.setEquipment(slot, new ItemStack(itemTypeId, 1));
+    const after = equippable.getEquipment(slot)?.typeId ?? "empty";
+
+    console.warn(
+      `[Warchief Equipment Debug] ensure: entity=${entity.typeId} slot=${String(
+        slot
+      )} requested=${itemTypeId} accepted=${String(accepted)} after=${after}`
+    );
   } catch (error) {
     console.warn(`[Warchief Village] Phase 02 equipment ensure failed for ${entity.typeId}: ${String(error)}`);
   }
@@ -516,11 +510,7 @@ function logEquipmentSlotsOnce(entity: Entity): void {
     console.warn(
       `[Warchief Equipment Debug] Entity=${getUnitLabel(entity)} Mainhand=${
         equippable.getEquipment(EquipmentSlot.Mainhand)?.typeId ?? "empty"
-      } Head=${equippable.getEquipment(EquipmentSlot.Head)?.typeId ?? "empty"} Chest=${
-        equippable.getEquipment(EquipmentSlot.Chest)?.typeId ?? "empty"
-      } Legs=${equippable.getEquipment(EquipmentSlot.Legs)?.typeId ?? "empty"} Feet=${
-        equippable.getEquipment(EquipmentSlot.Feet)?.typeId ?? "empty"
-      } Attachables=enabled`
+      } Body=${equippable.getEquipment(EquipmentSlot.Body)?.typeId ?? "empty"} Attachables=enabled ArmorHidden=false`
     );
     entity.setDynamicProperty(EQUIPMENT_DEBUG_LOGGED_PROPERTY, true);
   } catch (error) {
