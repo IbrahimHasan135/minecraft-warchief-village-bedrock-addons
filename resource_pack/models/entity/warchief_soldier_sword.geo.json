@@ -43,14 +43,14 @@
           "texture_meshes": [
             {
               "local_pivot": [
-                8,
-                8,
+                3,
+                13,
                 0
               ],
               "position": [
-                -5.5,
-                16,
-                0.5
+                0,
+                0,
+                0
               ],
               "rotation": [
                 90,
@@ -105,14 +105,14 @@
           "texture_meshes": [
             {
               "local_pivot": [
-                8,
-                8,
+                3,
+                13,
                 0
               ],
               "position": [
-                -5.5,
-                16,
-                0.5
+                0,
+                0,
+                0
               ],
               "rotation": [
                 90,
@@ -167,14 +167,14 @@
           "texture_meshes": [
             {
               "local_pivot": [
-                8,
-                8,
+                3,
+                13,
                 0
               ],
               "position": [
-                -5.5,
-                16,
-                0.5
+                0,
+                0,
+                0
               ],
               "rotation": [
                 90,
@@ -229,14 +229,14 @@
           "texture_meshes": [
             {
               "local_pivot": [
-                8,
-                8,
+                3,
+                13,
                 0
               ],
               "position": [
-                -5.5,
-                16,
-                0.5
+                0,
+                0,
+                0
               ],
               "rotation": [
                 90,
@@ -291,14 +291,14 @@
           "texture_meshes": [
             {
               "local_pivot": [
-                8,
-                8,
+                3,
+                13,
                 0
               ],
               "position": [
-                -5.5,
-                16,
-                0.5
+                0,
+                0,
+                0
               ],
               "rotation": [
                 90,
@@ -353,14 +353,14 @@
           "texture_meshes": [
             {
               "local_pivot": [
-                8,
-                8,
+                3,
+                13,
                 0
               ],
               "position": [
-                -5.5,
-                16,
-                0.5
+                0,
+                0,
+                0
               ],
               "rotation": [
                 90,
