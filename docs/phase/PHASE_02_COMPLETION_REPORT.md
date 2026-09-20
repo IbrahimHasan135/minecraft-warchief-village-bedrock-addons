@@ -476,3 +476,102 @@ than dynamic properties only.
 11. Kill the unit and verify only currently saved player-provided gear drops once.
 
 Visual rendering is intentionally not part of this equipment-logic patch.
+
+
+---
+
+## 2026-09-20 — Villager Soldier Native Equipment Bootstrap
+
+This patch is intentionally Soldier-only.
+
+Mercenary/Wolf behavior, client entity, custom geometry, render controller,
+animation controller, and the shared equipment transaction logic were not
+changed.
+
+### Reason
+
+Runtime testing showed:
+
+```text
+Mercenary:
+- sword replacement works
+- chestplate replacement works
+- sword visual follows equipped tier
+- armor visual follows equipped tier
+
+Villager Soldier:
+- sword replacement transaction works
+- sword visual is missing
+- chestplate replacement does not complete reliably
+```
+
+Because both entities use the same custom visual geometry, this points to a
+server-actor equipment-capability difference rather than a geometry problem.
+
+Historically, Villager Soldier successfully rendered a Leather Chestplate when
+its native `minecraft:equipment` table contained both Stone Sword and Leather
+Chestplate.
+
+### Change
+
+A Soldier-specific native loadout was added:
+
+```text
+behavior_pack/loot_tables/entities/warchief_soldier_default_loadout.json
+```
+
+It contains two deterministic pools:
+
+```text
+Stone Sword
+Leather Chestplate
+```
+
+Only `minecraft:iron_golem` now points to this table.
+
+Mercenary continues using the existing shared default loadout and was not
+modified.
+
+The Soldier native equipment component now suppresses default gear drops from:
+
+```text
+slot.weapon.mainhand
+slot.armor.chest
+```
+
+with `drop_chance: 0`.
+
+### Intent
+
+`minecraft:equipment` is used only to bootstrap the Soldier's native equipment
+state at spawn.
+
+Runtime ownership/provenance remains controlled by the Phase 02 Script system.
+
+Player upgrades must still follow the existing transaction:
+
+```text
+default gear
+-> player gear
+-> previous player-provided gear returned exactly once
+```
+
+### Required runtime test
+
+Use a fresh Villager Soldier.
+
+1. Confirm default Stone Sword / Leather Chestplate bootstrap.
+2. Give Iron Sword.
+3. Confirm Stone is not refunded.
+4. Confirm Iron Sword becomes the current weapon.
+5. Give Diamond Sword.
+6. Confirm Iron Sword is returned exactly once.
+7. Give Iron Chestplate.
+8. Confirm Leather is not refunded.
+9. Confirm Iron Chestplate is accepted.
+10. Give Diamond Chestplate.
+11. Confirm Iron Chestplate is returned exactly once.
+12. Confirm sword/chestplate visuals track the actual equipped tier.
+
+If Mercenary behavior changes, treat that as a regression because this patch did
+not intentionally modify Wolf.
