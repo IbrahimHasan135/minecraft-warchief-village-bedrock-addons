@@ -44,7 +44,7 @@
             {
               "local_pivot": [
                 3,
-                13,
+                3,
                 0
               ],
               "position": [
@@ -53,9 +53,9 @@
                 0
               ],
               "rotation": [
-                90,
                 0,
-                -45
+                -135,
+                90
               ],
               "texture": "sword_wood"
             }
@@ -106,7 +106,7 @@
             {
               "local_pivot": [
                 3,
-                13,
+                3,
                 0
               ],
               "position": [
@@ -115,9 +115,9 @@
                 0
               ],
               "rotation": [
-                90,
                 0,
-                -45
+                -135,
+                90
               ],
               "texture": "sword_stone"
             }
@@ -168,7 +168,7 @@
             {
               "local_pivot": [
                 3,
-                13,
+                3,
                 0
               ],
               "position": [
@@ -177,9 +177,9 @@
                 0
               ],
               "rotation": [
-                90,
                 0,
-                -45
+                -135,
+                90
               ],
               "texture": "sword_iron"
             }
@@ -230,7 +230,7 @@
             {
               "local_pivot": [
                 3,
-                13,
+                3,
                 0
               ],
               "position": [
@@ -239,9 +239,9 @@
                 0
               ],
               "rotation": [
-                90,
                 0,
-                -45
+                -135,
+                90
               ],
               "texture": "sword_gold"
             }
@@ -292,7 +292,7 @@
             {
               "local_pivot": [
                 3,
-                13,
+                3,
                 0
               ],
               "position": [
@@ -301,9 +301,9 @@
                 0
               ],
               "rotation": [
-                90,
                 0,
-                -45
+                -135,
+                90
               ],
               "texture": "sword_diamond"
             }
@@ -354,7 +354,7 @@
             {
               "local_pivot": [
                 3,
-                13,
+                3,
                 0
               ],
               "position": [
@@ -363,9 +363,9 @@
                 0
               ],
               "rotation": [
-                90,
                 0,
-                -45
+                -135,
+                90
               ],
               "texture": "sword_netherite"
             }
