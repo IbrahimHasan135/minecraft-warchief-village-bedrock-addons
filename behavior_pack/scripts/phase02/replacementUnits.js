@@ -309,7 +309,6 @@ function getActualEquipmentItem(entity, slot) {
         return undefined;
     }
 }
-
 function feedCustomUnit(player, target, itemTypeId) {
     const health = target.getComponent(EntityComponentTypes.Health);
     if (!health) {
@@ -461,7 +460,6 @@ function getCommandSlotName(slot) {
             return undefined;
     }
 }
-
 function logEquipmentSlotsOnce(entity) {
     if (entity.getDynamicProperty(EQUIPMENT_DEBUG_LOGGED_PROPERTY) === true) {
         return;
