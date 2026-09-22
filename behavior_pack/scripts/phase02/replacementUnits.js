@@ -1,5 +1,5 @@
 import { EntityComponentTypes, EntityDamageCause, EquipmentSlot, ItemComponentTypes, ItemStack, system, world } from "@minecraft/server";
-import { BOW_WEAPON, isBowWeapon, syncSoldierCombatRole } from "../phase03_5/archerBow";
+import { BOW_WEAPON, isBowWeapon, syncUnitCombatRole } from "../phase03_5/archerBow";
 const VILLAGER_SOLDIER = "minecraft:iron_golem";
 const MERCENARY = "minecraft:wolf";
 const REPLACED_TYPES = new Set([VILLAGER_SOLDIER, MERCENARY]);
@@ -118,7 +118,7 @@ export function registerPhase02ReplacementUnits() {
             return;
         }
         const weaponType = getStringProperty(attacker, WEAPON_ITEM_PROPERTY) ?? DEFAULT_WEAPON;
-        if (attacker.typeId === VILLAGER_SOLDIER && isBowWeapon(weaponType)) {
+        if (isBowWeapon(weaponType)) {
             return;
         }
         if (attacker.typeId === VILLAGER_SOLDIER) {
@@ -203,9 +203,7 @@ function initializeCustomUnit(entity) {
     }
     ensureEquipment(entity, EquipmentSlot.Mainhand, weapon, weaponSource);
     syncSoldierWeaponVisual(entity, weapon);
-    if (entity.typeId === VILLAGER_SOLDIER) {
-        syncSoldierCombatRole(entity, weapon);
-    }
+    syncUnitCombatRole(entity, weapon);
     for (const armorSlot of ARMOR_SLOTS) {
         if (entity.typeId === VILLAGER_SOLDIER) {
             const soldierArmor = "minecraft:iron_chestplate";
@@ -299,9 +297,9 @@ function replaceUnitEquipment(player, target, itemTypeId, config, sourceSlotInde
     }
     target.setDynamicProperty(config.savedItemProperty, itemTypeId);
     target.setDynamicProperty(config.sourceProperty, PLAYER_EQUIPMENT_SOURCE);
-    if (target.typeId === VILLAGER_SOLDIER && config.slot === EquipmentSlot.Mainhand) {
+    if (config.slot === EquipmentSlot.Mainhand) {
         syncSoldierWeaponVisual(target, itemTypeId);
-        syncSoldierCombatRole(target, itemTypeId);
+        syncUnitCombatRole(target, itemTypeId);
     }
     const stateText = applied.verified
         ? `${config.label}: ${applied.actual ?? itemTypeId}`
@@ -507,7 +505,7 @@ function isValidWeaponForUnit(target, itemTypeId) {
     if (itemTypeId in SWORD_DAMAGE) {
         return true;
     }
-    return target.typeId === VILLAGER_SOLDIER && isBowWeapon(itemTypeId);
+    return REPLACED_TYPES.has(target.typeId) && isBowWeapon(itemTypeId);
 }
 function getArmorSlot(itemTypeId) {
     return ARMOR_SLOTS.find((slot) => slot.suffixes.some((suffix) => itemTypeId.endsWith(suffix)));
