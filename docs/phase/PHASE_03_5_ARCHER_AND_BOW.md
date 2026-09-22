@@ -225,3 +225,41 @@ A player-provided Bow follows the same provenance rules as player-provided sword
 - siege weapons;
 - cavalry;
 - Librarian economy integration.
+
+## 15. Current Execution Status
+
+Phase 03.5 has been implemented in the repository and requires runtime verification in Minecraft Bedrock before the phase is marked complete.
+
+Implemented:
+
+- Bow is accepted as a Villager Soldier main-hand weapon.
+- Bow uses the existing owner-only equipment transaction.
+- Bow participates in player-provided weapon refund and death-drop provenance.
+- Soldier weapon state remains the source of truth for combat role.
+- Sword restores melee role.
+- Bow activates ranged role.
+- Melee and ranged AI are isolated in separate component groups.
+- Ranged role uses the native minecraft:arrow projectile through minecraft:shooter.
+- Bow damage is excluded from the Phase 02 sword damage-normalization path.
+- Bow is added to the client-synced weapon visual enum.
+- A vanilla-style texture-mesh Bow visual prototype is included.
+- PATROL/FOLLOW, ownership, armor policy, and Phase 03 command systems are reused unchanged.
+- Pack/package version is 0.3.5.
+
+Runtime verification still required:
+
+- [ ] Bow can be given to a recruited Soldier in-game.
+- [ ] Bow is consumed exactly once.
+- [ ] Previous player-provided Sword is refunded exactly once.
+- [ ] Soldier switches from melee to ranged AI.
+- [ ] Soldier fires minecraft:arrow projectiles at valid hostile targets.
+- [ ] Soldier does not continue performing melee attacks while Bow is active.
+- [ ] Bow can be replaced with a Sword and melee AI returns.
+- [ ] Bow visual position/orientation is acceptable on the current Soldier model.
+- [ ] PATROL works while ranged.
+- [ ] FOLLOW/Banner command works while ranged.
+- [ ] Save/reload restores Bow and ranged role.
+- [ ] Player-provided Bow drops exactly once on death.
+- [ ] Non-owner cannot change the Soldier Bow/Sword state.
+
+The Bow visual is intentionally treated as a first-pass prototype. Its geometry uses the vanilla Bow texture-mesh approach, but position/orientation may still require runtime tuning against the custom Soldier hand bone.
