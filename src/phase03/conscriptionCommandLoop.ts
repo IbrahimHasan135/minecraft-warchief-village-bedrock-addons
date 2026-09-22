@@ -17,6 +17,8 @@ const PATROL_ANCHOR_PROPERTY = "warchief:p02_patrol_anchor";
 const BANNER_COMMAND_PROPERTY = "warchief:p03_banner_commanded";
 const BANNER_COMMAND_RADIUS = 48;
 const BANNER_COMMAND_INTERVAL_TICKS = 10;
+const bannerActivePlayers = new Set<string>();
+const bannerStateInitializedPlayers = new Set<string>();
 
 type SoldierCommandMode = "patrol" | "follow";
 
@@ -35,6 +37,11 @@ export function registerPhase03ConscriptionCommandLoop(): void {
   });
 
   system.runInterval(updateBannerCommands, BANNER_COMMAND_INTERVAL_TICKS);
+
+  world.afterEvents.playerLeave.subscribe((event) => {
+    bannerActivePlayers.delete(event.playerId);
+    bannerStateInitializedPlayers.delete(event.playerId);
+  });
 
   system.run(() => {
     console.warn("[Warchief Village] Phase 03 conscription and banner command loop loaded.");
@@ -101,12 +108,22 @@ function updateBannerCommands(): void {
       continue;
     }
 
-    if (isHoldingVanillaBanner(player)) {
+    const isHoldingBanner = isHoldingVanillaBanner(player);
+
+    if (isHoldingBanner) {
+      bannerStateInitializedPlayers.add(player.id);
+      bannerActivePlayers.add(player.id);
       commandOwnedSoldiersToFollow(player);
       continue;
     }
 
-    releaseBannerCommandedSoldiers(player);
+    const needsInitialCleanup = !bannerStateInitializedPlayers.has(player.id);
+    const wasBannerActive = bannerActivePlayers.delete(player.id);
+    bannerStateInitializedPlayers.add(player.id);
+
+    if (needsInitialCleanup || wasBannerActive) {
+      releaseBannerCommandedSoldiers(player);
+    }
   }
 }
 
