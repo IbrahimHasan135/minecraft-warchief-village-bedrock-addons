@@ -10,7 +10,8 @@
             "Texture.sword_iron",
             "Texture.sword_gold",
             "Texture.sword_diamond",
-            "Texture.sword_netherite"
+            "Texture.sword_netherite",
+            "Texture.bow"
           ]
         },
         "geometries": {
@@ -20,7 +21,8 @@
             "Geometry.sword_iron",
             "Geometry.sword_gold",
             "Geometry.sword_diamond",
-            "Geometry.sword_netherite"
+            "Geometry.sword_netherite",
+            "Geometry.bow"
           ]
         }
       },
