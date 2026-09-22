@@ -709,7 +709,15 @@ function isFood(item: ItemStack): boolean {
   }
 }
 
-function isValidWeaponForUnit(target: Entity, itemTypeId: string): boolean {\n  if (itemTypeId in SWORD_DAMAGE) {\n    return true;\n  }\n\n  return target.typeId === VILLAGER_SOLDIER && isBowWeapon(itemTypeId);\n}\n\nfunction getArmorSlot(itemTypeId: string): ArmorSlotState | undefined {
+function isValidWeaponForUnit(target: Entity, itemTypeId: string): boolean {
+  if (itemTypeId in SWORD_DAMAGE) {
+    return true;
+  }
+
+  return target.typeId === VILLAGER_SOLDIER && isBowWeapon(itemTypeId);
+}
+
+function getArmorSlot(itemTypeId: string): ArmorSlotState | undefined {
   return ARMOR_SLOTS.find((slot) => slot.suffixes.some((suffix) => itemTypeId.endsWith(suffix)));
 }
 
