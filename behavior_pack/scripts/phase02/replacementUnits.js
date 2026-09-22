@@ -116,13 +116,16 @@ export function registerPhase02ReplacementUnits() {
         if (!attacker || !REPLACED_TYPES.has(attacker.typeId) || !isRecruited(attacker)) {
             return;
         }
+        const weaponType = getStringProperty(attacker, WEAPON_ITEM_PROPERTY) ?? DEFAULT_WEAPON;
+        if (attacker.typeId === VILLAGER_SOLDIER && isBowWeapon(weaponType)) {
+            return;
+        }
         if (attacker.typeId === VILLAGER_SOLDIER) {
             suppressSoldierLaunch(hurtEntity);
         }
         if (damageNormalizationBypass.has(attacker.id)) {
             return;
         }
-        const weaponType = getStringProperty(attacker, WEAPON_ITEM_PROPERTY) ?? DEFAULT_WEAPON;
         const desiredDamage = SWORD_DAMAGE[weaponType] ?? SWORD_DAMAGE[DEFAULT_WEAPON];
         if (event.damage === desiredDamage) {
             return;
@@ -199,6 +202,9 @@ function initializeCustomUnit(entity) {
     }
     ensureEquipment(entity, EquipmentSlot.Mainhand, weapon, weaponSource);
     syncSoldierWeaponVisual(entity, weapon);
+    if (entity.typeId === VILLAGER_SOLDIER) {
+        syncSoldierCombatRole(entity, weapon);
+    }
     for (const armorSlot of ARMOR_SLOTS) {
         if (entity.typeId === VILLAGER_SOLDIER) {
             const soldierArmor = "minecraft:iron_chestplate";
@@ -294,6 +300,7 @@ function replaceUnitEquipment(player, target, itemTypeId, config, sourceSlotInde
     target.setDynamicProperty(config.sourceProperty, PLAYER_EQUIPMENT_SOURCE);
     if (target.typeId === VILLAGER_SOLDIER && config.slot === EquipmentSlot.Mainhand) {
         syncSoldierWeaponVisual(target, itemTypeId);
+        syncSoldierCombatRole(target, itemTypeId);
     }
     const stateText = applied.verified
         ? `${config.label}: ${applied.actual ?? itemTypeId}`
@@ -379,7 +386,8 @@ function syncSoldierWeaponVisual(entity, itemTypeId) {
         "minecraft:iron_sword": "warchief:set_weapon_visual_iron",
         "minecraft:golden_sword": "warchief:set_weapon_visual_gold",
         "minecraft:diamond_sword": "warchief:set_weapon_visual_diamond",
-        "minecraft:netherite_sword": "warchief:set_weapon_visual_netherite"
+        "minecraft:netherite_sword": "warchief:set_weapon_visual_netherite",
+        [BOW_WEAPON]: "warchief:set_weapon_visual_bow"
     };
     triggerEntityEvent(entity, eventByWeapon[itemTypeId] ?? "warchief:set_weapon_visual_stone");
 }
