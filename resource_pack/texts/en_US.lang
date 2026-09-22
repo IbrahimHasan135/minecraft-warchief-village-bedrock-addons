@@ -6,3 +6,4 @@ item.spawn_egg.entity.minecraft:iron_golem.name=Spawn Villager Soldier
 item.spawn_egg.entity.minecraft:wolf.name=Spawn Mercenary
 item.spawn_egg.entity.iron_golem.name=Spawn Villager Soldier
 item.spawn_egg.entity.wolf.name=Spawn Mercenary
+item.warchief:military_token.name=Conscription Writ
