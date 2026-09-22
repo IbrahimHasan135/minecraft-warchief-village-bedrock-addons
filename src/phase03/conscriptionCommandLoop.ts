@@ -8,7 +8,7 @@ import {
   world
 } from "@minecraft/server";
 
-const VILLAGER = "minecraft:villager";
+const VILLAGER_TYPES = new Set(["minecraft:villager", "minecraft:villager_v2"]);
 const VILLAGER_SOLDIER = "minecraft:iron_golem";
 const CONSCRIPTION_WRIT = "warchief:military_token";
 const OWNER_PROPERTY = "warchief:p02_owner_id";
@@ -24,7 +24,7 @@ export function registerPhase03ConscriptionCommandLoop(): void {
   world.beforeEvents.playerInteractWithEntity.subscribe((event) => {
     const item = event.itemStack;
 
-    if (item?.typeId !== CONSCRIPTION_WRIT || event.target.typeId !== VILLAGER) {
+    if (item?.typeId !== CONSCRIPTION_WRIT || !isVillagerType(event.target.typeId)) {
       return;
     }
 
@@ -46,7 +46,7 @@ function conscriptVillager(player: Player, villager: Entity, sourceSlotIndex: nu
     return;
   }
 
-  if (villager.typeId !== VILLAGER) {
+  if (!isVillagerType(villager.typeId)) {
     notify(player, "Conscription Writ hanya bisa dipakai ke adult Villager.");
     return;
   }
@@ -85,7 +85,11 @@ function conscriptVillager(player: Player, villager: Entity, sourceSlotIndex: nu
   try {
     villager.remove();
   } catch (error) {
+    safeRemove(soldier);
+    restoreItemToSlot(player, CONSCRIPTION_WRIT, sourceSlotIndex);
+    notify(player, "Conversion dibatalkan karena Villager gagal dihapus; Conscription Writ dikembalikan.");
     console.warn(`[Warchief Village] Phase 03 villager remove failed: ${String(error)}`);
+    return;
   }
 
   notify(player, "Villager menjadi Villager Soldier. Beri 1 Emerald untuk merekrut.");
@@ -124,7 +128,7 @@ function commandOwnedSoldiersToFollow(player: Player): void {
 }
 
 function releaseBannerCommandedSoldiers(player: Player): void {
-  for (const soldier of getNearbyOwnedSoldiers(player)) {
+  for (const soldier of getOwnedSoldiersInCurrentDimension(player)) {
     if (!isValidOwnedSoldier(soldier, player)) {
       continue;
     }
@@ -153,6 +157,17 @@ function getNearbyOwnedSoldiers(player: Player): Entity[] {
   }
 }
 
+function getOwnedSoldiersInCurrentDimension(player: Player): Entity[] {
+  try {
+    return player.dimension.getEntities({
+      type: VILLAGER_SOLDIER
+    });
+  } catch (error) {
+    console.warn(`[Warchief Village] Phase 03 release query failed: ${String(error)}`);
+    return [];
+  }
+}
+
 function isValidOwnedSoldier(soldier: Entity, player: Player): boolean {
   return soldier.isValid && soldier.typeId === VILLAGER_SOLDIER && isOwnedBy(soldier, player);
 }
@@ -170,6 +185,10 @@ function isHoldingVanillaBanner(player: Player): boolean {
 function getSelectedItem(player: Player): ItemStack | undefined {
   const inventory = player.getComponent(EntityComponentTypes.Inventory) as EntityInventoryComponent | undefined;
   return inventory?.container?.getItem(player.selectedSlotIndex);
+}
+
+function isVillagerType(typeId: string): boolean {
+  return VILLAGER_TYPES.has(typeId);
 }
 
 function isBaby(entity: Entity): boolean {
@@ -209,6 +228,35 @@ function consumeItemFromSlot(player: Player, expectedTypeId: string, slotIndex: 
   updated.amount = item.amount - 1;
   container.setItem(slotIndex, updated);
   return true;
+}
+
+function restoreItemToSlot(player: Player, itemTypeId: string, slotIndex: number): void {
+  const inventory = player.getComponent(EntityComponentTypes.Inventory) as EntityInventoryComponent | undefined;
+  const container = inventory?.container;
+
+  if (!container) {
+    return;
+  }
+
+  const current = container.getItem(slotIndex);
+
+  if (!current) {
+    container.setItem(slotIndex, new ItemStack(itemTypeId, 1));
+    return;
+  }
+
+  if (current.typeId === itemTypeId && current.amount < current.maxAmount) {
+    const updated = current.clone();
+    updated.amount += 1;
+    container.setItem(slotIndex, updated);
+    return;
+  }
+
+  try {
+    player.dimension.spawnItem(new ItemStack(itemTypeId, 1), player.location);
+  } catch (error) {
+    console.warn(`[Warchief Village] Phase 03 Conscription Writ refund failed: ${String(error)}`);
+  }
 }
 
 function isOwnedBy(entity: Entity, player: Player): boolean {
