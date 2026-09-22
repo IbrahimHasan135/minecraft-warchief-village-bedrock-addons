@@ -1,4 +1,4 @@
-import { EntityComponentTypes, EntityDamageCause, EquipmentSlot, ItemComponentTypes, ItemStack, system, world } from "@minecraft/server";
+import { EntityComponentTypes, EntityDamageCause, EquipmentSlot, ItemComponentTypes, ItemStack, system, world } from "@minecraft/server";\nimport { BOW_WEAPON, isBowWeapon, syncSoldierCombatRole } from "../phase03_5/archerBow";
 const VILLAGER_SOLDIER = "minecraft:iron_golem";
 const MERCENARY = "minecraft:wolf";
 const REPLACED_TYPES = new Set([VILLAGER_SOLDIER, MERCENARY]);
@@ -79,7 +79,7 @@ export function registerPhase02ReplacementUnits() {
             system.run(() => recruitCustomUnit(event.player, target));
             return;
         }
-        if (item && item.typeId in SWORD_DAMAGE) {
+        if (item && isValidWeaponForUnit(target, item.typeId)) {
             event.cancel = true;
             const sourceSlotIndex = event.player.selectedSlotIndex;
             system.run(() => equipWeapon(event.player, target, item.typeId, sourceSlotIndex));
@@ -494,7 +494,7 @@ function isFood(item) {
         return false;
     }
 }
-function getArmorSlot(itemTypeId) {
+function isValidWeaponForUnit(target, itemTypeId) {\n    if (itemTypeId in SWORD_DAMAGE) {\n        return true;\n    }\n    return target.typeId === VILLAGER_SOLDIER && isBowWeapon(itemTypeId);\n}\nfunction getArmorSlot(itemTypeId) {
     return ARMOR_SLOTS.find((slot) => slot.suffixes.some((suffix) => itemTypeId.endsWith(suffix)));
 }
 function consumeSelectedItem(player, expectedTypeId, sourceSlotIndex) {
