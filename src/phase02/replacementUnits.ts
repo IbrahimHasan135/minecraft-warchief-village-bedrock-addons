@@ -133,7 +133,7 @@ export function registerPhase02ReplacementUnits(): void {
       return;
     }
 
-    if (item && item.typeId in SWORD_DAMAGE) {
+    if (item && isValidWeaponForUnit(target, item.typeId)) {
       event.cancel = true;
       const sourceSlotIndex = event.player.selectedSlotIndex;
       system.run(() => equipWeapon(event.player, target, item.typeId, sourceSlotIndex));
@@ -696,7 +696,7 @@ function isFood(item: ItemStack): boolean {
   }
 }
 
-function getArmorSlot(itemTypeId: string): ArmorSlotState | undefined {
+function isValidWeaponForUnit(target: Entity, itemTypeId: string): boolean {\n  if (itemTypeId in SWORD_DAMAGE) {\n    return true;\n  }\n\n  return target.typeId === VILLAGER_SOLDIER && isBowWeapon(itemTypeId);\n}\n\nfunction getArmorSlot(itemTypeId: string): ArmorSlotState | undefined {
   return ARMOR_SLOTS.find((slot) => slot.suffixes.some((suffix) => itemTypeId.endsWith(suffix)));
 }
 
