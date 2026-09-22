@@ -14,7 +14,8 @@
             "iron",
             "gold",
             "diamond",
-            "netherite"
+            "netherite",
+            "bow"
           ],
           "default": "stone",
           "client_sync": true
@@ -46,11 +47,6 @@
         },
         "look_distance": 6,
         "priority": 7
-      },
-      "minecraft:behavior.melee_attack": {
-        "speed_multiplier": 1,
-        "track_target": true,
-        "priority": 1
       },
       "minecraft:behavior.move_through_village": {
         "only_at_night": true,
@@ -200,7 +196,8 @@
               "iron_sword",
               "golden_sword",
               "diamond_sword",
-              "netherite_sword"
+              "netherite_sword",
+              "bow"
             ]
           }
         ]
@@ -512,6 +509,30 @@
           "update_interval_base": 60,
           "update_interval_variant": 40
         }
+      },
+      "warchief:combat_melee": {
+        "minecraft:behavior.melee_attack": {
+          "speed_multiplier": 1,
+          "track_target": true,
+          "priority": 1
+        }
+      },
+      "warchief:combat_ranged": {
+        "minecraft:behavior.ranged_attack": {
+          "attack_interval": {
+            "min": 2,
+            "max": 2.5
+          },
+          "attack_range": {
+            "min": 3,
+            "max": 15
+          },
+          "priority": 1
+        },
+        "minecraft:shooter": {
+          "def": "minecraft:arrow",
+          "sound": "bow"
+        }
       }
     },
     "events": {
@@ -589,6 +610,35 @@
       "warchief:set_weapon_visual_netherite": {
         "set_property": {
           "warchief:weapon_visual": "netherite"
+        }
+      },
+      "warchief:set_combat_melee": {
+        "add": {
+          "component_groups": [
+            "warchief:combat_melee"
+          ]
+        },
+        "remove": {
+          "component_groups": [
+            "warchief:combat_ranged"
+          ]
+        }
+      },
+      "warchief:set_combat_ranged": {
+        "add": {
+          "component_groups": [
+            "warchief:combat_ranged"
+          ]
+        },
+        "remove": {
+          "component_groups": [
+            "warchief:combat_melee"
+          ]
+        }
+      },
+      "warchief:set_weapon_visual_bow": {
+        "set_property": {
+          "warchief:weapon_visual": "bow"
         }
       }
     }
