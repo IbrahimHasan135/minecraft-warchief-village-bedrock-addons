@@ -263,3 +263,28 @@ Runtime verification still required:
 - [ ] Non-owner cannot change the Soldier Bow/Sword state.
 
 The Bow visual is intentionally treated as a first-pass prototype. Its geometry uses the vanilla Bow texture-mesh approach, but position/orientation may still require runtime tuning against the custom Soldier hand bone.
+
+### Mercenary Ranged Extension
+
+Phase 03.5 also supports Bow equipment on recruited Mercenaries.
+
+Rules:
+
+- Mercenary may use Sword or Bow.
+- Sword keeps the existing Mercenary combat behavior.
+- Bow adds the ranged combat component group with native Arrow shooter.
+- Switching back to Sword removes the ranged component group and restores the existing Mercenary combat path.
+- Ownership, follow/sit behavior, flexible armor, refund provenance, death-drop provenance, and save/reload weapon state remain shared with the existing Mercenary system.
+- Mercenary uses the native Bow attachable; no custom Bow overlay is added.
+
+Runtime checks:
+
+- [ ] Recruited Mercenary accepts Bow.
+- [ ] Previous player-provided Sword is refunded exactly once.
+- [ ] Mercenary fires Arrow projectiles at valid targets.
+- [ ] Follow-owner still works while Bow is equipped.
+- [ ] Sit/stay still works while Bow is equipped.
+- [ ] Bow can be replaced by Sword and ranged mode is removed.
+- [ ] Bow state survives save/reload.
+- [ ] Non-owner cannot replace Mercenary Bow/Sword.
+
