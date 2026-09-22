@@ -1,4 +1,4 @@
-import { BOW_WEAPON, isBowWeapon, syncSoldierCombatRole } from "../phase03_5/archerBow";
+import { BOW_WEAPON, isBowWeapon, syncUnitCombatRole } from "../phase03_5/archerBow";
 
 import {
   Entity,
@@ -187,7 +187,7 @@ export function registerPhase02ReplacementUnits(): void {
 
     const weaponType = getStringProperty(attacker, WEAPON_ITEM_PROPERTY) ?? DEFAULT_WEAPON;
 
-    if (attacker.typeId === VILLAGER_SOLDIER && isBowWeapon(weaponType)) {
+    if (isBowWeapon(weaponType)) {
       return;
     }
 
@@ -293,9 +293,7 @@ function initializeCustomUnit(entity: Entity): void {
   ensureEquipment(entity, EquipmentSlot.Mainhand, weapon, weaponSource);
   syncSoldierWeaponVisual(entity, weapon);
 
-  if (entity.typeId === VILLAGER_SOLDIER) {
-    syncSoldierCombatRole(entity, weapon);
-  }
+  syncUnitCombatRole(entity, weapon);
 
   for (const armorSlot of ARMOR_SLOTS) {
     if (entity.typeId === VILLAGER_SOLDIER) {
@@ -426,9 +424,9 @@ function replaceUnitEquipment(
   target.setDynamicProperty(config.savedItemProperty, itemTypeId);
   target.setDynamicProperty(config.sourceProperty, PLAYER_EQUIPMENT_SOURCE);
 
-  if (target.typeId === VILLAGER_SOLDIER && config.slot === EquipmentSlot.Mainhand) {
+  if (config.slot === EquipmentSlot.Mainhand) {
     syncSoldierWeaponVisual(target, itemTypeId);
-    syncSoldierCombatRole(target, itemTypeId);
+    syncUnitCombatRole(target, itemTypeId);
   }
 
   const stateText = applied.verified
@@ -714,7 +712,7 @@ function isValidWeaponForUnit(target: Entity, itemTypeId: string): boolean {
     return true;
   }
 
-  return target.typeId === VILLAGER_SOLDIER && isBowWeapon(itemTypeId);
+  return REPLACED_TYPES.has(target.typeId) && isBowWeapon(itemTypeId);
 }
 
 function getArmorSlot(itemTypeId: string): ArmorSlotState | undefined {
