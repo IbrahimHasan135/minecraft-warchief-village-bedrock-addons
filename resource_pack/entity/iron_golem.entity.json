@@ -14,7 +14,8 @@
         "sword_iron": "textures/items/iron_sword",
         "sword_gold": "textures/items/gold_sword",
         "sword_diamond": "textures/items/diamond_sword",
-        "sword_netherite": "textures/items/netherite_sword"
+        "sword_netherite": "textures/items/netherite_sword",
+        "bow": "textures/items/bow_standby"
       },
       "geometry": {
         "default": "geometry.warchief.humanoid",
@@ -23,7 +24,8 @@
         "sword_iron": "geometry.warchief.soldier_sword_iron",
         "sword_gold": "geometry.warchief.soldier_sword_gold",
         "sword_diamond": "geometry.warchief.soldier_sword_diamond",
-        "sword_netherite": "geometry.warchief.soldier_sword_netherite"
+        "sword_netherite": "geometry.warchief.soldier_sword_netherite",
+        "bow": "geometry.warchief.soldier_bow"
       },
       "spawn_egg": {
         "base_color": "#5d6b36",
@@ -35,7 +37,7 @@
           "variable.riding_y_offset_with_respect_to_player = 1.25;",
           "variable.riding_y_offset_on_vehicle_where_other_entites_can_stand = query.is_riding_any_entity_of_type('minecraft:minecart', 'minecraft:boat', 'minecraft:chest_boat') ? -3.0 : 0.0;",
           "variable.riding_y_offset = variable.riding_y_offset_with_respect_to_player + variable.riding_y_offset_on_vehicle_where_other_entites_can_stand;",
-          "v.warchief_sword_index = (query.property('warchief:weapon_visual') == 'wood') ? 0 : ((query.property('warchief:weapon_visual') == 'stone') ? 1 : ((query.property('warchief:weapon_visual') == 'iron') ? 2 : ((query.property('warchief:weapon_visual') == 'gold') ? 3 : ((query.property('warchief:weapon_visual') == 'diamond') ? 4 : 5))));"
+          "v.warchief_sword_index = (query.property('warchief:weapon_visual') == 'wood') ? 0 : ((query.property('warchief:weapon_visual') == 'stone') ? 1 : ((query.property('warchief:weapon_visual') == 'iron') ? 2 : ((query.property('warchief:weapon_visual') == 'gold') ? 3 : ((query.property('warchief:weapon_visual') == 'diamond') ? 4 : ((query.property('warchief:weapon_visual') == 'netherite') ? 5 : 6)))));"
         ],
         "animate": [
           "pillager_root_controller",
