@@ -224,3 +224,42 @@ Conscription itself grants no ownership, so an unowned conscripted Soldier can s
 - formations or squad UI.
 
 Bow/Archer is specified separately in Phase 03.5.
+
+## 12. Current Implementation Notes
+
+The executed Phase 03 implementation currently treats both of these vanilla
+Villager identifiers as valid conscription targets:
+
+    minecraft:villager
+    minecraft:villager_v2
+
+This is required because Bedrock content may expose either Villager actor path
+depending on the runtime/content path being used.
+
+For command UX, a normal vanilla Banner is accepted as the Phase 03 command
+item. A separate custom Command Banner is no longer required for Phase 03.
+
+This preserves normal Banner visuals and pattern customization and avoids
+blocking Phase 03 on custom Banner-pattern compatibility.
+
+The direct owned-Soldier right-click command remains available as a fallback:
+
+    PATROL <-> FOLLOW
+
+Banner FOLLOW continues to use the configured nearby command radius. When the
+Banner command is released, previously Banner-commanded Soldiers owned by that
+player in the current dimension are returned to PATROL and receive a new anchor.
+
+The release scan should occur on Banner state transition/initial cleanup rather
+than as a full-dimension query every command interval.
+
+Conversion rollback policy:
+
+- if Soldier spawn fails, do not consume the Writ;
+- if Writ consumption fails, remove the newly spawned Soldier;
+- if removal of the original Villager fails after Writ consumption, remove the
+  replacement Soldier and return one Conscription Writ to the player when
+  possible.
+
+These rules are intended to avoid duplicate Villager/Soldier states and lost
+Conscription Writs during failed conversions.
