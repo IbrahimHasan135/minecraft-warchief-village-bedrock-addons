@@ -1,4 +1,5 @@
-import { EntityComponentTypes, EntityDamageCause, EquipmentSlot, ItemComponentTypes, ItemStack, system, world } from "@minecraft/server";\nimport { BOW_WEAPON, isBowWeapon, syncSoldierCombatRole } from "../phase03_5/archerBow";
+import { EntityComponentTypes, EntityDamageCause, EquipmentSlot, ItemComponentTypes, ItemStack, system, world } from "@minecraft/server";
+import { BOW_WEAPON, isBowWeapon, syncSoldierCombatRole } from "../phase03_5/archerBow";
 const VILLAGER_SOLDIER = "minecraft:iron_golem";
 const MERCENARY = "minecraft:wolf";
 const REPLACED_TYPES = new Set([VILLAGER_SOLDIER, MERCENARY]);
@@ -502,7 +503,13 @@ function isFood(item) {
         return false;
     }
 }
-function isValidWeaponForUnit(target, itemTypeId) {\n    if (itemTypeId in SWORD_DAMAGE) {\n        return true;\n    }\n    return target.typeId === VILLAGER_SOLDIER && isBowWeapon(itemTypeId);\n}\nfunction getArmorSlot(itemTypeId) {
+function isValidWeaponForUnit(target, itemTypeId) {
+    if (itemTypeId in SWORD_DAMAGE) {
+        return true;
+    }
+    return target.typeId === VILLAGER_SOLDIER && isBowWeapon(itemTypeId);
+}
+function getArmorSlot(itemTypeId) {
     return ARMOR_SLOTS.find((slot) => slot.suffixes.some((suffix) => itemTypeId.endsWith(suffix)));
 }
 function consumeSelectedItem(player, expectedTypeId, sourceSlotIndex) {
