@@ -2,8 +2,8 @@ export const BOW_WEAPON = "minecraft:bow";
 export function isBowWeapon(itemTypeId) {
     return itemTypeId === BOW_WEAPON;
 }
-export function syncSoldierCombatRole(entity, itemTypeId) {
-    if (!entity.isValid || entity.typeId !== "minecraft:iron_golem") {
+export function syncUnitCombatRole(entity, itemTypeId) {
+    if (!entity.isValid || !["minecraft:iron_golem", "minecraft:wolf"].includes(entity.typeId)) {
         return;
     }
     const eventName = isBowWeapon(itemTypeId)
