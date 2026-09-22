@@ -529,6 +529,18 @@
         "minecraft:variant": {
           "value": 8
         }
+      },
+      "warchief:combat_ranged": {
+        "minecraft:behavior.ranged_attack": {
+          "attack_interval_max": 1,
+          "attack_interval_min": 1,
+          "attack_radius": 12,
+          "priority": 0
+        },
+        "minecraft:shooter": {
+          "def": "minecraft:arrow",
+          "sound": "bow"
+        }
       }
     },
     "components": {
@@ -566,7 +578,8 @@
               "iron_sword",
               "golden_sword",
               "diamond_sword",
-              "netherite_sword"
+              "netherite_sword",
+              "bow"
             ]
           }
         ]
@@ -1365,6 +1378,20 @@
             }
           }
         ]
+      },
+      "warchief:set_combat_ranged": {
+        "add": {
+          "component_groups": [
+            "warchief:combat_ranged"
+          ]
+        }
+      },
+      "warchief:set_combat_melee": {
+        "remove": {
+          "component_groups": [
+            "warchief:combat_ranged"
+          ]
+        }
       }
     }
   }
