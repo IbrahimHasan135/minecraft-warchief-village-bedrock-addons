@@ -6,8 +6,8 @@ export function isBowWeapon(itemTypeId: string): boolean {
   return itemTypeId === BOW_WEAPON;
 }
 
-export function syncSoldierCombatRole(entity: Entity, itemTypeId: string): void {
-  if (!entity.isValid || entity.typeId !== "minecraft:iron_golem") {
+export function syncUnitCombatRole(entity: Entity, itemTypeId: string): void {
+  if (!entity.isValid || !["minecraft:iron_golem", "minecraft:wolf"].includes(entity.typeId)) {
     return;
   }
 
