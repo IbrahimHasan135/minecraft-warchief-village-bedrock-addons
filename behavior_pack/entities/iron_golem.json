@@ -56,11 +56,6 @@
       "minecraft:behavior.move_towards_dwelling_restriction": {
         "priority": 4
       },
-      "minecraft:behavior.move_towards_target": {
-        "priority": 2,
-        "speed_multiplier": 0.9,
-        "within_radius": 32
-      },
       "minecraft:behavior.nearest_attackable_target": {
         "must_reach": true,
         "must_see": true,
@@ -515,18 +510,18 @@
           "speed_multiplier": 1,
           "track_target": true,
           "priority": 1
+        },
+        "minecraft:behavior.move_towards_target": {
+          "priority": 2,
+          "speed_multiplier": 0.9,
+          "within_radius": 32
         }
       },
       "warchief:combat_ranged": {
         "minecraft:behavior.ranged_attack": {
-          "attack_interval": {
-            "min": 2,
-            "max": 2.5
-          },
-          "attack_range": {
-            "min": 3,
-            "max": 15
-          },
+          "attack_interval_max": 1,
+          "attack_interval_min": 1,
+          "attack_radius": 12,
           "priority": 1
         },
         "minecraft:shooter": {
