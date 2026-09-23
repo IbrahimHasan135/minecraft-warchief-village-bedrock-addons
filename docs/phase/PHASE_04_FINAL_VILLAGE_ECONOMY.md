@@ -1315,98 +1315,124 @@ Mining, farming, exploring, and crafting manually must remain valid alternatives
 
 ---
 
-# 31. Phase 04 Implementation Sequence
+# 31. Phase 04 Execution Structure
 
-## Phase 04A — Vanilla Trade Snapshot
+Phase 04 should be implemented as **one complete economy phase**.
 
-- obtain current Bedrock trade tables;
-- document current profession levels and pools;
-- identify exact override filenames/schema.
+It does not need to be split into many mini-phases.
 
-## Phase 04B — Core Emerald Income
+The work should be organized internally into only **three checkpoints** so implementation and testing remain manageable without fragmenting the project.
 
-Implement expanded buy-from-player trades for:
+## Checkpoint A — Core Economy and Trade Foundation
+
+Implement the full seven-profession economy structure:
 
 - Farmer;
 - Fletcher;
 - Mason;
 - Toolsmith;
-- Librarian where appropriate.
+- Weaponsmith;
+- Armorer;
+- Librarian.
 
-Checkpoint:
+This checkpoint includes both directions of trade:
 
-> Player can specialize in farming, forestry, quarrying, mining, or academic goods and generate Emeralds.
+    Player goods
+    → Villager
+    → Emerald income
 
-## Phase 04C — Resource Supply
+and:
 
-Add player purchases:
+    Emeralds
+    → Villager
+    → Resources / equipment
+
+Required coverage at this checkpoint:
 
 - food;
+- seeds;
 - wood;
-- stone;
+- stone and construction blocks;
 - Coal;
 - Copper;
 - Iron;
 - Gold;
 - Redstone;
 - Lapis;
-- Diamond;
-- construction resources.
+- basic tools;
+- basic weapons;
+- Bow / Arrows;
+- basic armor.
 
-Checkpoint:
+The goal is to prove that specialization already works before adding rare late-game goods.
 
-> Emerald income can be converted into resources from other professions.
+Checkpoint A is complete when:
 
-## Phase 04D — Equipment Economy
+> A player can focus on farming, forestry, quarrying, mining, or another supported production path and use Emeralds to obtain major resources from other professions.
 
-Expand:
+## Checkpoint B — Warchief and High-Tier Progression
 
-- Toolsmith;
-- Weaponsmith;
-- Armorer;
-- Fletcher.
+Add the progression-sensitive economy:
 
-Checkpoint:
+- Conscription Writ from Librarian;
+- optional normal Banner convenience trade;
+- Diamond resources;
+- Diamond tools;
+- Diamond weapons;
+- Diamond armor;
+- expensive Netherite-related access.
 
-> Player can economically supply infantry, archers, Mercenaries, and personal equipment.
+This checkpoint must preserve progression:
 
-## Phase 04E — Librarian Warchief Unlock
+    Novice
+    → Apprentice
+    → Journeyman
+    → Expert
+    → Master
 
-Add:
+Recommended:
 
-    Conscription Writ
+- Conscription Writ around Journeyman;
+- Diamond access around Expert;
+- Netherite-related access at Master only.
 
-at the final chosen progression tier.
+Checkpoint B is complete when:
 
-Confirm normal Banner remains the command item.
+> A mature Village can fund Warchief military growth and eventually provide late-game equipment without making high-tier progression trivial.
 
-Checkpoint:
+## Checkpoint C — Economy Validation and Balance
 
-> Warchief military progression can be reached completely through normal survival Village development.
+Run the entire economy as one connected network.
 
-## Phase 04F — High-Tier Economy
+Validate:
 
-Add controlled:
+- profession identity;
+- trade restocking;
+- guaranteed core trades;
+- random/variant trade pools;
+- buy/sell price spread;
+- cross-profession loops;
+- renewable-resource Emerald income;
+- Diamond throughput;
+- Netherite throughput;
+- save/reload trade persistence;
+- compatibility with Soldier and Mercenary equipment systems.
 
-- Diamond supply;
-- premium equipment;
-- Netherite-related trade.
+The most important test is:
 
-Checkpoint:
+    Can the player reasonably specialize in one field
+    without being forced to perform every other resource activity?
 
-> High-tier materials are obtainable but expensive and stock-limited.
+Also test the opposite problem:
 
-## Phase 04G — Anti-Arbitrage and Balance
+    Does trading become so powerful
+    that normal Minecraft progression becomes meaningless?
 
-Test:
+Checkpoint C is complete when:
 
-- profession-to-profession buy/sell loops;
-- repeated restocks;
-- discounted trades;
-- bulk renewable-resource Emerald generation;
-- Diamond/Netherite acquisition rate.
+> The economy supports specialization without producing obvious infinite Emerald loops or trivializing high-tier resources.
 
----
+After Checkpoint C passes, Phase 04 is complete.
 
 # 32. Phase 04 Checkpoint
 
