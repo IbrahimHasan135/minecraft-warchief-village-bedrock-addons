@@ -541,6 +541,15 @@
           "def": "minecraft:arrow",
           "sound": "bow"
         }
+      },
+      "warchief:combat_melee": {
+        "minecraft:behavior.leap_at_target": {
+          "priority": 4,
+          "yd": 0.4
+        },
+        "minecraft:behavior.melee_box_attack": {
+          "priority": 5
+        }
       }
     },
     "components": {
@@ -797,13 +806,6 @@
       },
       "minecraft:behavior.hurt_by_target": {
         "priority": 3
-      },
-      "minecraft:behavior.leap_at_target": {
-        "priority": 4,
-        "yd": 0.4
-      },
-      "minecraft:behavior.melee_box_attack": {
-        "priority": 5
       },
       "minecraft:behavior.look_at_player": {
         "priority": 6,
@@ -1384,9 +1386,19 @@
           "component_groups": [
             "warchief:combat_ranged"
           ]
+        },
+        "remove": {
+          "component_groups": [
+            "warchief:combat_melee"
+          ]
         }
       },
       "warchief:set_combat_melee": {
+        "add": {
+          "component_groups": [
+            "warchief:combat_melee"
+          ]
+        },
         "remove": {
           "component_groups": [
             "warchief:combat_ranged"
