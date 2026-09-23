@@ -116,180 +116,64 @@ They are simply outside the required expanded economy scope for Phase 04.
 
 # 5. Catalog Variant System
 
-A **catalog variant is not a new profession**.
-
-Example:
-
-    Farmer
-    ├── Crop-focused trade pool
-    └── Provision-focused trade pool
-
-Both Villagers are still normal vanilla Farmers.
-
-The difference is only which optional trades are selected from the Farmer trade table.
-
-Recommended conceptual variants:
-
-| Vanilla Profession | Variant A | Variant B |
-|---|---|---|
-| Farmer | Crop Farmer | Provision Farmer |
-| Fletcher | Forester | Archer Supplier |
-| Mason | Stone Supplier | Decorative Builder |
-| Toolsmith | Mining Supplier | Tool Specialist |
-| Weaponsmith | Weapon Supplier | — |
-| Armorer | Armor Supplier | — |
-| Librarian | Warchief / Knowledge Supplier | — |
-
-Total:
+Phase 04 uses:
 
     7 vanilla professions
-    11 conceptual catalog variants
+    ×
+    4 conceptual catalog variants
+    =
+    28 possible economic identities
 
-The variants are intended to be implemented through trade-pool selection/randomization inside the normal profession trade tables.
+No custom Villager profession is required.
 
-They should **not** become 11 separate custom Villager professions.
+The four variants per profession are:
 
-## 5.1 How Variants Should Work
+| Vanilla Profession | Economy | Standard | Premium | Elite |
+|---|---|---|---|---|
+| Farmer | Crop Farmer | Provisioner | Livestock Supplier | Specialty Grower |
+| Fletcher | Forester | Archer Supplier | Hunter Supplier | Exotic Forester |
+| Mason | Quarry Supplier | Structural Builder | Decorative Mason | Luxury Mason |
+| Toolsmith | Mining Supplier | Industrial Supplier | Tool Specialist | Precious Materials Broker |
+| Weaponsmith | Militia Supplier | Infantry Smith | Specialist Arms Smith | Elite Weaponsmith |
+| Armorer | Militia Armorer | Iron Quartermaster | Heavy Armorer | Elite Armorer |
+| Librarian | Scholar | Warchief Administrator | Enchantment Specialist | Explorer / Utility Librarian |
 
-Each profession has two layers:
+Variant is expressed through the Villager's trade catalog, not a separate profession identifier.
 
-    Guaranteed Core Trades
-    +
-    Optional Variant Trades
+The Novice catalog must expose the identity before the first trade.
 
-Example Farmer:
+Before first trade:
 
-    Every Farmer:
-    - can buy at least one staple crop;
-    - can sell staple food.
+    inspect
+    → keep or reroll workstation
 
-    Crop-focused Farmer may additionally:
-    - buy more crop types;
-    - sell seeds;
-    - sell planting materials.
+After first trade:
 
-    Provision-focused Farmer may additionally:
-    - sell cooked/prepared food;
-    - sell larger food bundles.
+    catalog committed
+    → profession/trade identity remains locked
 
-This means the player does not need one specific named subtype just to access the basic economy.
+Economic caste is also visible from early pricing:
 
-## 5.2 Variant Goals
+    Economy
+    → cheapest basic throughput
 
-Variants exist to provide:
+    Standard
+    → balanced
 
-- trade variety;
-- replayability;
-- different useful Villagers within the same profession;
-- broader catalogs without creating profession bloat.
+    Premium
+    → specialized and more expensive
 
-Variants must **not** create economy deadlocks.
+    Elite
+    → intentionally poor early value, strongest late-game specialization
 
-Critical resources should be available through guaranteed core progression.
+This price asymmetry is intentional.
 
-Examples:
+It encourages the player to keep inexpensive practical Villagers early, then expand population later to support Premium and Elite catalogs.
 
-- staple food should not depend on finding the correct Farmer variant;
-- Iron access should not depend on finding the exact Toolsmith variant;
-- Conscription Writ should not depend on a rare Librarian roll.
+Detailed catalog, price, level, stock, and variant definitions are maintained in:
 
-## 5.3 Final Variant Definitions
-
-### Farmer
-
-**Crop Farmer**
-- crop buy orders;
-- seeds;
-- crop bundles;
-- planting resources.
-
-**Provision Farmer**
-- Bread;
-- prepared food;
-- larger food bundles;
-- population-support supplies.
-
-### Fletcher
-
-**Forester**
-- Logs;
-- Planks;
-- Sticks;
-- Saplings;
-- forestry-focused buy/sell trades.
-
-**Archer Supplier**
-- Bow;
-- Arrows;
-- Flint;
-- Feathers;
-- String;
-- ranged military logistics.
-
-### Mason
-
-**Stone Supplier**
-- Cobblestone;
-- Stone;
-- Stone Bricks;
-- Deepslate;
-- bulk construction material.
-
-**Decorative Builder**
-- Granite;
-- Diorite;
-- Andesite;
-- Bricks;
-- Terracotta;
-- Quartz-related building materials.
-
-### Toolsmith
-
-**Mining Supplier**
-- Coal;
-- Copper;
-- Iron;
-- Gold;
-- Redstone;
-- Lapis;
-- Diamond;
-- very high-tier Netherite-related access.
-
-**Tool Specialist**
-- Pickaxe;
-- Axe;
-- Shovel;
-- Hoe;
-- progressively better tool tiers.
-
-### Weaponsmith
-
-**Weapon Supplier**
-- Sword progression;
-- offensive military equipment;
-- high-tier weapon access.
-
-One variant is enough because weapon tier already provides progression.
-
-### Armorer
-
-**Armor Supplier**
-- basic armor;
-- Iron armor;
-- Diamond armor;
-- very high-tier Netherite-related armor.
-
-One variant is enough because armor tier already provides progression.
-
-### Librarian
-
-**Warchief / Knowledge Supplier**
-- normal book/library identity;
-- Conscription Writ;
-- optional normal Banner convenience trade;
-- future administrative utility.
-
-One variant is enough because this profession already has a unique strategic role.
+    docs/phase/PHASE_04A_CORE_ECONOMY_CATALOGS.md
+    docs/phase/PHASE_04B_WARCHIEF_HIGH_TIER_BALANCE.md
 
 # 6. Guaranteed Trades vs Random Trades
 
@@ -1470,125 +1354,45 @@ Mining, farming, exploring, and crafting manually must remain valid alternatives
 
 # 31. Phase 04 Execution Structure
 
-Phase 04 is implemented as **one complete phase with only two checkpoints**.
+Phase 04 remains one economy phase with two checkpoints:
 
-The checkpoints are implementation/testing boundaries, not separate project phases.
+## Phase 04A — Core Economy
 
-## Checkpoint A — Complete Core Economy
+Detailed design:
 
-Implement the full seven-profession economy:
+    docs/phase/PHASE_04A_CORE_ECONOMY_CATALOGS.md
 
-- Farmer;
-- Fletcher;
-- Mason;
-- Toolsmith;
-- Weaponsmith;
-- Armorer;
-- Librarian.
+Scope:
 
-This checkpoint includes:
+- seven vanilla professions;
+- four catalog variants per profession;
+- 28 economic identities;
+- Novice → Journeyman;
+- Emerald income;
+- normal resource purchases;
+- economic caste differentiation;
+- stock/restock targets;
+- pre-trade reroll and post-trade commitment.
 
-### Emerald Income
+## Phase 04B — Warchief and High-Tier Economy
 
-Player can sell goods from multiple specialization paths:
+Detailed design:
 
-- farming;
-- forestry;
-- quarrying/building;
-- mining;
-- paper/library-related production.
+    docs/phase/PHASE_04B_WARCHIEF_HIGH_TIER_BALANCE.md
 
-### Resource Purchases
+Scope:
 
-Player can spend Emeralds on:
+- Expert → Master;
+- Diamond;
+- Netherite-related access;
+- Conscription Writ;
+- Warchief logistics;
+- final pricing;
+- final stock;
+- anti-arbitrage;
+- final economy validation.
 
-- food;
-- seeds;
-- wood;
-- stone;
-- construction materials;
-- Coal;
-- Copper;
-- Iron;
-- Gold;
-- Redstone;
-- Lapis;
-- tools;
-- weapons;
-- Bow / Arrows;
-- armor.
-
-### Profession Variants
-
-Implement the conceptual trade-pool variants:
-
-- Crop Farmer / Provision Farmer;
-- Forester / Archer Supplier;
-- Stone Supplier / Decorative Builder;
-- Mining Supplier / Tool Specialist.
-
-Weaponsmith, Armorer, and Librarian use one primary catalog each.
-
-### Core Progression
-
-Retain:
-
-    Novice
-    → Apprentice
-    → Journeyman
-    → Expert
-    → Master
-
-Checkpoint A is complete when:
-
-> A player can specialize in one productive field, reliably earn Emeralds, and buy most normal resources and equipment from other developed Villager professions.
-
----
-
-## Checkpoint B — Warchief, High-Tier Economy, and Final Validation
-
-Complete the strategic and late-game layer.
-
-Implement:
-
-- Conscription Writ through Librarian;
-- normal Banner remains the Soldier command item;
-- optional Banner convenience trade;
-- Diamond resource access;
-- Diamond tools;
-- Diamond weapons;
-- Diamond armor;
-- expensive Netherite-related access.
-
-Then validate the economy as one connected system:
-
-- trade restocking;
-- guaranteed core trades;
-- variant trade pools;
-- price spread;
-- cross-profession arbitrage;
-- renewable-resource Emerald generation;
-- Diamond throughput;
-- Netherite throughput;
-- save/reload;
-- Soldier equipment compatibility;
-- Mercenary equipment compatibility.
-
-The two central validation questions are:
-
-    Can a player specialize in one field
-    without being forced to personally gather every other resource?
-
-and:
-
-    Is normal Minecraft progression still meaningful
-    even after the Village economy becomes powerful?
-
-Checkpoint B is complete when:
-
-> The Village supports specialization, Warchief progression, and high-tier logistics without obvious infinite Emerald loops or trivial access to late-game resources.
-
-After Checkpoint B passes, Phase 04 is complete.
+These are checkpoints inside Phase 04, not separate major project phases.
 
 # 32. Phase 04 Checkpoint
 
