@@ -1,0 +1,1181 @@
+# Phase 04A — Core Village Economy, Catalog Variants, and Early Pricing
+
+## 1. Goal
+
+Phase 04A builds the complete early-to-mid-game Village economy.
+
+The player should be able to:
+
+- specialize in one productive activity;
+- sell its output for Emeralds;
+- use Emeralds to obtain resources from other Villager professions;
+- recognize useful Villager catalog variants before committing to the first trade;
+- expand Village population because additional Villagers provide additional economic specialization.
+
+Phase 04A covers:
+
+- Novice;
+- Apprentice;
+- Journeyman;
+- all seven core vanilla professions;
+- four catalog variants per profession;
+- entry-price differentiation between variants;
+- guaranteed core trades;
+- optional variant trades;
+- stock/restock targets;
+- pre-trade reroll and post-trade commitment rules.
+
+Expert and Master late-game goods are finalized in Phase 04B.
+
+---
+
+# 2. Core Rule — 7 Vanilla Professions, 28 Catalog Identities
+
+Phase 04A uses seven existing vanilla Villager professions:
+
+1. Farmer
+2. Fletcher
+3. Mason
+4. Toolsmith
+5. Weaponsmith
+6. Armorer
+7. Librarian
+
+No new custom profession identifier is required.
+
+Each profession has four conceptual catalog variants:
+
+    7 professions
+    ×
+    4 catalog variants
+    =
+    28 possible economic identities
+
+A catalog variant is not a new profession.
+
+Example:
+
+    Toolsmith
+    ├── Mining Supplier
+    ├── Industrial Supplier
+    ├── Tool Specialist
+    └── Precious Materials Broker
+
+All four are still vanilla Toolsmiths.
+
+---
+
+# 3. Villager Commitment Rule
+
+The design intentionally preserves the familiar vanilla selection loop.
+
+Before the Villager has ever traded:
+
+    place workstation
+    → Villager takes profession
+    → inspect Novice trades
+    → keep or reject
+    → break workstation if rejected
+    → reroll
+
+After the first successful trade:
+
+    catalog is considered committed
+    → profession/trade identity should remain locked
+    → breaking workstation must not be treated as a normal reroll method
+
+Phase 04 must not fight this commitment model.
+
+Instead, the design must make the catalog identity readable before the player trades.
+
+---
+
+# 4. Signature Novice Trade
+
+Every catalog variant must expose at least one recognizable Novice trade.
+
+The player should be able to open the trade UI and identify the variant immediately.
+
+Example:
+
+    Toolsmith A
+    1 Emerald → 16 Coal
+    = Mining Supplier
+
+    Toolsmith C
+    5 Emerald → Stone Pickaxe
+    = Tool Specialist
+
+The exact UI does not need a custom label if the trade itself clearly communicates the role.
+
+The player should never need to level a Villager to Expert before learning what catalog it actually has.
+
+---
+
+# 5. Economic Caste System
+
+Variants also have an economic caste.
+
+The caste determines how attractive that Villager is in the early game.
+
+| Caste | Meaning | Novice Pricing Philosophy |
+|---|---|---|
+| Economy | Bulk/basic supplier | cheap, high-stock, low-margin |
+| Standard | balanced general supplier | moderate price and stock |
+| Premium | specialized convenience | noticeably more expensive |
+| Elite | future/high-value specialization | intentionally inefficient at Novice |
+
+The purpose is not to make Elite automatically better.
+
+The purpose is:
+
+    early game
+    → Economy / Standard Villagers are attractive
+
+    developed Village
+    → Premium / Elite Villagers become worth keeping
+
+This encourages population expansion instead of immediately locking one "best profession" Villager.
+
+---
+
+# 6. Price Notation
+
+Tables use these conventions:
+
+    20 Wheat → 1E
+    means player gives 20 Wheat and receives 1 Emerald.
+
+    1E → 16 Cobblestone
+    means player pays 1 Emerald and receives 16 Cobblestone.
+
+    6E → Iron Pickaxe
+    means player pays 6 Emeralds for one Iron Pickaxe.
+
+Prices are **initial balance targets**, not immutable final numbers.
+
+The first implementation should use these values closely enough to test the economy, then Phase 04B may adjust them after anti-arbitrage testing.
+
+Stock notation:
+
+- High: 12–16 uses before restock
+- Medium: 6–10 uses
+- Low: 2–5 uses
+- Very Low: 1–2 uses
+
+---
+
+# 7. Farmer — Four Variants
+
+## Farmer A — Crop Farmer
+
+Caste: **Economy**
+
+Identity:
+- easiest agricultural Emerald income;
+- cheap seeds/crops;
+- high-volume crop loop.
+
+### Novice
+
+Player sells:
+
+| Trade | Stock |
+|---|---:|
+| 20 Wheat → 1E | High |
+| 22 Carrot → 1E | High |
+
+Player buys:
+
+| Trade | Stock |
+|---|---:|
+| 1E → 8 Wheat Seeds | High |
+| 1E → 6 Carrot | High |
+
+### Apprentice
+
+| Trade | Stock |
+|---|---:|
+| 18 Potato → 1E | High |
+| 1E → 8 Beetroot Seeds | Medium |
+| 1E → 6 Potato | High |
+
+### Journeyman
+
+| Trade | Stock |
+|---|---:|
+| 8 Pumpkin → 1E | Medium |
+| 8 Melon → 1E | Medium |
+| 2E → 16 mixed crop bundle | Medium |
+
+Role:
+- strongest early Farmer for pure crop economy.
+
+---
+
+## Farmer B — Provisioner
+
+Caste: **Standard**
+
+Identity:
+- prepared food;
+- village population support;
+- convenient logistics.
+
+### Novice
+
+| Trade | Stock |
+|---|---:|
+| 24 Wheat → 1E | High |
+| 1E → 6 Bread | High |
+
+### Apprentice
+
+| Trade | Stock |
+|---|---:|
+| 1E → 5 Baked Potato | Medium |
+| 2E → 8 Bread | Medium |
+| 20 Beetroot → 1E | Medium |
+
+### Journeyman
+
+| Trade | Stock |
+|---|---:|
+| 3E → 8 cooked-food bundle | Medium |
+| 3E → 4 Golden Carrot | Low |
+
+Role:
+- less efficient for raw Emerald farming than Crop Farmer;
+- better for logistics and army food.
+
+---
+
+## Farmer C — Livestock Supplier
+
+Caste: **Premium**
+
+Identity:
+- animal-oriented food and farm support;
+- deliberately less attractive at Novice.
+
+### Novice
+
+| Trade | Stock |
+|---|---:|
+| 18 Egg → 1E | Medium |
+| 3E → 4 raw meat bundle | Medium |
+
+### Apprentice
+
+| Trade | Stock |
+|---|---:|
+| 14 Leather → 1E | Medium |
+| 3E → 4 Cooked Chicken | Medium |
+
+### Journeyman
+
+| Trade | Stock |
+|---|---:|
+| 4E → 6 cooked meat bundle | Medium |
+| 2E → 8 animal feed crop bundle | Medium |
+
+Role:
+- useful for players with ranches;
+- not intended to dominate early-game food economics.
+
+---
+
+## Farmer D — Specialty Grower
+
+Caste: **Elite**
+
+Identity:
+- specialty crops;
+- niche agricultural convenience;
+- expensive early pricing.
+
+### Novice
+
+| Trade | Stock |
+|---|---:|
+| 10 Pumpkin → 1E | Medium |
+| 3E → 4 Pumpkin Seeds | Low |
+
+### Apprentice
+
+| Trade | Stock |
+|---|---:|
+| 12 Melon → 1E | Medium |
+| 3E → 4 Melon Seeds | Low |
+
+### Journeyman
+
+| Trade | Stock |
+|---|---:|
+| 16 Beetroot → 1E | Medium |
+| 4E → 4 Golden Carrot | Low |
+
+Role:
+- intentionally not the first Farmer most players should choose;
+- becomes valuable when the Village is large enough to support specialty agriculture.
+
+---
+
+# 8. Fletcher — Four Variants
+
+## Fletcher A — Forester
+
+Caste: **Economy**
+
+### Novice
+
+| Trade | Stock |
+|---|---:|
+| 32 Sticks → 1E | High |
+| 1E → 8 Oak Logs | High |
+
+### Apprentice
+
+| Trade | Stock |
+|---|---:|
+| 12 Logs → 1E | High |
+| 1E → 16 Planks | High |
+
+### Journeyman
+
+| Trade | Stock |
+|---|---:|
+| 2E → 4 common Saplings | Medium |
+| 2E → 12 mixed Logs | Medium |
+
+Role:
+- forestry Emerald engine;
+- cheap wood supplier.
+
+---
+
+## Fletcher B — Archer Supplier
+
+Caste: **Standard**
+
+### Novice
+
+| Trade | Stock |
+|---|---:|
+| 26 Flint → 1E | Medium |
+| 1E → 16 Arrows | High |
+
+### Apprentice
+
+| Trade | Stock |
+|---|---:|
+| 20 Feathers → 1E | Medium |
+| 2E → 32 Arrows | Medium |
+
+### Journeyman
+
+| Trade | Stock |
+|---|---:|
+| 4E → Bow | Medium |
+| 3E → 16 Flint/Feather ranged bundle | Medium |
+
+Role:
+- direct Phase 03.5 Archer/Mercenary ranged logistics.
+
+---
+
+## Fletcher C — Hunter Supplier
+
+Caste: **Premium**
+
+### Novice
+
+| Trade | Stock |
+|---|---:|
+| 18 String → 1E | Medium |
+| 3E → 8 Arrows | Medium |
+
+### Apprentice
+
+| Trade | Stock |
+|---|---:|
+| 12 Feathers → 1E | Medium |
+| 4E → Bow | Low |
+
+### Journeyman
+
+| Trade | Stock |
+|---|---:|
+| 4E → 16 Arrow bundle | Medium |
+| 5E → Bow + Arrow logistics value equivalent | Low |
+
+Role:
+- more expensive than Archer Supplier;
+- specialized convenience rather than bulk economy.
+
+---
+
+## Fletcher D — Exotic Forester
+
+Caste: **Elite**
+
+### Novice
+
+| Trade | Stock |
+|---|---:|
+| 40 Sticks → 1E | Medium |
+| 3E → 4 uncommon Logs | Low |
+
+### Apprentice
+
+| Trade | Stock |
+|---|---:|
+| 3E → 4 uncommon Saplings | Low |
+| 3E → 8 uncommon Planks | Medium |
+
+### Journeyman
+
+| Trade | Stock |
+|---|---:|
+| 5E → 8 mixed rare wood bundle | Low |
+| 4E → 4 uncommon Saplings | Low |
+
+Role:
+- convenience for builders;
+- intentionally weak as a pure Emerald generator.
+
+---
+
+# 9. Mason — Four Variants
+
+Mason is one of the clearest examples of economic caste differentiation.
+
+## Mason A — Quarry Supplier
+
+Caste: **Economy**
+
+### Novice
+
+| Trade | Stock |
+|---|---:|
+| 24 Cobblestone → 1E | High |
+| 1E → 16 Cobblestone | High |
+
+### Apprentice
+
+| Trade | Stock |
+|---|---:|
+| 20 Stone → 1E | High |
+| 1E → 12 Stone | High |
+
+### Journeyman
+
+| Trade | Stock |
+|---|---:|
+| 2E → 16 Cobbled Deepslate | Medium |
+| 2E → 12 Stone Bricks | Medium |
+
+Role:
+- cheap bulk construction;
+- strong early Builder economy.
+
+---
+
+## Mason B — Structural Builder
+
+Caste: **Standard**
+
+### Novice
+
+| Trade | Stock |
+|---|---:|
+| 28 Stone → 1E | High |
+| 2E → 12 Stone Bricks | Medium |
+
+### Apprentice
+
+| Trade | Stock |
+|---|---:|
+| 3E → 16 Deepslate | Medium |
+| 2E → 12 Bricks | Medium |
+
+### Journeyman
+
+| Trade | Stock |
+|---|---:|
+| 3E → 16 polished structural block | Medium |
+| 3E → 16 building block bundle | Medium |
+
+Role:
+- less cheap than Quarry Supplier;
+- better prepared construction materials.
+
+---
+
+## Mason C — Decorative Mason
+
+Caste: **Premium**
+
+### Novice
+
+| Trade | Stock |
+|---|---:|
+| 32 Granite/Diorite/Andesite → 1E | Medium |
+| 3E → 8 polished decorative stone | Medium |
+
+### Apprentice
+
+| Trade | Stock |
+|---|---:|
+| 3E → 8 Bricks | Medium |
+| 4E → 8 Terracotta | Medium |
+
+### Journeyman
+
+| Trade | Stock |
+|---|---:|
+| 5E → 8 glazed/decorative block bundle | Low |
+| 4E → 12 polished stone mix | Medium |
+
+Role:
+- expensive convenience;
+- attractive after basic construction economy exists.
+
+---
+
+## Mason D — Luxury Mason
+
+Caste: **Elite**
+
+### Novice
+
+| Trade | Stock |
+|---|---:|
+| 40 Stone-class blocks → 1E | Low |
+| 5E → 8 premium decorative blocks | Low |
+
+### Apprentice
+
+| Trade | Stock |
+|---|---:|
+| 6E → 8 Quartz-related blocks | Low |
+| 5E → 8 premium Terracotta/brick mix | Low |
+
+### Journeyman
+
+| Trade | Stock |
+|---|---:|
+| 8E → 12 Quartz building bundle | Low |
+| 7E → 8 luxury decorative bundle | Low |
+
+Role:
+- deliberately poor early value;
+- gives developed Villages access to expensive aesthetic resources.
+
+This is the desired caste effect:
+
+    early player
+    → likely chooses Quarry Supplier
+
+    wealthy builder / mature Village
+    → keeps Luxury Mason too
+
+---
+
+# 10. Toolsmith — Four Variants
+
+## Toolsmith A — Mining Supplier
+
+Caste: **Economy**
+
+This is intentionally the cheapest early Toolsmith.
+
+### Novice
+
+| Trade | Stock |
+|---|---:|
+| 18 Coal → 1E | High |
+| 1E → 12 Coal | High |
+| 2E → 8 Copper Ingots | Medium |
+
+### Apprentice
+
+| Trade | Stock |
+|---|---:|
+| 12 Copper Ingots → 1E | Medium |
+| 3E → 4 Iron Ingots | Medium |
+
+### Journeyman
+
+| Trade | Stock |
+|---|---:|
+| 4E → 8 Redstone | Medium |
+| 4E → 6 Lapis Lazuli | Medium |
+| 5E → 4 Gold Ingots | Low |
+
+Role:
+- best early resource supplier;
+- does not provide premium tools cheaply.
+
+---
+
+## Toolsmith B — Industrial Supplier
+
+Caste: **Standard**
+
+### Novice
+
+| Trade | Stock |
+|---|---:|
+| 22 Coal → 1E | High |
+| 2E → 8 Copper Ingots | Medium |
+
+### Apprentice
+
+| Trade | Stock |
+|---|---:|
+| 4E → 4 Iron Ingots | Medium |
+| 4E → 8 Redstone | Medium |
+
+### Journeyman
+
+| Trade | Stock |
+|---|---:|
+| 5E → 4 Gold Ingots | Low |
+| 5E → 8 Lapis Lazuli | Medium |
+| 4E → utility mining bundle | Medium |
+
+Role:
+- balanced metal/utility access;
+- slightly more expensive than Mining Supplier.
+
+---
+
+## Toolsmith C — Tool Specialist
+
+Caste: **Premium**
+
+The high Novice price is intentional.
+
+The player should not automatically choose Tool Specialist as the only Toolsmith at the beginning.
+
+### Novice
+
+| Trade | Stock |
+|---|---:|
+| 24 Coal → 1E | Medium |
+| 5E → Stone Pickaxe | Medium |
+| 5E → Stone Axe | Medium |
+
+### Apprentice
+
+| Trade | Stock |
+|---|---:|
+| 8E → Iron Pickaxe | Low |
+| 7E → Iron Axe | Low |
+| 6E → Iron Shovel | Low |
+
+### Journeyman
+
+| Trade | Stock |
+|---|---:|
+| 10E → upgraded Iron tool | Low |
+| 8E → utility tool bundle equivalent | Low |
+
+Role:
+- convenience and manufactured value;
+- weaker than Mining Supplier for early raw-resource access.
+
+---
+
+## Toolsmith D — Precious Materials Broker
+
+Caste: **Elite**
+
+This Villager is intentionally unattractive to a poor early-game player.
+
+Its purpose becomes clear only after Village expansion.
+
+### Novice
+
+| Trade | Stock |
+|---|---:|
+| 28 Coal → 1E | Low |
+| 5E → 2 Iron Ingots | Low |
+
+### Apprentice
+
+| Trade | Stock |
+|---|---:|
+| 6E → 4 Gold Ingots | Low |
+| 6E → 6 Lapis Lazuli | Low |
+
+### Journeyman
+
+| Trade | Stock |
+|---|---:|
+| 7E → 8 Redstone | Low |
+| 7E → 6 Lapis Lazuli | Low |
+| 8E → 4 Gold Ingots | Low |
+
+Role:
+- expensive setup;
+- becomes the main high-tier material route in Phase 04B.
+
+This creates the intended choice:
+
+    early game
+    Mining Supplier = cheap and useful
+
+    later game
+    Precious Materials Broker = worth adding as another Villager
+
+The player is rewarded for expanding population instead of trying to force one Toolsmith to do everything.
+
+---
+
+# 11. Weaponsmith — Four Variants
+
+## Weaponsmith A — Militia Supplier
+
+Caste: **Economy**
+
+### Novice
+
+| Trade | Stock |
+|---|---:|
+| 24 Coal → 1E | Medium |
+| 2E → Stone Sword | Medium |
+
+### Apprentice
+
+| Trade | Stock |
+|---|---:|
+| 5E → Iron Sword | Medium |
+
+### Journeyman
+
+| Trade | Stock |
+|---|---:|
+| 6E → Iron Sword | Medium |
+| 4E → low-tier military supply | Medium |
+
+Role:
+- cheapest way to equip many basic units.
+
+---
+
+## Weaponsmith B — Infantry Smith
+
+Caste: **Standard**
+
+### Novice
+
+| Trade | Stock |
+|---|---:|
+| 26 Coal → 1E | Medium |
+| 3E → Stone Sword | Medium |
+
+### Apprentice
+
+| Trade | Stock |
+|---|---:|
+| 6E → Iron Sword | Medium |
+
+### Journeyman
+
+| Trade | Stock |
+|---|---:|
+| 7E → Iron Sword | Medium |
+| 6E → military weapon logistics trade | Medium |
+
+Role:
+- balanced mass infantry supplier.
+
+---
+
+## Weaponsmith C — Specialist Arms Smith
+
+Caste: **Premium**
+
+### Novice
+
+| Trade | Stock |
+|---|---:|
+| 30 Coal → 1E | Low |
+| 5E → Stone Sword | Low |
+
+### Apprentice
+
+| Trade | Stock |
+|---|---:|
+| 8E → Iron Sword | Low |
+
+### Journeyman
+
+| Trade | Stock |
+|---|---:|
+| 10E → premium Iron weapon | Low |
+| 8E → specialty military supply | Low |
+
+Role:
+- expensive early;
+- reserved for stronger future catalogs.
+
+---
+
+## Weaponsmith D — Elite Weaponsmith
+
+Caste: **Elite**
+
+### Novice
+
+| Trade | Stock |
+|---|---:|
+| 32 Coal → 1E | Low |
+| 6E → Stone Sword | Low |
+
+### Apprentice
+
+| Trade | Stock |
+|---|---:|
+| 10E → Iron Sword | Low |
+
+### Journeyman
+
+| Trade | Stock |
+|---|---:|
+| 12E → Iron weapon | Very Low |
+| 10E → elite weapon precursor trade | Very Low |
+
+Role:
+- intentionally overpriced in early tiers;
+- becomes Diamond/Netherite weapon specialist in Phase 04B.
+
+---
+
+# 12. Armorer — Four Variants
+
+## Armorer A — Militia Armorer
+
+Caste: **Economy**
+
+### Novice
+
+| Trade | Stock |
+|---|---:|
+| 24 Coal → 1E | Medium |
+| 3E → Leather Chestplate | Medium |
+
+### Apprentice
+
+| Trade | Stock |
+|---|---:|
+| 5E → Chainmail/basic armor piece | Medium |
+
+### Journeyman
+
+| Trade | Stock |
+|---|---:|
+| 7E → Iron armor piece | Medium |
+
+Role:
+- affordable defensive equipment for early Mercenaries/player.
+
+---
+
+## Armorer B — Iron Quartermaster
+
+Caste: **Standard**
+
+### Novice
+
+| Trade | Stock |
+|---|---:|
+| 26 Coal → 1E | Medium |
+| 4E → basic armor | Medium |
+
+### Apprentice
+
+| Trade | Stock |
+|---|---:|
+| 6E → Chainmail armor piece | Medium |
+
+### Journeyman
+
+| Trade | Stock |
+|---|---:|
+| 8E → Iron armor piece | Medium |
+| 10E → Iron Chestplate | Low |
+
+Role:
+- main organized military armor supplier.
+
+---
+
+## Armorer C — Heavy Armorer
+
+Caste: **Premium**
+
+### Novice
+
+| Trade | Stock |
+|---|---:|
+| 30 Coal → 1E | Low |
+| 6E → basic armor piece | Low |
+
+### Apprentice
+
+| Trade | Stock |
+|---|---:|
+| 8E → Chainmail/Iron armor piece | Low |
+
+### Journeyman
+
+| Trade | Stock |
+|---|---:|
+| 12E → Iron Chestplate | Low |
+| 10E → premium Iron armor piece | Low |
+
+Role:
+- poor early value;
+- better high-tier defensive progression.
+
+---
+
+## Armorer D — Elite Armorer
+
+Caste: **Elite**
+
+### Novice
+
+| Trade | Stock |
+|---|---:|
+| 32 Coal → 1E | Low |
+| 7E → basic armor | Low |
+
+### Apprentice
+
+| Trade | Stock |
+|---|---:|
+| 10E → Iron armor piece | Low |
+
+### Journeyman
+
+| Trade | Stock |
+|---|---:|
+| 14E → Iron Chestplate | Very Low |
+| 12E → elite armor precursor | Very Low |
+
+Role:
+- deliberately inefficient early;
+- becomes Diamond/Netherite armor route in Phase 04B.
+
+---
+
+# 13. Librarian — Four Variants
+
+## Librarian A — Scholar
+
+Caste: **Economy**
+
+### Novice
+
+| Trade | Stock |
+|---|---:|
+| 24 Paper → 1E | High |
+| 1E → Book | Medium |
+
+### Apprentice
+
+| Trade | Stock |
+|---|---:|
+| 3E → Bookshelf | Medium |
+
+### Journeyman
+
+| Trade | Stock |
+|---|---:|
+| 4E → library utility bundle | Medium |
+
+Role:
+- cheapest academic economy.
+
+---
+
+## Librarian B — Enchantment Specialist
+
+Caste: **Premium**
+
+### Novice
+
+| Trade | Stock |
+|---|---:|
+| 28 Paper → 1E | Medium |
+| 4E → Book | Low |
+
+### Apprentice
+
+| Trade | Stock |
+|---|---:|
+| 6E → Bookshelf / enchantment utility | Low |
+
+### Journeyman
+
+| Trade | Stock |
+|---|---:|
+| premium enchantment-related slot | Low |
+
+Role:
+- intentionally less efficient for Emerald farming;
+- preserves recognizable Librarian specialization.
+
+---
+
+## Librarian C — Warchief Administrator
+
+Caste: **Standard**
+
+### Novice
+
+| Trade | Stock |
+|---|---:|
+| 26 Paper → 1E | Medium |
+| 2E → Book | Medium |
+
+### Apprentice
+
+| Trade | Stock |
+|---|---:|
+| 4E → Bookshelf | Medium |
+| administrative utility precursor | Low |
+
+### Journeyman
+
+Phase 04B finalizes:
+
+- Conscription Writ price;
+- stock;
+- optional Banner convenience trade.
+
+Role:
+- strategic military administration.
+
+---
+
+## Librarian D — Explorer / Utility Librarian
+
+Caste: **Elite**
+
+### Novice
+
+| Trade | Stock |
+|---|---:|
+| 32 Paper → 1E | Low |
+| 5E → utility item | Low |
+
+### Apprentice
+
+| Trade | Stock |
+|---|---:|
+| 6E → exploration/library utility | Low |
+
+### Journeyman
+
+| Trade | Stock |
+|---|---:|
+| 8E → advanced utility item | Low |
+
+Role:
+- expensive convenience;
+- not intended as the primary Emerald-income Librarian.
+
+---
+
+# 14. Why Different Novice Prices Matter
+
+The design intentionally avoids this problem:
+
+    Player finds first Toolsmith
+    → Toolsmith immediately sells best-value tools/resources
+    → player never needs another Toolsmith
+
+Instead:
+
+    Mining Supplier
+    → cheap raw materials
+    → attractive early
+
+    Tool Specialist
+    → manufactured convenience
+    → expensive early
+
+    Precious Materials Broker
+    → poor early value
+    → valuable later
+
+This makes Village expansion economically meaningful.
+
+The same principle applies to Mason, Weaponsmith, Armorer, Librarian, Farmer, and Fletcher.
+
+---
+
+# 15. Core Trade Safety
+
+Variants may differ strongly, but the economy must not deadlock.
+
+Rules:
+
+1. Every profession must have useful Novice trades.
+2. Economy/Standard variants should cover basic needs cheaply.
+3. Premium/Elite variants may be inefficient early but become valuable later.
+4. Critical resource categories must exist across progression without requiring an ultra-rare perfect roll.
+5. Iron must have at least one reliable Toolsmith route.
+6. food must have at least one reliable Farmer route.
+7. basic wood must have at least one reliable Fletcher route.
+8. basic stone must have at least one reliable Mason route.
+9. Warchief Administrator Librarian must clearly reveal itself before the first trade.
+10. Conscription Writ itself is finalized in Phase 04B.
+
+---
+
+# 16. Variant Distribution Target
+
+Initial target:
+
+| Caste | Approximate Weight |
+|---|---:|
+| Economy | 35% |
+| Standard | 30% |
+| Premium | 20% |
+| Elite | 15% |
+
+This does not need to be exactly identical for every profession.
+
+The key principle:
+
+- useful basic catalogs should be common;
+- premium catalogs should be less common;
+- elite catalogs should feel valuable;
+- no catalog should require absurd reroll grinding.
+
+Do not use extreme rarity such as 1–2% for required economic roles.
+
+---
+
+# 17. Phase 04A Checkpoint
+
+Phase 04A is complete when:
+
+- all 7 vanilla professions have 4 recognizable catalog variants;
+- all 28 catalog identities are readable from Novice trades;
+- pre-trade reroll remains possible;
+- first trade acts as commitment;
+- Economy/Standard variants provide viable early-game choices;
+- Premium/Elite variants are intentionally more expensive at Novice;
+- farming, forestry, quarrying, mining, and paper/library playstyles can generate Emeralds;
+- player can buy basic food, wood, stone, Coal, Copper, Iron, Gold, Redstone, Lapis, tools, weapons, Bow/Arrows, and armor;
+- stock and restock do not make one Villager equivalent to an infinite shop;
+- basic economy does not require owning every catalog variant.
+
+Phase 04B then completes high-tier progression and final balancing.
