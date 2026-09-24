@@ -1179,3 +1179,132 @@ Phase 04A is complete when:
 - basic economy does not require owning every catalog variant.
 
 Phase 04B then completes high-tier progression and final balancing.
+
+---
+
+## 18. Current Implementation Status
+
+Phase 04A is now implemented in the repository.
+
+### Runtime Architecture
+
+The implementation uses the current vanilla `minecraft:villager_v2` definition as the base and adds 28 Warchief catalog component groups.
+
+Each of the seven supported vanilla professions has four trade-table variants:
+
+- Economy weight: 35
+- Standard weight: 30
+- Premium weight: 20
+- Elite weight: 15
+
+When a Villager receives one of the supported professions through its normal `minecraft:become_<profession>` event, the event immediately selects one catalog variant and applies its `minecraft:economy_trade_table`.
+
+The original vanilla trade table remains present in the base profession component as a safety fallback for transformation/cure or other edge paths that do not run the patched profession-selection event.
+
+### Implemented Files
+
+Phase 04A adds 28 files under:
+
+```
+behavior_pack/trading/economy_trades/
+```
+
+and adds:
+
+```
+behavior_pack/entities/villager_v2.json
+```
+
+as the vanilla-derived Villager V2 override containing catalog selection.
+
+### Scope Implemented
+
+Custom Phase 04A pricing is implemented for:
+
+- Novice;
+- Apprentice;
+- Journeyman.
+
+Expert and Master temporarily inherit their corresponding vanilla profession tiers.
+
+They are intentionally not finalized in Phase 04A.
+
+Phase 04B will replace/finalize those tiers with:
+
+- Diamond economy;
+- Netherite-related economy;
+- Conscription Writ;
+- final high-tier caste identity;
+- final anti-arbitrage balancing.
+
+### Concrete Mapping of Conceptual Bundles
+
+Some design-table entries were conceptual descriptions rather than valid Minecraft item identifiers.
+
+The implementation translates them to concrete vanilla items.
+
+Examples:
+
+- Crop Farmer "mixed crop bundle" → Wheat.
+- Provisioner "cooked-food bundle" → Cooked Chicken.
+- Livestock Supplier "cooked meat bundle" → Cooked Beef.
+- Mason structural/decorative bundles → concrete Stone Brick / polished / Terracotta entries.
+- Toolsmith utility bundles → concrete Redstone, Lapis, Gold, or Iron-tool entries.
+- Weapon/armor precursor concepts → concrete current-tier weapons, shields, and armor pieces.
+
+These mappings preserve the intended catalog identity without adding custom bundle items in Phase 04A.
+
+### Anti-Arbitrage Price Change
+
+One planned price was changed during implementation:
+
+```
+Forester:
+1E → 8 Oak Logs
+```
+
+was changed to:
+
+```
+Forester:
+3E → 8 Oak Logs
+```
+
+Reason:
+
+```
+8 Logs
+→ 32 Planks
+→ 64 Sticks
+→ two 32-Stick sell trades
+→ 2 Emeralds
+```
+
+At a 1-Emerald purchase price this creates direct renewable merchant arbitrage.
+
+The implemented 3-Emerald price preserves the Forester convenience role while making that conversion loss-making.
+
+### Current Compatibility Scope
+
+The catalog-variant selector is implemented for `minecraft:villager_v2`, which is the modern economy Villager path used by current Bedrock profession tables.
+
+The legacy `minecraft:villager` path is not given the 28-variant selector in Phase 04A and retains its vanilla legacy trade behavior.
+
+### Required Runtime Verification
+
+- [ ] Normal adult Villager can become each of the seven targeted professions.
+- [ ] Novice trade screen clearly reveals the selected variant.
+- [ ] Breaking the workstation before the first trade allows profession/catalog reroll.
+- [ ] First successful trade preserves the Villager profession/catalog under normal vanilla locking behavior.
+- [ ] Variant remains stable through save/reload.
+- [ ] Economy/Standard/Premium/Elite prices visibly differ.
+- [ ] Villager can level from Novice to Apprentice and Journeyman.
+- [ ] Farmer specialization can generate Emeralds.
+- [ ] Fletcher forestry specialization can generate Emeralds.
+- [ ] Mason/quarry specialization can generate Emeralds.
+- [ ] Toolsmith mining specialization can generate/use resource economy.
+- [ ] Weaponsmith and Armorer catalogs provide military equipment.
+- [ ] Archer Supplier sells Bow/Arrow logistics compatible with Phase 03.5.
+- [ ] No obvious direct buy/sell Emerald loop exists in basic testing.
+- [ ] Cured/transformed Villager fallback behavior is observed and documented before Phase 04B.
+
