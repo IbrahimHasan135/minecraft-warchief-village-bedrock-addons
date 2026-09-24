@@ -121,7 +121,7 @@
                 }
               ],
               "trader_exp": 2,
-              "max_uses": 4,
+              "max_uses": 6,
               "reward_exp": true
             },
             {
@@ -139,133 +139,7 @@
                 }
               ],
               "trader_exp": 1,
-              "max_uses": 4,
-              "reward_exp": true
-            },
-            {
-              "wants": [
-                {
-                  "item": "minecraft:emerald",
-                  "quantity": 6,
-                  "price_multiplier": 0.05
-                }
-              ],
-              "gives": [
-                {
-                  "item": "minecraft:gold_ingot",
-                  "quantity": 4
-                }
-              ],
-              "trader_exp": 1,
-              "max_uses": 4,
-              "reward_exp": true
-            },
-            {
-              "wants": [
-                {
-                  "item": "minecraft:emerald",
-                  "quantity": 6,
-                  "price_multiplier": 0.05
-                }
-              ],
-              "gives": [
-                {
-                  "item": "minecraft:lapis_lazuli",
-                  "quantity": 6
-                }
-              ],
-              "trader_exp": 1,
-              "max_uses": 4,
-              "reward_exp": true
-            },
-            {
-              "wants": [
-                {
-                  "item": "minecraft:emerald",
-                  "quantity": 7,
-                  "price_multiplier": 0.05
-                }
-              ],
-              "gives": [
-                {
-                  "item": "minecraft:redstone",
-                  "quantity": 8
-                }
-              ],
-              "trader_exp": 1,
-              "max_uses": 4,
-              "reward_exp": true
-            },
-            {
-              "wants": [
-                {
-                  "item": "minecraft:emerald",
-                  "quantity": 8,
-                  "price_multiplier": 0.05
-                }
-              ],
-              "gives": [
-                {
-                  "item": "minecraft:gold_ingot",
-                  "quantity": 4
-                }
-              ],
-              "trader_exp": 1,
-              "max_uses": 4,
-              "reward_exp": true
-            },
-            {
-              "wants": [
-                {
-                  "item": "minecraft:emerald",
-                  "quantity": 9,
-                  "price_multiplier": 0.05
-                }
-              ],
-              "gives": [
-                {
-                  "item": "minecraft:diamond",
-                  "quantity": 1
-                }
-              ],
-              "trader_exp": 1,
-              "max_uses": 4,
-              "reward_exp": true
-            },
-            {
-              "wants": [
-                {
-                  "item": "minecraft:emerald",
-                  "quantity": 18,
-                  "price_multiplier": 0.05
-                }
-              ],
-              "gives": [
-                {
-                  "item": "minecraft:diamond",
-                  "quantity": 2
-                }
-              ],
-              "trader_exp": 1,
-              "max_uses": 2,
-              "reward_exp": true
-            },
-            {
-              "wants": [
-                {
-                  "item": "minecraft:emerald",
-                  "quantity": 24,
-                  "price_multiplier": 0.05
-                }
-              ],
-              "gives": [
-                {
-                  "item": "minecraft:netherite_scrap",
-                  "quantity": 1
-                }
-              ],
-              "trader_exp": 1,
-              "max_uses": 2,
+              "max_uses": 6,
               "reward_exp": true
             }
           ]
@@ -317,6 +191,47 @@
               ],
               "trader_exp": 5,
               "max_uses": 12,
+              "reward_exp": true
+            }
+          ]
+        },
+        {
+          "num_to_select": -1,
+          "trades": [
+            {
+              "wants": [
+                {
+                  "item": "minecraft:iron_ingot",
+                  "quantity": 10,
+                  "price_multiplier": 0.05
+                }
+              ],
+              "gives": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": 1
+                }
+              ],
+              "trader_exp": 2,
+              "max_uses": 6,
+              "reward_exp": true
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": 6,
+                  "price_multiplier": 0.05
+                }
+              ],
+              "gives": [
+                {
+                  "item": "minecraft:gold_ingot",
+                  "quantity": 4
+                }
+              ],
+              "trader_exp": 1,
+              "max_uses": 6,
               "reward_exp": true
             }
           ]
@@ -455,6 +370,47 @@
               "reward_exp": true
             }
           ]
+        },
+        {
+          "num_to_select": -1,
+          "trades": [
+            {
+              "wants": [
+                {
+                  "item": "minecraft:gold_ingot",
+                  "quantity": 8,
+                  "price_multiplier": 0.05
+                }
+              ],
+              "gives": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": 1
+                }
+              ],
+              "trader_exp": 2,
+              "max_uses": 6,
+              "reward_exp": true
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": 6,
+                  "price_multiplier": 0.05
+                }
+              ],
+              "gives": [
+                {
+                  "item": "minecraft:lapis_lazuli",
+                  "quantity": 6
+                }
+              ],
+              "trader_exp": 1,
+              "max_uses": 6,
+              "reward_exp": true
+            }
+          ]
         }
       ]
     },
@@ -544,6 +500,47 @@
               "reward_exp": true
             }
           ]
+        },
+        {
+          "num_to_select": -1,
+          "trades": [
+            {
+              "wants": [
+                {
+                  "item": "minecraft:lapis_lazuli",
+                  "quantity": 18,
+                  "price_multiplier": 0.05
+                }
+              ],
+              "gives": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": 1
+                }
+              ],
+              "trader_exp": 2,
+              "max_uses": 6,
+              "reward_exp": true
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": 9,
+                  "price_multiplier": 0.05
+                }
+              ],
+              "gives": [
+                {
+                  "item": "minecraft:diamond",
+                  "quantity": 1
+                }
+              ],
+              "trader_exp": 1,
+              "max_uses": 6,
+              "reward_exp": true
+            }
+          ]
         }
       ]
     },
@@ -579,6 +576,47 @@
               ],
               "trader_exp": 30,
               "max_uses": 3,
+              "reward_exp": true
+            }
+          ]
+        },
+        {
+          "num_to_select": -1,
+          "trades": [
+            {
+              "wants": [
+                {
+                  "item": "minecraft:diamond",
+                  "quantity": 2,
+                  "price_multiplier": 0.05
+                }
+              ],
+              "gives": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": 1
+                }
+              ],
+              "trader_exp": 2,
+              "max_uses": 2,
+              "reward_exp": true
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": 24,
+                  "price_multiplier": 0.05
+                }
+              ],
+              "gives": [
+                {
+                  "item": "minecraft:netherite_scrap",
+                  "quantity": 1
+                }
+              ],
+              "trader_exp": 1,
+              "max_uses": 2,
               "reward_exp": true
             }
           ]

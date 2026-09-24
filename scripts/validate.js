@@ -74,7 +74,7 @@ for (const path of phase04ATradeFiles) {
 
   const expectedExp = [0, 10, 70, 150, 250];
 
-  for (let index = 0; index < 3; index += 1) {
+  for (let index = 0; index < 5; index += 1) {
     if (table.tiers[index]?.total_exp_required !== expectedExp[index]) {
       throw new Error(
         `Phase 04A tier ${index + 1} has invalid total_exp_required in ${path}.`
@@ -95,6 +95,17 @@ for (const path of phase04ATradeFiles) {
       if (!Array.isArray(trade.gives) || trade.gives.length === 0) {
         throw new Error(`Phase 04A trade has no gives array in ${path}.`);
       }
+    }
+
+    const hasEmeraldIncome = trades.some((trade) =>
+      trade.gives?.some((give) => give.item === "minecraft:emerald") &&
+      trade.wants?.some((want) => want.item !== "minecraft:emerald")
+    );
+
+    if (!hasEmeraldIncome) {
+      throw new Error(
+        `Phase 04A catalog must provide an Emerald-income trade at every tier: ${path}, tier ${index + 1}.`
+      );
     }
   }
 }

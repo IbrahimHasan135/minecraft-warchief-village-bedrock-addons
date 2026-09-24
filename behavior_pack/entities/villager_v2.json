@@ -4569,14 +4569,54 @@
                   {
                     "randomize": [
                       {
-                        "add": {
-                          "component_groups": [
-                            "farmer",
-                            "behavior_peasant",
-                            "basic_schedule"
-                          ]
-                        },
-                        "weight": 1
+                        "weight": 1,
+                        "sequence": [
+                          {
+                            "add": {
+                              "component_groups": [
+                                "farmer",
+                                "behavior_peasant",
+                                "basic_schedule"
+                              ]
+                            }
+                          },
+                          {
+                            "randomize": [
+                              {
+                                "weight": 35,
+                                "add": {
+                                  "component_groups": [
+                                    "warchief:farmer_economy_catalog"
+                                  ]
+                                }
+                              },
+                              {
+                                "weight": 30,
+                                "add": {
+                                  "component_groups": [
+                                    "warchief:farmer_standard_catalog"
+                                  ]
+                                }
+                              },
+                              {
+                                "weight": 20,
+                                "add": {
+                                  "component_groups": [
+                                    "warchief:farmer_premium_catalog"
+                                  ]
+                                }
+                              },
+                              {
+                                "weight": 15,
+                                "add": {
+                                  "component_groups": [
+                                    "warchief:farmer_elite_catalog"
+                                  ]
+                                }
+                              }
+                            ]
+                          }
+                        ]
                       },
                       {
                         "add": {
@@ -4599,24 +4639,104 @@
                         "weight": 1
                       },
                       {
-                        "add": {
-                          "component_groups": [
-                            "fletcher",
-                            "behavior_peasant",
-                            "basic_schedule"
-                          ]
-                        },
-                        "weight": 1
+                        "weight": 1,
+                        "sequence": [
+                          {
+                            "add": {
+                              "component_groups": [
+                                "fletcher",
+                                "behavior_peasant",
+                                "basic_schedule"
+                              ]
+                            }
+                          },
+                          {
+                            "randomize": [
+                              {
+                                "weight": 35,
+                                "add": {
+                                  "component_groups": [
+                                    "warchief:fletcher_economy_catalog"
+                                  ]
+                                }
+                              },
+                              {
+                                "weight": 30,
+                                "add": {
+                                  "component_groups": [
+                                    "warchief:fletcher_standard_catalog"
+                                  ]
+                                }
+                              },
+                              {
+                                "weight": 20,
+                                "add": {
+                                  "component_groups": [
+                                    "warchief:fletcher_premium_catalog"
+                                  ]
+                                }
+                              },
+                              {
+                                "weight": 15,
+                                "add": {
+                                  "component_groups": [
+                                    "warchief:fletcher_elite_catalog"
+                                  ]
+                                }
+                              }
+                            ]
+                          }
+                        ]
                       },
                       {
-                        "add": {
-                          "component_groups": [
-                            "librarian",
-                            "behavior_non_peasant",
-                            "basic_schedule"
-                          ]
-                        },
-                        "weight": 1
+                        "weight": 1,
+                        "sequence": [
+                          {
+                            "add": {
+                              "component_groups": [
+                                "librarian",
+                                "behavior_non_peasant",
+                                "basic_schedule"
+                              ]
+                            }
+                          },
+                          {
+                            "randomize": [
+                              {
+                                "weight": 35,
+                                "add": {
+                                  "component_groups": [
+                                    "warchief:librarian_economy_catalog"
+                                  ]
+                                }
+                              },
+                              {
+                                "weight": 30,
+                                "add": {
+                                  "component_groups": [
+                                    "warchief:librarian_standard_catalog"
+                                  ]
+                                }
+                              },
+                              {
+                                "weight": 20,
+                                "add": {
+                                  "component_groups": [
+                                    "warchief:librarian_premium_catalog"
+                                  ]
+                                }
+                              },
+                              {
+                                "weight": 15,
+                                "add": {
+                                  "component_groups": [
+                                    "warchief:librarian_elite_catalog"
+                                  ]
+                                }
+                              }
+                            ]
+                          }
+                        ]
                       },
                       {
                         "add": {
@@ -4639,34 +4759,154 @@
                         "weight": 1
                       },
                       {
-                        "add": {
-                          "component_groups": [
-                            "armorer",
-                            "behavior_non_peasant",
-                            "basic_schedule"
-                          ]
-                        },
-                        "weight": 1
+                        "weight": 1,
+                        "sequence": [
+                          {
+                            "add": {
+                              "component_groups": [
+                                "armorer",
+                                "behavior_non_peasant",
+                                "basic_schedule"
+                              ]
+                            }
+                          },
+                          {
+                            "randomize": [
+                              {
+                                "weight": 35,
+                                "add": {
+                                  "component_groups": [
+                                    "warchief:armorer_economy_catalog"
+                                  ]
+                                }
+                              },
+                              {
+                                "weight": 30,
+                                "add": {
+                                  "component_groups": [
+                                    "warchief:armorer_standard_catalog"
+                                  ]
+                                }
+                              },
+                              {
+                                "weight": 20,
+                                "add": {
+                                  "component_groups": [
+                                    "warchief:armorer_premium_catalog"
+                                  ]
+                                }
+                              },
+                              {
+                                "weight": 15,
+                                "add": {
+                                  "component_groups": [
+                                    "warchief:armorer_elite_catalog"
+                                  ]
+                                }
+                              }
+                            ]
+                          }
+                        ]
                       },
                       {
-                        "add": {
-                          "component_groups": [
-                            "weaponsmith",
-                            "behavior_non_peasant",
-                            "basic_schedule"
-                          ]
-                        },
-                        "weight": 1
+                        "weight": 1,
+                        "sequence": [
+                          {
+                            "add": {
+                              "component_groups": [
+                                "weaponsmith",
+                                "behavior_non_peasant",
+                                "basic_schedule"
+                              ]
+                            }
+                          },
+                          {
+                            "randomize": [
+                              {
+                                "weight": 35,
+                                "add": {
+                                  "component_groups": [
+                                    "warchief:weaponsmith_economy_catalog"
+                                  ]
+                                }
+                              },
+                              {
+                                "weight": 30,
+                                "add": {
+                                  "component_groups": [
+                                    "warchief:weaponsmith_standard_catalog"
+                                  ]
+                                }
+                              },
+                              {
+                                "weight": 20,
+                                "add": {
+                                  "component_groups": [
+                                    "warchief:weaponsmith_premium_catalog"
+                                  ]
+                                }
+                              },
+                              {
+                                "weight": 15,
+                                "add": {
+                                  "component_groups": [
+                                    "warchief:weaponsmith_elite_catalog"
+                                  ]
+                                }
+                              }
+                            ]
+                          }
+                        ]
                       },
                       {
-                        "add": {
-                          "component_groups": [
-                            "toolsmith",
-                            "behavior_non_peasant",
-                            "basic_schedule"
-                          ]
-                        },
-                        "weight": 1
+                        "weight": 1,
+                        "sequence": [
+                          {
+                            "add": {
+                              "component_groups": [
+                                "toolsmith",
+                                "behavior_non_peasant",
+                                "basic_schedule"
+                              ]
+                            }
+                          },
+                          {
+                            "randomize": [
+                              {
+                                "weight": 35,
+                                "add": {
+                                  "component_groups": [
+                                    "warchief:toolsmith_economy_catalog"
+                                  ]
+                                }
+                              },
+                              {
+                                "weight": 30,
+                                "add": {
+                                  "component_groups": [
+                                    "warchief:toolsmith_standard_catalog"
+                                  ]
+                                }
+                              },
+                              {
+                                "weight": 20,
+                                "add": {
+                                  "component_groups": [
+                                    "warchief:toolsmith_premium_catalog"
+                                  ]
+                                }
+                              },
+                              {
+                                "weight": 15,
+                                "add": {
+                                  "component_groups": [
+                                    "warchief:toolsmith_elite_catalog"
+                                  ]
+                                }
+                              }
+                            ]
+                          }
+                        ]
                       },
                       {
                         "add": {
@@ -4689,14 +4929,54 @@
                         "weight": 1
                       },
                       {
-                        "add": {
-                          "component_groups": [
-                            "mason",
-                            "behavior_non_peasant",
-                            "basic_schedule"
-                          ]
-                        },
-                        "weight": 1
+                        "weight": 1,
+                        "sequence": [
+                          {
+                            "add": {
+                              "component_groups": [
+                                "mason",
+                                "behavior_non_peasant",
+                                "basic_schedule"
+                              ]
+                            }
+                          },
+                          {
+                            "randomize": [
+                              {
+                                "weight": 35,
+                                "add": {
+                                  "component_groups": [
+                                    "warchief:mason_economy_catalog"
+                                  ]
+                                }
+                              },
+                              {
+                                "weight": 30,
+                                "add": {
+                                  "component_groups": [
+                                    "warchief:mason_standard_catalog"
+                                  ]
+                                }
+                              },
+                              {
+                                "weight": 20,
+                                "add": {
+                                  "component_groups": [
+                                    "warchief:mason_premium_catalog"
+                                  ]
+                                }
+                              },
+                              {
+                                "weight": 15,
+                                "add": {
+                                  "component_groups": [
+                                    "warchief:mason_elite_catalog"
+                                  ]
+                                }
+                              }
+                            ]
+                          }
+                        ]
                       },
                       {
                         "add": {
@@ -4991,58 +5271,178 @@
           {
             "randomize": [
               {
-                "add": {
-                  "component_groups": [
-                    "armorer",
-                    "adult",
-                    "make_and_receive_love",
-                    "behavior_non_peasant",
-                    "basic_schedule"
-                  ]
-                },
-                "remove": {
-                  "component_groups": [
-                    "baby",
-                    "child_schedule"
-                  ]
-                },
-                "weight": 6
+                "weight": 6,
+                "sequence": [
+                  {
+                    "add": {
+                      "component_groups": [
+                        "armorer",
+                        "adult",
+                        "make_and_receive_love",
+                        "behavior_non_peasant",
+                        "basic_schedule"
+                      ]
+                    },
+                    "remove": {
+                      "component_groups": [
+                        "baby",
+                        "child_schedule"
+                      ]
+                    }
+                  },
+                  {
+                    "randomize": [
+                      {
+                        "weight": 35,
+                        "add": {
+                          "component_groups": [
+                            "warchief:armorer_economy_catalog"
+                          ]
+                        }
+                      },
+                      {
+                        "weight": 30,
+                        "add": {
+                          "component_groups": [
+                            "warchief:armorer_standard_catalog"
+                          ]
+                        }
+                      },
+                      {
+                        "weight": 20,
+                        "add": {
+                          "component_groups": [
+                            "warchief:armorer_premium_catalog"
+                          ]
+                        }
+                      },
+                      {
+                        "weight": 15,
+                        "add": {
+                          "component_groups": [
+                            "warchief:armorer_elite_catalog"
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                ]
               },
               {
-                "add": {
-                  "component_groups": [
-                    "weaponsmith",
-                    "adult",
-                    "make_and_receive_love",
-                    "behavior_non_peasant",
-                    "basic_schedule"
-                  ]
-                },
-                "remove": {
-                  "component_groups": [
-                    "baby",
-                    "child_schedule"
-                  ]
-                },
-                "weight": 6
+                "weight": 6,
+                "sequence": [
+                  {
+                    "add": {
+                      "component_groups": [
+                        "weaponsmith",
+                        "adult",
+                        "make_and_receive_love",
+                        "behavior_non_peasant",
+                        "basic_schedule"
+                      ]
+                    },
+                    "remove": {
+                      "component_groups": [
+                        "baby",
+                        "child_schedule"
+                      ]
+                    }
+                  },
+                  {
+                    "randomize": [
+                      {
+                        "weight": 35,
+                        "add": {
+                          "component_groups": [
+                            "warchief:weaponsmith_economy_catalog"
+                          ]
+                        }
+                      },
+                      {
+                        "weight": 30,
+                        "add": {
+                          "component_groups": [
+                            "warchief:weaponsmith_standard_catalog"
+                          ]
+                        }
+                      },
+                      {
+                        "weight": 20,
+                        "add": {
+                          "component_groups": [
+                            "warchief:weaponsmith_premium_catalog"
+                          ]
+                        }
+                      },
+                      {
+                        "weight": 15,
+                        "add": {
+                          "component_groups": [
+                            "warchief:weaponsmith_elite_catalog"
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                ]
               },
               {
-                "add": {
-                  "component_groups": [
-                    "toolsmith",
-                    "adult",
-                    "make_and_receive_love",
-                    "behavior_non_peasant",
-                    "basic_schedule"
-                  ]
-                },
-                "remove": {
-                  "component_groups": [
-                    "baby",
-                    "child_schedule"
-                  ]
-                },
-                "weight": 6
+                "weight": 6,
+                "sequence": [
+                  {
+                    "add": {
+                      "component_groups": [
+                        "toolsmith",
+                        "adult",
+                        "make_and_receive_love",
+                        "behavior_non_peasant",
+                        "basic_schedule"
+                      ]
+                    },
+                    "remove": {
+                      "component_groups": [
+                        "baby",
+                        "child_schedule"
+                      ]
+                    }
+                  },
+                  {
+                    "randomize": [
+                      {
+                        "weight": 35,
+                        "add": {
+                          "component_groups": [
+                            "warchief:toolsmith_economy_catalog"
+                          ]
+                        }
+                      },
+                      {
+                        "weight": 30,
+                        "add": {
+                          "component_groups": [
+                            "warchief:toolsmith_standard_catalog"
+                          ]
+                        }
+                      },
+                      {
+                        "weight": 20,
+                        "add": {
+                          "component_groups": [
+                            "warchief:toolsmith_premium_catalog"
+                          ]
+                        }
+                      },
+                      {
+                        "weight": 15,
+                        "add": {
+                          "component_groups": [
+                            "warchief:toolsmith_elite_catalog"
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                ]
               }
             ]
           },
@@ -5163,22 +5563,62 @@
           {
             "randomize": [
               {
-                "add": {
-                  "component_groups": [
-                    "farmer",
-                    "adult",
-                    "make_and_receive_love",
-                    "behavior_peasant",
-                    "basic_schedule"
-                  ]
-                },
-                "remove": {
-                  "component_groups": [
-                    "baby",
-                    "child_schedule"
-                  ]
-                },
-                "weight": 5
+                "weight": 5,
+                "sequence": [
+                  {
+                    "add": {
+                      "component_groups": [
+                        "farmer",
+                        "adult",
+                        "make_and_receive_love",
+                        "behavior_peasant",
+                        "basic_schedule"
+                      ]
+                    },
+                    "remove": {
+                      "component_groups": [
+                        "baby",
+                        "child_schedule"
+                      ]
+                    }
+                  },
+                  {
+                    "randomize": [
+                      {
+                        "weight": 35,
+                        "add": {
+                          "component_groups": [
+                            "warchief:farmer_economy_catalog"
+                          ]
+                        }
+                      },
+                      {
+                        "weight": 30,
+                        "add": {
+                          "component_groups": [
+                            "warchief:farmer_standard_catalog"
+                          ]
+                        }
+                      },
+                      {
+                        "weight": 20,
+                        "add": {
+                          "component_groups": [
+                            "warchief:farmer_premium_catalog"
+                          ]
+                        }
+                      },
+                      {
+                        "weight": 15,
+                        "add": {
+                          "component_groups": [
+                            "warchief:farmer_elite_catalog"
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                ]
               },
               {
                 "add": {
@@ -5217,40 +5657,120 @@
                 "weight": 5
               },
               {
-                "add": {
-                  "component_groups": [
-                    "fletcher",
-                    "adult",
-                    "make_and_receive_love",
-                    "behavior_peasant",
-                    "basic_schedule"
-                  ]
-                },
-                "remove": {
-                  "component_groups": [
-                    "baby",
-                    "child_schedule"
-                  ]
-                },
-                "weight": 5
+                "weight": 5,
+                "sequence": [
+                  {
+                    "add": {
+                      "component_groups": [
+                        "fletcher",
+                        "adult",
+                        "make_and_receive_love",
+                        "behavior_peasant",
+                        "basic_schedule"
+                      ]
+                    },
+                    "remove": {
+                      "component_groups": [
+                        "baby",
+                        "child_schedule"
+                      ]
+                    }
+                  },
+                  {
+                    "randomize": [
+                      {
+                        "weight": 35,
+                        "add": {
+                          "component_groups": [
+                            "warchief:fletcher_economy_catalog"
+                          ]
+                        }
+                      },
+                      {
+                        "weight": 30,
+                        "add": {
+                          "component_groups": [
+                            "warchief:fletcher_standard_catalog"
+                          ]
+                        }
+                      },
+                      {
+                        "weight": 20,
+                        "add": {
+                          "component_groups": [
+                            "warchief:fletcher_premium_catalog"
+                          ]
+                        }
+                      },
+                      {
+                        "weight": 15,
+                        "add": {
+                          "component_groups": [
+                            "warchief:fletcher_elite_catalog"
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                ]
               },
               {
-                "add": {
-                  "component_groups": [
-                    "mason",
-                    "adult",
-                    "make_and_receive_love",
-                    "behavior_non_peasant",
-                    "work_schedule"
-                  ]
-                },
-                "remove": {
-                  "component_groups": [
-                    "baby",
-                    "child_schedule"
-                  ]
-                },
-                "weight": 5
+                "weight": 5,
+                "sequence": [
+                  {
+                    "add": {
+                      "component_groups": [
+                        "mason",
+                        "adult",
+                        "make_and_receive_love",
+                        "behavior_non_peasant",
+                        "work_schedule"
+                      ]
+                    },
+                    "remove": {
+                      "component_groups": [
+                        "baby",
+                        "child_schedule"
+                      ]
+                    }
+                  },
+                  {
+                    "randomize": [
+                      {
+                        "weight": 35,
+                        "add": {
+                          "component_groups": [
+                            "warchief:mason_economy_catalog"
+                          ]
+                        }
+                      },
+                      {
+                        "weight": 30,
+                        "add": {
+                          "component_groups": [
+                            "warchief:mason_standard_catalog"
+                          ]
+                        }
+                      },
+                      {
+                        "weight": 20,
+                        "add": {
+                          "component_groups": [
+                            "warchief:mason_premium_catalog"
+                          ]
+                        }
+                      },
+                      {
+                        "weight": 15,
+                        "add": {
+                          "component_groups": [
+                            "warchief:mason_elite_catalog"
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                ]
               }
             ]
           },
@@ -5331,22 +5851,62 @@
           {
             "randomize": [
               {
-                "add": {
-                  "component_groups": [
-                    "librarian",
-                    "adult",
-                    "make_and_receive_love",
-                    "behavior_non_peasant",
-                    "basic_schedule"
-                  ]
-                },
-                "remove": {
-                  "component_groups": [
-                    "baby",
-                    "child_schedule"
-                  ]
-                },
-                "weight": 20
+                "weight": 20,
+                "sequence": [
+                  {
+                    "add": {
+                      "component_groups": [
+                        "librarian",
+                        "adult",
+                        "make_and_receive_love",
+                        "behavior_non_peasant",
+                        "basic_schedule"
+                      ]
+                    },
+                    "remove": {
+                      "component_groups": [
+                        "baby",
+                        "child_schedule"
+                      ]
+                    }
+                  },
+                  {
+                    "randomize": [
+                      {
+                        "weight": 35,
+                        "add": {
+                          "component_groups": [
+                            "warchief:librarian_economy_catalog"
+                          ]
+                        }
+                      },
+                      {
+                        "weight": 30,
+                        "add": {
+                          "component_groups": [
+                            "warchief:librarian_standard_catalog"
+                          ]
+                        }
+                      },
+                      {
+                        "weight": 20,
+                        "add": {
+                          "component_groups": [
+                            "warchief:librarian_premium_catalog"
+                          ]
+                        }
+                      },
+                      {
+                        "weight": 15,
+                        "add": {
+                          "component_groups": [
+                            "warchief:librarian_elite_catalog"
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                ]
               },
               {
                 "add": {

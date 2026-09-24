@@ -1791,3 +1791,88 @@ assign workstation
 → first trade commits the Villager
 ```
 
+---
+
+## 20. Tier Redistribution and Emerald-Income Rule
+
+The previous temporary implementation exposed every Warchief-added trade at Novice to verify that catalog selection was working.
+
+After runtime confirmation, the catalog is now redistributed across normal Villager progression.
+
+The final Phase 04A rule is:
+
+```
+Novice      → signature catalog + basic income
+Apprentice  → secondary income + better basic supply
+Journeyman  → main specialization
+Expert      → premium / Diamond access
+Master      → rare / Netherite-related access where appropriate
+```
+
+The full Warchief catalog is no longer dumped into Novice.
+
+A fresh Villager still reveals its variant through its signature Novice trades.
+
+### Mandatory Emerald-Income Rule
+
+Every one of the 28 catalog variants now has at least one custom trade at **every Villager tier** where:
+
+```
+player item(s) → Emerald
+```
+
+This is deliberate.
+
+The economy should make Emerald acquisition easier for players who specialize in production.
+
+Examples:
+
+- Farmer: crops, animal products, specialty produce.
+- Fletcher: sticks, logs, flint, feathers, string, hunting/forestry materials.
+- Mason: stone, deepslate, clay, decorative materials.
+- Toolsmith: coal, copper, iron, redstone, gold, and high-tier materials.
+- Weaponsmith: coal, iron, flint, gold, Diamond at high tier.
+- Armorer: coal, iron, leather, gold, Diamond at high tier.
+- Librarian: paper, books, writable books.
+
+Vanilla buy-from-player trades are also preserved, so a Villager may expose more than one Emerald-income trade at a given level.
+
+### Spawned Villager Support
+
+The vanilla `minecraft:villager_v2` spawn flow can add a profession component group directly from `minecraft:entity_spawned` / `minecraft:spawn_*` without calling `minecraft:become_<profession>`.
+
+The Phase 04A selector now patches those direct spawn branches too.
+
+Therefore both of these paths select a Warchief catalog:
+
+```
+workstation profession assignment
+→ minecraft:become_<profession>
+→ catalog variant
+
+direct spawned/professioned Villager
+→ minecraft:entity_spawned / minecraft:spawn_*
+→ catalog variant
+```
+
+The catalog weights remain:
+
+- Economy: 35
+- Standard: 30
+- Premium: 20
+- Elite: 15
+
+### High-Tier Placement
+
+Examples of Warchief-added high-tier placement:
+
+- Diamond resource access: Expert/Master Toolsmith.
+- Diamond tools: Expert/Master Tool Specialist.
+- Netherite Scrap: Master Precious Materials Broker.
+- Diamond Sword: Expert/Master Weaponsmith variants.
+- Netherite Sword: Master Elite Weaponsmith.
+- Diamond armor: Expert/Master Armorer variants.
+- Netherite armor: Master Elite Armorer.
+- Conscription Writ: Journeyman Warchief Administrator Librarian.
+
+This restores meaningful Villager leveling while preserving early catalog readability.
