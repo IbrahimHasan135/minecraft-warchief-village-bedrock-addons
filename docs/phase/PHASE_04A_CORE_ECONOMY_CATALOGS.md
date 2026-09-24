@@ -1,3 +1,397 @@
+# 0. Catalog Review — Profession and Variant Structure Only
+
+This section intentionally hides:
+
+- Novice / Apprentice / Journeyman / Expert / Master;
+- Villager XP requirements;
+- exact Emerald prices;
+- trade stock;
+- restock quantities;
+- variant rarity weights.
+
+Use this section only to review whether the **profession → variant → economic role** structure is correct before balancing.
+
+## Farmer
+
+### A — Crop Farmer
+Focus:
+- Wheat
+- Carrot
+- Potato
+- Beetroot
+- Pumpkin
+- Melon
+- common Seeds
+- crop bundles
+- basic planting supplies
+
+Economic purpose:
+- main crop-based Emerald income;
+- cheapest agricultural producer;
+- supports large crop farms.
+
+### B — Provisioner
+Focus:
+- Bread
+- Baked Potato
+- cooked food
+- Golden Carrot
+- larger food bundles
+
+Economic purpose:
+- player food logistics;
+- Villager population support;
+- army provisioning.
+
+### C — Livestock Supplier
+Focus:
+- Eggs
+- Leather
+- raw meat
+- cooked meat
+- animal-feed crops
+
+Economic purpose:
+- ranch / animal-farm economy;
+- alternative food specialization.
+
+### D — Specialty Grower
+Focus:
+- Pumpkin
+- Melon
+- Beetroot
+- specialty Seeds
+- Golden Carrot
+- higher-value agricultural goods
+
+Economic purpose:
+- niche agriculture;
+- later Village specialization rather than basic food production.
+
+---
+
+## Fletcher
+
+### A — Forester
+Focus:
+- Sticks
+- Oak Logs
+- Planks
+- Saplings
+- bulk wood supply
+
+Economic purpose:
+- forestry-based Emerald income;
+- cheap building wood.
+
+### B — Archer Supplier
+Focus:
+- Flint
+- Feathers
+- Bow
+- Arrows
+
+Economic purpose:
+- ranged military logistics;
+- direct support for Archer Soldier and Bow Mercenary.
+
+### C — Hunter Supplier
+Focus:
+- String
+- Feathers
+- Bow
+- Arrows
+- smaller specialized ranged supplies
+
+Economic purpose:
+- premium ranged / hunting convenience.
+
+### D — Exotic Forester
+Focus:
+- Spruce Logs
+- Jungle Logs
+- uncommon Saplings
+- uncommon wood supply
+
+Economic purpose:
+- builder convenience;
+- uncommon forestry access.
+
+---
+
+## Mason
+
+### A — Quarry Supplier
+Focus:
+- Cobblestone
+- Stone
+- Cobbled Deepslate
+- Stone Bricks
+
+Economic purpose:
+- cheapest bulk construction supplier;
+- quarry/building specialization.
+
+### B — Structural Builder
+Focus:
+- Stone Bricks
+- Deepslate
+- Bricks
+- Chiseled Stone Bricks
+- prepared structural blocks
+
+Economic purpose:
+- ready-to-build structural materials;
+- less raw processing for large construction.
+
+### C — Decorative Mason
+Focus:
+- Granite
+- Diorite
+- Andesite
+- polished stone
+- Bricks
+- Terracotta
+
+Economic purpose:
+- decorative construction;
+- premium builder catalog.
+
+### D — Luxury Mason
+Focus:
+- Terracotta
+- Quartz Blocks
+- Quartz Pillars
+- Glazed Terracotta
+- luxury decorative blocks
+
+Economic purpose:
+- expensive aesthetic construction;
+- mature-city / palace-building supply.
+
+---
+
+## Toolsmith
+
+### A — Mining Supplier
+Focus:
+- Coal
+- Copper
+- Iron
+- Redstone
+- Lapis Lazuli
+- Gold
+
+Economic purpose:
+- cheapest raw mining-resource access;
+- main supplier for players who do not want to mine everything personally.
+
+### B — Industrial Supplier
+Focus:
+- Copper
+- Iron
+- Redstone
+- Gold
+- Lapis Lazuli
+- industrial utility materials
+
+Economic purpose:
+- balanced infrastructure/resource supplier;
+- Redstone and industrial development.
+
+### C — Tool Specialist
+Focus:
+- Stone Pickaxe
+- Stone Axe
+- Iron Pickaxe
+- Iron Axe
+- Iron Shovel
+- Iron Hoe
+- later higher-tier tools
+
+Economic purpose:
+- finished tool supplier;
+- convenience instead of raw materials.
+
+### D — Precious Materials Broker
+Focus:
+- Iron
+- Gold
+- Lapis Lazuli
+- Redstone
+- later Diamond
+- later Netherite-related material
+
+Economic purpose:
+- expensive early;
+- valuable high-tier raw-resource specialist later.
+
+---
+
+## Weaponsmith
+
+### A — Militia Supplier
+Focus:
+- Stone Sword
+- Iron Sword
+- Shield
+- cheap mass military weapons
+
+Economic purpose:
+- inexpensive equipment for many basic troops.
+
+### B — Infantry Smith
+Focus:
+- Stone Sword
+- Iron Sword
+- Shield
+- organized infantry supply
+
+Economic purpose:
+- balanced regular-army weapon supplier.
+
+### C — Specialist Arms Smith
+Focus:
+- higher-priced Iron weapons
+- specialty offensive equipment
+- later stronger weapons
+
+Economic purpose:
+- premium weapon specialization.
+
+### D — Elite Weaponsmith
+Focus:
+- expensive early weapons
+- high-tier offensive equipment
+- later Diamond / Netherite weapon access
+
+Economic purpose:
+- deliberately weak value early;
+- elite military supply late.
+
+---
+
+## Armorer
+
+### A — Militia Armorer
+Focus:
+- Leather armor
+- Chainmail
+- basic Iron armor
+
+Economic purpose:
+- cheap early defense;
+- affordable Mercenary/player equipment.
+
+### B — Iron Quartermaster
+Focus:
+- Chainmail
+- Iron Leggings
+- Iron Chestplate
+- organized Iron armor supply
+
+Economic purpose:
+- regular military armor logistics.
+
+### C — Heavy Armorer
+Focus:
+- stronger Iron armor
+- Iron Chestplate
+- Iron Leggings
+- later Diamond defensive equipment
+
+Economic purpose:
+- premium heavy-defense specialization.
+
+### D — Elite Armorer
+Focus:
+- expensive Iron armor early
+- later Diamond armor
+- later Netherite armor
+
+Economic purpose:
+- elite defensive equipment;
+- late-game military infrastructure.
+
+---
+
+## Librarian
+
+### A — Scholar
+Focus:
+- Paper
+- Books
+- Bookshelves
+- Glass
+- Lanterns
+- basic library utility
+
+Economic purpose:
+- cheapest academic / paper economy.
+
+### B — Warchief Administrator
+Focus:
+- Paper
+- Books
+- Bookshelves
+- administrative utility
+- Conscription Writ in Phase 04B
+- optional normal Banner convenience trade
+
+Economic purpose:
+- gateway to Warchief military administration.
+
+### C — Enchantment Specialist
+Focus:
+- Books
+- Bookshelves
+- Lapis Lazuli
+- enchantment-related goods
+- later premium enchantment trades
+
+Economic purpose:
+- enchantment and knowledge specialization.
+
+### D — Explorer / Utility Librarian
+Focus:
+- Compass
+- Clock
+- Spyglass
+- Glass
+- Lantern
+- exploration utility
+
+Economic purpose:
+- exploration and convenience rather than core resource production.
+
+---
+
+## Review Summary
+
+Current structure:
+
+| Vanilla Profession | Variant A | Variant B | Variant C | Variant D |
+|---|---|---|---|---|
+| Farmer | Crop Farmer | Provisioner | Livestock Supplier | Specialty Grower |
+| Fletcher | Forester | Archer Supplier | Hunter Supplier | Exotic Forester |
+| Mason | Quarry Supplier | Structural Builder | Decorative Mason | Luxury Mason |
+| Toolsmith | Mining Supplier | Industrial Supplier | Tool Specialist | Precious Materials Broker |
+| Weaponsmith | Militia Supplier | Infantry Smith | Specialist Arms Smith | Elite Weaponsmith |
+| Armorer | Militia Armorer | Iron Quartermaster | Heavy Armorer | Elite Armorer |
+| Librarian | Scholar | Warchief Administrator | Enchantment Specialist | Explorer / Utility Librarian |
+
+Questions to approve before further balancing:
+
+1. Are these seven vanilla professions the correct economic scope?
+2. Are all four variants for each profession meaningfully different?
+3. Is any variant redundant?
+4. Is any major resource category assigned to the wrong profession?
+5. Is any profession still too "palugada"?
+6. Is any profession too narrow to justify keeping multiple Villagers?
+7. Does the structure sufficiently encourage Village population expansion?
+
+---
+
 # Phase 04A — Core Village Economy, Catalog Variants, and Early Pricing
 
 ## 1. Goal
