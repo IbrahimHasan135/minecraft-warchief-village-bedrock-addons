@@ -1308,3 +1308,18 @@ The legacy `minecraft:villager` path is not given the 28-variant selector in Pha
 - [ ] No obvious direct buy/sell Emerald loop exists in basic testing.
 - [ ] Cured/transformed Villager fallback behavior is observed and documented before Phase 04B.
 
+### Package Output Name
+
+Phase 04A package output:
+
+```
+Warchief_Village_0-4-0.mcaddon
+```
+
+Versioning convention:
+
+```
+Phase 04A → 0.4.0
+Phase 04B → 0.4.1
+Phase 05  → 0.5.0
+```
