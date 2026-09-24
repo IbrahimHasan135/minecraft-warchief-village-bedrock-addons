@@ -10,7 +10,7 @@ from zipfile import ZIP_DEFLATED, ZipFile
 
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_OUTPUT = ROOT / "dist" / "Warchief_Village_Phase_04A.mcaddon"
+DEFAULT_OUTPUT = ROOT / "dist" / "Warchief_Village_0-4-0.mcaddon"
 PACKS = (
     ("behavior_pack", "Warchief_Village_BP"),
     ("resource_pack", "Warchief_Village_RP"),
