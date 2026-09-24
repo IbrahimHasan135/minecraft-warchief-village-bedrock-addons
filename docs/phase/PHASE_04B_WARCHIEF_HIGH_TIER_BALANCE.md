@@ -1,5 +1,25 @@
 # Phase 04B — Warchief Economy, High-Tier Catalogs, and Final Balance
 
+## Phase 04B Scope Change — High-Tier Trades Are Previewed at Novice
+
+The catalog design was revised after runtime review.
+
+Diamond, Netherite-related, Conscription Writ, and other Warchief-added catalog trades are now visible from the Novice screen of the appropriate Phase 04A catalog variant.
+
+Phase 04B therefore does **not** need to unlock those custom trades by Villager level.
+
+Phase 04B now focuses on:
+
+- final pricing;
+- stock/restock;
+- anti-arbitrage;
+- discount safety;
+- late-game throughput;
+- Warchief military economy balance;
+- deciding whether any currently visible high-tier trade should be restricted again after play-testing.
+
+Vanilla Villager tier progression remains unchanged.
+
 ## 1. Goal
 
 Phase 04B completes the economy established in Phase 04A.

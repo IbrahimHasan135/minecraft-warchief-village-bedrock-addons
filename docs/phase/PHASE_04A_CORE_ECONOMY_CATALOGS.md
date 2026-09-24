@@ -1717,3 +1717,77 @@ Phase 04A → 0.4.0
 Phase 04B → 0.4.1
 Phase 05  → 0.5.0
 ```
+
+---
+
+## 19. Runtime Fix — Single Active Trade Table and Novice Full Catalog
+
+The first Phase 04A runtime implementation activated the vanilla profession trade table first and then attempted to replace it with a Warchief catalog trade table.
+
+That architecture did not reliably expose the custom catalog in-game.
+
+The implementation has been corrected.
+
+### Active Trade Table Rule
+
+For the seven targeted professions, the base vanilla profession component group now keeps its normal profession behavior, workstation role, family, and visual variant, but no longer directly provides `minecraft:economy_trade_table`.
+
+Exactly one Warchief catalog component group provides the active trade table.
+
+Before a profession/catalog is assigned, all 28 Warchief catalog groups are removed. One catalog is then selected using the existing Economy / Standard / Premium / Elite weights.
+
+This prevents a vanilla trade table from being initialized first and persisted before the selected Warchief table becomes active.
+
+### Vanilla Trades Are Preserved
+
+Each Warchief variant trade table is built from the current vanilla profession trade table.
+
+No vanilla tier is removed.
+
+Instead, the Warchief additions are appended to the vanilla Novice tier.
+
+Therefore:
+
+```
+Vanilla trades
++
+Warchief variant trades
+```
+
+are both visible in the same Villager.
+
+### All Warchief Additions Are Visible at Novice
+
+Custom Warchief economy trades no longer require Apprentice, Journeyman, Expert, or Master unlocks.
+
+All custom catalog-defining trades are exposed immediately in the Novice screen.
+
+Examples include:
+
+- Toolsmith Mining Supplier resource trades;
+- Toolsmith Precious Materials Diamond and Netherite Scrap;
+- Weaponsmith Diamond/Netherite weapon access for the appropriate variant;
+- Armorer Diamond/Netherite armor access for the appropriate variant;
+- Librarian Warchief Administrator Conscription Writ;
+- Mason construction specialization;
+- Fletcher forestry/ranged specialization;
+- Farmer food/agriculture specialization.
+
+Vanilla profession leveling remains intact and can still reveal the normal vanilla higher-tier trades.
+
+The level system is therefore no longer used to hide the custom Warchief catalog identity.
+
+### Design Reason
+
+The player must be able to inspect a fresh Villager and understand its economic role before making the first trade.
+
+The intended loop is:
+
+```
+assign workstation
+→ open Novice trade screen
+→ inspect full Warchief catalog identity
+→ keep or reroll
+→ first trade commits the Villager
+```
+

@@ -1,8 +1,70 @@
 {
+  "format_version": "1.26.10",
   "tiers": [
     {
-      "total_exp_required": 0,
       "groups": [
+        {
+          "num_to_select": -1,
+          "trades": [
+            {
+              "wants": [
+                {
+                  "choice": [
+                    {
+                      "quantity": {
+                        "min": 10,
+                        "max": 10
+                      },
+                      "item": "minecraft:clay_ball",
+                      "functions": [],
+                      "price_multiplier": 0.05
+                    }
+                  ]
+                }
+              ],
+              "gives": [
+                {
+                  "choice": [
+                    {
+                      "item": "minecraft:emerald",
+                      "functions": []
+                    }
+                  ]
+                }
+              ],
+              "trader_exp": 2,
+              "max_uses": 16
+            },
+            {
+              "wants": [
+                {
+                  "choice": [
+                    {
+                      "item": "minecraft:emerald",
+                      "functions": [],
+                      "price_multiplier": 0.05
+                    }
+                  ]
+                }
+              ],
+              "gives": [
+                {
+                  "choice": [
+                    {
+                      "quantity": {
+                        "min": 10,
+                        "max": 10
+                      },
+                      "item": "minecraft:brick",
+                      "functions": []
+                    }
+                  ]
+                }
+              ],
+              "max_uses": 16
+            }
+          ]
+        },
         {
           "num_to_select": -1,
           "trades": [
@@ -41,17 +103,7 @@
               "trader_exp": 1,
               "max_uses": 4,
               "reward_exp": true
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "total_exp_required": 10,
-      "groups": [
-        {
-          "num_to_select": -1,
-          "trades": [
+            },
             {
               "wants": [
                 {
@@ -66,7 +118,7 @@
                   "quantity": 8
                 }
               ],
-              "trader_exp": 5,
+              "trader_exp": 1,
               "max_uses": 4,
               "reward_exp": true
             },
@@ -84,20 +136,10 @@
                   "quantity": 8
                 }
               ],
-              "trader_exp": 5,
+              "trader_exp": 1,
               "max_uses": 4,
               "reward_exp": true
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "total_exp_required": 70,
-      "groups": [
-        {
-          "num_to_select": -1,
-          "trades": [
+            },
             {
               "wants": [
                 {
@@ -112,7 +154,7 @@
                   "quantity": 12
                 }
               ],
-              "trader_exp": 10,
+              "trader_exp": 1,
               "max_uses": 4,
               "reward_exp": true
             },
@@ -130,13 +172,210 @@
                   "quantity": 8
                 }
               ],
-              "trader_exp": 10,
+              "trader_exp": 1,
               "max_uses": 4,
+              "reward_exp": true
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": 14,
+                  "price_multiplier": 0.05
+                }
+              ],
+              "gives": [
+                {
+                  "item": "minecraft:quartz_block",
+                  "quantity": 16
+                }
+              ],
+              "trader_exp": 1,
+              "max_uses": 2,
               "reward_exp": true
             }
           ]
         }
-      ]
+      ],
+      "total_exp_required": 0
+    },
+    {
+      "groups": [
+        {
+          "num_to_select": -1,
+          "trades": [
+            {
+              "wants": [
+                {
+                  "choice": [
+                    {
+                      "quantity": {
+                        "min": 20,
+                        "max": 20
+                      },
+                      "item": "minecraft:stone",
+                      "functions": [],
+                      "price_multiplier": 0.05
+                    }
+                  ]
+                }
+              ],
+              "gives": [
+                {
+                  "choice": [
+                    {
+                      "item": "minecraft:emerald",
+                      "functions": []
+                    }
+                  ]
+                }
+              ],
+              "trader_exp": 10,
+              "max_uses": 16
+            },
+            {
+              "wants": [
+                {
+                  "choice": [
+                    {
+                      "item": "minecraft:emerald",
+                      "functions": [],
+                      "price_multiplier": 0.05
+                    }
+                  ]
+                }
+              ],
+              "gives": [
+                {
+                  "choice": [
+                    {
+                      "quantity": {
+                        "min": 4,
+                        "max": 4
+                      },
+                      "item": "minecraft:chiseled_stone_bricks",
+                      "functions": []
+                    }
+                  ]
+                }
+              ],
+              "trader_exp": 5,
+              "max_uses": 16
+            }
+          ]
+        }
+      ],
+      "total_exp_required": 10
+    },
+    {
+      "groups": [
+        {
+          "num_to_select": -1,
+          "trades": [
+            {
+              "wants": [
+                {
+                  "choice": [
+                    {
+                      "quantity": {
+                        "min": 16,
+                        "max": 16
+                      },
+                      "item": "minecraft:granite",
+                      "functions": [],
+                      "price_multiplier": 0.05
+                    },
+                    {
+                      "quantity": {
+                        "min": 16,
+                        "max": 16
+                      },
+                      "item": "minecraft:diorite",
+                      "functions": [],
+                      "price_multiplier": 0.05
+                    },
+                    {
+                      "quantity": {
+                        "min": 16,
+                        "max": 16
+                      },
+                      "item": "minecraft:andesite",
+                      "functions": [],
+                      "price_multiplier": 0.05
+                    }
+                  ]
+                }
+              ],
+              "gives": [
+                {
+                  "choice": [
+                    {
+                      "item": "minecraft:emerald",
+                      "functions": []
+                    }
+                  ]
+                }
+              ],
+              "trader_exp": 20,
+              "max_uses": 16
+            },
+            {
+              "wants": [
+                {
+                  "choice": [
+                    {
+                      "item": "minecraft:emerald",
+                      "functions": [],
+                      "price_multiplier": 0.05
+                    }
+                  ]
+                }
+              ],
+              "gives": [
+                {
+                  "choice": [
+                    {
+                      "quantity": {
+                        "min": 4,
+                        "max": 4
+                      },
+                      "item": "minecraft:polished_granite",
+                      "functions": []
+                    },
+                    {
+                      "quantity": {
+                        "min": 4,
+                        "max": 4
+                      },
+                      "item": "minecraft:polished_diorite",
+                      "functions": []
+                    },
+                    {
+                      "quantity": {
+                        "min": 4,
+                        "max": 4
+                      },
+                      "item": "minecraft:polished_andesite",
+                      "functions": []
+                    },
+                    {
+                      "quantity": {
+                        "min": 4,
+                        "max": 4
+                      },
+                      "item": "minecraft:dripstone_block",
+                      "functions": []
+                    }
+                  ]
+                }
+              ],
+              "trader_exp": 10,
+              "max_uses": 16
+            }
+          ]
+        }
+      ],
+      "total_exp_required": 70
     },
     {
       "groups": [

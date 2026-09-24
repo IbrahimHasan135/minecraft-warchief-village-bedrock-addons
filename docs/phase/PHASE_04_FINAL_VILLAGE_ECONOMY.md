@@ -1352,6 +1352,14 @@ Mining, farming, exploring, and crafting manually must remain valid alternatives
 
 ---
 
+## Novice Catalog Visibility Rule
+
+Custom Warchief trades are visible from Novice.
+
+The add-on preserves vanilla profession trade progression, but does not hide the custom catalog identity behind Villager XP levels.
+
+A fresh Villager must expose the complete Warchief-added specialization immediately so the player can decide whether to keep or reroll that Villager before the first committed trade.
+
 # 31. Phase 04 Execution Structure
 
 Phase 04 remains one economy phase with two checkpoints:

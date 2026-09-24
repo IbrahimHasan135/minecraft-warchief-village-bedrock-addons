@@ -469,20 +469,6 @@
           "update_interval_base": 60,
           "update_interval_variant": 40
         },
-        "minecraft:economy_trade_table": {
-          "cured_discount": [
-            -25,
-            -20
-          ],
-          "display_name": "entity.villager.armor",
-          "max_cured_discount": [
-            -25,
-            -20
-          ],
-          "new_screen": true,
-          "persist_trades": true,
-          "table": "trading/economy_trades/armorer_trades.json"
-        },
         "minecraft:type_family": {
           "family": [
             "villager",
@@ -914,20 +900,6 @@
           "update_interval_base": 60,
           "update_interval_variant": 40
         },
-        "minecraft:economy_trade_table": {
-          "cured_discount": [
-            -25,
-            -20
-          ],
-          "display_name": "entity.villager.weapon",
-          "max_cured_discount": [
-            -25,
-            -20
-          ],
-          "new_screen": true,
-          "persist_trades": true,
-          "table": "trading/economy_trades/weapon_smith_trades.json"
-        },
         "minecraft:type_family": {
           "family": [
             "villager",
@@ -1182,20 +1154,6 @@
           "first_founding_reward": 5,
           "update_interval_base": 60,
           "update_interval_variant": 40
-        },
-        "minecraft:economy_trade_table": {
-          "cured_discount": [
-            -25,
-            -20
-          ],
-          "display_name": "entity.villager.farmer",
-          "max_cured_discount": [
-            -25,
-            -20
-          ],
-          "new_screen": true,
-          "persist_trades": true,
-          "table": "trading/economy_trades/farmer_trades.json"
         },
         "minecraft:type_family": {
           "family": [
@@ -1646,20 +1604,6 @@
           "update_interval_base": 60,
           "update_interval_variant": 40
         },
-        "minecraft:economy_trade_table": {
-          "cured_discount": [
-            -25,
-            -20
-          ],
-          "display_name": "entity.villager.fletcher",
-          "max_cured_discount": [
-            -25,
-            -20
-          ],
-          "new_screen": true,
-          "persist_trades": true,
-          "table": "trading/economy_trades/fletcher_trades.json"
-        },
         "minecraft:type_family": {
           "family": [
             "villager",
@@ -1810,20 +1754,6 @@
           "first_founding_reward": 5,
           "update_interval_base": 60,
           "update_interval_variant": 40
-        },
-        "minecraft:economy_trade_table": {
-          "cured_discount": [
-            -25,
-            -20
-          ],
-          "display_name": "entity.villager.librarian",
-          "max_cured_discount": [
-            -25,
-            -20
-          ],
-          "new_screen": true,
-          "persist_trades": true,
-          "table": "trading/economy_trades/librarian_trades.json"
         },
         "minecraft:type_family": {
           "family": [
@@ -1998,20 +1928,6 @@
           "update_interval_base": 60,
           "update_interval_variant": 40
         },
-        "minecraft:economy_trade_table": {
-          "cured_discount": [
-            -25,
-            -20
-          ],
-          "display_name": "entity.villager.mason",
-          "max_cured_discount": [
-            -25,
-            -20
-          ],
-          "new_screen": true,
-          "persist_trades": true,
-          "table": "trading/economy_trades/stone_mason_trades.json"
-        },
         "minecraft:type_family": {
           "family": [
             "villager",
@@ -2169,20 +2085,6 @@
           "first_founding_reward": 5,
           "update_interval_base": 60,
           "update_interval_variant": 40
-        },
-        "minecraft:economy_trade_table": {
-          "cured_discount": [
-            -25,
-            -20
-          ],
-          "display_name": "entity.villager.tool",
-          "max_cured_discount": [
-            -25,
-            -20
-          ],
-          "new_screen": true,
-          "persist_trades": true,
-          "table": "trading/economy_trades/tool_smith_trades.json"
         },
         "minecraft:type_family": {
           "family": [
@@ -2772,6 +2674,40 @@
       "minecraft:become_farmer": {
         "sequence": [
           {
+            "remove": {
+              "component_groups": [
+                "warchief:farmer_economy_catalog",
+                "warchief:farmer_standard_catalog",
+                "warchief:farmer_premium_catalog",
+                "warchief:farmer_elite_catalog",
+                "warchief:fletcher_economy_catalog",
+                "warchief:fletcher_standard_catalog",
+                "warchief:fletcher_premium_catalog",
+                "warchief:fletcher_elite_catalog",
+                "warchief:mason_economy_catalog",
+                "warchief:mason_standard_catalog",
+                "warchief:mason_premium_catalog",
+                "warchief:mason_elite_catalog",
+                "warchief:toolsmith_economy_catalog",
+                "warchief:toolsmith_standard_catalog",
+                "warchief:toolsmith_premium_catalog",
+                "warchief:toolsmith_elite_catalog",
+                "warchief:weaponsmith_economy_catalog",
+                "warchief:weaponsmith_standard_catalog",
+                "warchief:weaponsmith_premium_catalog",
+                "warchief:weaponsmith_elite_catalog",
+                "warchief:armorer_economy_catalog",
+                "warchief:armorer_standard_catalog",
+                "warchief:armorer_premium_catalog",
+                "warchief:armorer_elite_catalog",
+                "warchief:librarian_economy_catalog",
+                "warchief:librarian_standard_catalog",
+                "warchief:librarian_premium_catalog",
+                "warchief:librarian_elite_catalog"
+              ]
+            }
+          },
+          {
             "add": {
               "component_groups": [
                 "farmer",
@@ -2933,6 +2869,40 @@
       "minecraft:become_armorer": {
         "sequence": [
           {
+            "remove": {
+              "component_groups": [
+                "warchief:farmer_economy_catalog",
+                "warchief:farmer_standard_catalog",
+                "warchief:farmer_premium_catalog",
+                "warchief:farmer_elite_catalog",
+                "warchief:fletcher_economy_catalog",
+                "warchief:fletcher_standard_catalog",
+                "warchief:fletcher_premium_catalog",
+                "warchief:fletcher_elite_catalog",
+                "warchief:mason_economy_catalog",
+                "warchief:mason_standard_catalog",
+                "warchief:mason_premium_catalog",
+                "warchief:mason_elite_catalog",
+                "warchief:toolsmith_economy_catalog",
+                "warchief:toolsmith_standard_catalog",
+                "warchief:toolsmith_premium_catalog",
+                "warchief:toolsmith_elite_catalog",
+                "warchief:weaponsmith_economy_catalog",
+                "warchief:weaponsmith_standard_catalog",
+                "warchief:weaponsmith_premium_catalog",
+                "warchief:weaponsmith_elite_catalog",
+                "warchief:armorer_economy_catalog",
+                "warchief:armorer_standard_catalog",
+                "warchief:armorer_premium_catalog",
+                "warchief:armorer_elite_catalog",
+                "warchief:librarian_economy_catalog",
+                "warchief:librarian_standard_catalog",
+                "warchief:librarian_premium_catalog",
+                "warchief:librarian_elite_catalog"
+              ]
+            }
+          },
+          {
             "add": {
               "component_groups": [
                 "armorer",
@@ -3010,6 +2980,40 @@
       },
       "minecraft:become_fletcher": {
         "sequence": [
+          {
+            "remove": {
+              "component_groups": [
+                "warchief:farmer_economy_catalog",
+                "warchief:farmer_standard_catalog",
+                "warchief:farmer_premium_catalog",
+                "warchief:farmer_elite_catalog",
+                "warchief:fletcher_economy_catalog",
+                "warchief:fletcher_standard_catalog",
+                "warchief:fletcher_premium_catalog",
+                "warchief:fletcher_elite_catalog",
+                "warchief:mason_economy_catalog",
+                "warchief:mason_standard_catalog",
+                "warchief:mason_premium_catalog",
+                "warchief:mason_elite_catalog",
+                "warchief:toolsmith_economy_catalog",
+                "warchief:toolsmith_standard_catalog",
+                "warchief:toolsmith_premium_catalog",
+                "warchief:toolsmith_elite_catalog",
+                "warchief:weaponsmith_economy_catalog",
+                "warchief:weaponsmith_standard_catalog",
+                "warchief:weaponsmith_premium_catalog",
+                "warchief:weaponsmith_elite_catalog",
+                "warchief:armorer_economy_catalog",
+                "warchief:armorer_standard_catalog",
+                "warchief:armorer_premium_catalog",
+                "warchief:armorer_elite_catalog",
+                "warchief:librarian_economy_catalog",
+                "warchief:librarian_standard_catalog",
+                "warchief:librarian_premium_catalog",
+                "warchief:librarian_elite_catalog"
+              ]
+            }
+          },
           {
             "add": {
               "component_groups": [
@@ -3108,6 +3112,40 @@
       "minecraft:become_librarian": {
         "sequence": [
           {
+            "remove": {
+              "component_groups": [
+                "warchief:farmer_economy_catalog",
+                "warchief:farmer_standard_catalog",
+                "warchief:farmer_premium_catalog",
+                "warchief:farmer_elite_catalog",
+                "warchief:fletcher_economy_catalog",
+                "warchief:fletcher_standard_catalog",
+                "warchief:fletcher_premium_catalog",
+                "warchief:fletcher_elite_catalog",
+                "warchief:mason_economy_catalog",
+                "warchief:mason_standard_catalog",
+                "warchief:mason_premium_catalog",
+                "warchief:mason_elite_catalog",
+                "warchief:toolsmith_economy_catalog",
+                "warchief:toolsmith_standard_catalog",
+                "warchief:toolsmith_premium_catalog",
+                "warchief:toolsmith_elite_catalog",
+                "warchief:weaponsmith_economy_catalog",
+                "warchief:weaponsmith_standard_catalog",
+                "warchief:weaponsmith_premium_catalog",
+                "warchief:weaponsmith_elite_catalog",
+                "warchief:armorer_economy_catalog",
+                "warchief:armorer_standard_catalog",
+                "warchief:armorer_premium_catalog",
+                "warchief:armorer_elite_catalog",
+                "warchief:librarian_economy_catalog",
+                "warchief:librarian_standard_catalog",
+                "warchief:librarian_premium_catalog",
+                "warchief:librarian_elite_catalog"
+              ]
+            }
+          },
+          {
             "add": {
               "component_groups": [
                 "librarian",
@@ -3166,6 +3204,40 @@
       },
       "minecraft:become_mason": {
         "sequence": [
+          {
+            "remove": {
+              "component_groups": [
+                "warchief:farmer_economy_catalog",
+                "warchief:farmer_standard_catalog",
+                "warchief:farmer_premium_catalog",
+                "warchief:farmer_elite_catalog",
+                "warchief:fletcher_economy_catalog",
+                "warchief:fletcher_standard_catalog",
+                "warchief:fletcher_premium_catalog",
+                "warchief:fletcher_elite_catalog",
+                "warchief:mason_economy_catalog",
+                "warchief:mason_standard_catalog",
+                "warchief:mason_premium_catalog",
+                "warchief:mason_elite_catalog",
+                "warchief:toolsmith_economy_catalog",
+                "warchief:toolsmith_standard_catalog",
+                "warchief:toolsmith_premium_catalog",
+                "warchief:toolsmith_elite_catalog",
+                "warchief:weaponsmith_economy_catalog",
+                "warchief:weaponsmith_standard_catalog",
+                "warchief:weaponsmith_premium_catalog",
+                "warchief:weaponsmith_elite_catalog",
+                "warchief:armorer_economy_catalog",
+                "warchief:armorer_standard_catalog",
+                "warchief:armorer_premium_catalog",
+                "warchief:armorer_elite_catalog",
+                "warchief:librarian_economy_catalog",
+                "warchief:librarian_standard_catalog",
+                "warchief:librarian_premium_catalog",
+                "warchief:librarian_elite_catalog"
+              ]
+            }
+          },
           {
             "add": {
               "component_groups": [
@@ -3812,6 +3884,40 @@
       "minecraft:become_toolsmith": {
         "sequence": [
           {
+            "remove": {
+              "component_groups": [
+                "warchief:farmer_economy_catalog",
+                "warchief:farmer_standard_catalog",
+                "warchief:farmer_premium_catalog",
+                "warchief:farmer_elite_catalog",
+                "warchief:fletcher_economy_catalog",
+                "warchief:fletcher_standard_catalog",
+                "warchief:fletcher_premium_catalog",
+                "warchief:fletcher_elite_catalog",
+                "warchief:mason_economy_catalog",
+                "warchief:mason_standard_catalog",
+                "warchief:mason_premium_catalog",
+                "warchief:mason_elite_catalog",
+                "warchief:toolsmith_economy_catalog",
+                "warchief:toolsmith_standard_catalog",
+                "warchief:toolsmith_premium_catalog",
+                "warchief:toolsmith_elite_catalog",
+                "warchief:weaponsmith_economy_catalog",
+                "warchief:weaponsmith_standard_catalog",
+                "warchief:weaponsmith_premium_catalog",
+                "warchief:weaponsmith_elite_catalog",
+                "warchief:armorer_economy_catalog",
+                "warchief:armorer_standard_catalog",
+                "warchief:armorer_premium_catalog",
+                "warchief:armorer_elite_catalog",
+                "warchief:librarian_economy_catalog",
+                "warchief:librarian_standard_catalog",
+                "warchief:librarian_premium_catalog",
+                "warchief:librarian_elite_catalog"
+              ]
+            }
+          },
+          {
             "add": {
               "component_groups": [
                 "toolsmith",
@@ -4137,6 +4243,40 @@
       },
       "minecraft:become_weaponsmith": {
         "sequence": [
+          {
+            "remove": {
+              "component_groups": [
+                "warchief:farmer_economy_catalog",
+                "warchief:farmer_standard_catalog",
+                "warchief:farmer_premium_catalog",
+                "warchief:farmer_elite_catalog",
+                "warchief:fletcher_economy_catalog",
+                "warchief:fletcher_standard_catalog",
+                "warchief:fletcher_premium_catalog",
+                "warchief:fletcher_elite_catalog",
+                "warchief:mason_economy_catalog",
+                "warchief:mason_standard_catalog",
+                "warchief:mason_premium_catalog",
+                "warchief:mason_elite_catalog",
+                "warchief:toolsmith_economy_catalog",
+                "warchief:toolsmith_standard_catalog",
+                "warchief:toolsmith_premium_catalog",
+                "warchief:toolsmith_elite_catalog",
+                "warchief:weaponsmith_economy_catalog",
+                "warchief:weaponsmith_standard_catalog",
+                "warchief:weaponsmith_premium_catalog",
+                "warchief:weaponsmith_elite_catalog",
+                "warchief:armorer_economy_catalog",
+                "warchief:armorer_standard_catalog",
+                "warchief:armorer_premium_catalog",
+                "warchief:armorer_elite_catalog",
+                "warchief:librarian_economy_catalog",
+                "warchief:librarian_standard_catalog",
+                "warchief:librarian_premium_catalog",
+                "warchief:librarian_elite_catalog"
+              ]
+            }
+          },
           {
             "add": {
               "component_groups": [
@@ -4815,6 +4955,40 @@
       "minecraft:spawn_armorer": {
         "sequence": [
           {
+            "remove": {
+              "component_groups": [
+                "warchief:farmer_economy_catalog",
+                "warchief:farmer_standard_catalog",
+                "warchief:farmer_premium_catalog",
+                "warchief:farmer_elite_catalog",
+                "warchief:fletcher_economy_catalog",
+                "warchief:fletcher_standard_catalog",
+                "warchief:fletcher_premium_catalog",
+                "warchief:fletcher_elite_catalog",
+                "warchief:mason_economy_catalog",
+                "warchief:mason_standard_catalog",
+                "warchief:mason_premium_catalog",
+                "warchief:mason_elite_catalog",
+                "warchief:toolsmith_economy_catalog",
+                "warchief:toolsmith_standard_catalog",
+                "warchief:toolsmith_premium_catalog",
+                "warchief:toolsmith_elite_catalog",
+                "warchief:weaponsmith_economy_catalog",
+                "warchief:weaponsmith_standard_catalog",
+                "warchief:weaponsmith_premium_catalog",
+                "warchief:weaponsmith_elite_catalog",
+                "warchief:armorer_economy_catalog",
+                "warchief:armorer_standard_catalog",
+                "warchief:armorer_premium_catalog",
+                "warchief:armorer_elite_catalog",
+                "warchief:librarian_economy_catalog",
+                "warchief:librarian_standard_catalog",
+                "warchief:librarian_premium_catalog",
+                "warchief:librarian_elite_catalog"
+              ]
+            }
+          },
+          {
             "randomize": [
               {
                 "add": {
@@ -4953,6 +5127,40 @@
       "minecraft:spawn_farmer": {
         "sequence": [
           {
+            "remove": {
+              "component_groups": [
+                "warchief:farmer_economy_catalog",
+                "warchief:farmer_standard_catalog",
+                "warchief:farmer_premium_catalog",
+                "warchief:farmer_elite_catalog",
+                "warchief:fletcher_economy_catalog",
+                "warchief:fletcher_standard_catalog",
+                "warchief:fletcher_premium_catalog",
+                "warchief:fletcher_elite_catalog",
+                "warchief:mason_economy_catalog",
+                "warchief:mason_standard_catalog",
+                "warchief:mason_premium_catalog",
+                "warchief:mason_elite_catalog",
+                "warchief:toolsmith_economy_catalog",
+                "warchief:toolsmith_standard_catalog",
+                "warchief:toolsmith_premium_catalog",
+                "warchief:toolsmith_elite_catalog",
+                "warchief:weaponsmith_economy_catalog",
+                "warchief:weaponsmith_standard_catalog",
+                "warchief:weaponsmith_premium_catalog",
+                "warchief:weaponsmith_elite_catalog",
+                "warchief:armorer_economy_catalog",
+                "warchief:armorer_standard_catalog",
+                "warchief:armorer_premium_catalog",
+                "warchief:armorer_elite_catalog",
+                "warchief:librarian_economy_catalog",
+                "warchief:librarian_standard_catalog",
+                "warchief:librarian_premium_catalog",
+                "warchief:librarian_elite_catalog"
+              ]
+            }
+          },
+          {
             "randomize": [
               {
                 "add": {
@@ -5086,6 +5294,40 @@
       },
       "minecraft:spawn_librarian": {
         "sequence": [
+          {
+            "remove": {
+              "component_groups": [
+                "warchief:farmer_economy_catalog",
+                "warchief:farmer_standard_catalog",
+                "warchief:farmer_premium_catalog",
+                "warchief:farmer_elite_catalog",
+                "warchief:fletcher_economy_catalog",
+                "warchief:fletcher_standard_catalog",
+                "warchief:fletcher_premium_catalog",
+                "warchief:fletcher_elite_catalog",
+                "warchief:mason_economy_catalog",
+                "warchief:mason_standard_catalog",
+                "warchief:mason_premium_catalog",
+                "warchief:mason_elite_catalog",
+                "warchief:toolsmith_economy_catalog",
+                "warchief:toolsmith_standard_catalog",
+                "warchief:toolsmith_premium_catalog",
+                "warchief:toolsmith_elite_catalog",
+                "warchief:weaponsmith_economy_catalog",
+                "warchief:weaponsmith_standard_catalog",
+                "warchief:weaponsmith_premium_catalog",
+                "warchief:weaponsmith_elite_catalog",
+                "warchief:armorer_economy_catalog",
+                "warchief:armorer_standard_catalog",
+                "warchief:armorer_premium_catalog",
+                "warchief:armorer_elite_catalog",
+                "warchief:librarian_economy_catalog",
+                "warchief:librarian_standard_catalog",
+                "warchief:librarian_premium_catalog",
+                "warchief:librarian_elite_catalog"
+              ]
+            }
+          },
           {
             "randomize": [
               {

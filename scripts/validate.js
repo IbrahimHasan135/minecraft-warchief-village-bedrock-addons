@@ -109,6 +109,24 @@ if (phase04ACatalogGroups.length !== 28) {
   );
 }
 
+for (const professionGroup of [
+  "farmer",
+  "fletcher",
+  "mason",
+  "toolsmith",
+  "weaponsmith",
+  "armorer",
+  "librarian"
+]) {
+  const group = villagerV2?.["minecraft:entity"]?.component_groups?.[professionGroup];
+
+  if (group?.["minecraft:economy_trade_table"]) {
+    throw new Error(
+      `Phase 04A base profession must not own economy trade table: ${professionGroup}.`
+    );
+  }
+}
+
 console.log(
   `Validation passed for ${jsonFiles.length} JSON files, including 28 Phase 04A trade variants.`
 );
