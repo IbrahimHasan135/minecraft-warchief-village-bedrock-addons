@@ -437,12 +437,30 @@
               ],
               "gives": [
                 {
-                  "item": "minecraft:cooked_mutton",
-                  "quantity": 6
+                  "item": "minecraft:cooked_beef",
+                  "quantity": 8
                 }
               ],
               "trader_exp": 1,
-              "max_uses": 6,
+              "max_uses": 10,
+              "reward_exp": true
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": 4,
+                  "price_multiplier": 0.05
+                }
+              ],
+              "gives": [
+                {
+                  "item": "minecraft:wheat",
+                  "quantity": 12
+                }
+              ],
+              "trader_exp": 1,
+              "max_uses": 10,
               "reward_exp": true
             }
           ]
@@ -518,18 +536,18 @@
               "wants": [
                 {
                   "item": "minecraft:emerald",
-                  "quantity": 7,
+                  "quantity": 6,
                   "price_multiplier": 0.05
                 }
               ],
               "gives": [
                 {
-                  "item": "minecraft:golden_carrot",
-                  "quantity": 6
+                  "item": "minecraft:cooked_mutton",
+                  "quantity": 12
                 }
               ],
               "trader_exp": 1,
-              "max_uses": 6,
+              "max_uses": 10,
               "reward_exp": true
             }
           ]

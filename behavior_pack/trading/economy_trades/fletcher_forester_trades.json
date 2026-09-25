@@ -389,12 +389,30 @@
               ],
               "gives": [
                 {
-                  "item": "minecraft:spruce_sapling",
-                  "quantity": 4
+                  "item": "minecraft:oak_log",
+                  "quantity": 16
                 }
               ],
               "trader_exp": 1,
-              "max_uses": 10,
+              "max_uses": 16,
+              "reward_exp": true
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": 3,
+                  "price_multiplier": 0.05
+                }
+              ],
+              "gives": [
+                {
+                  "item": "minecraft:oak_planks",
+                  "quantity": 32
+                }
+              ],
+              "trader_exp": 1,
+              "max_uses": 16,
               "reward_exp": true
             }
           ]
@@ -664,12 +682,12 @@
               ],
               "gives": [
                 {
-                  "item": "minecraft:dark_oak_sapling",
-                  "quantity": 4
+                  "item": "minecraft:spruce_log",
+                  "quantity": 24
                 }
               ],
               "trader_exp": 1,
-              "max_uses": 6,
+              "max_uses": 16,
               "reward_exp": true
             }
           ]

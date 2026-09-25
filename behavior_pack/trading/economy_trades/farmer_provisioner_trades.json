@@ -437,12 +437,30 @@
               ],
               "gives": [
                 {
-                  "item": "minecraft:cooked_beef",
+                  "item": "minecraft:cooked_chicken",
+                  "quantity": 8
+                }
+              ],
+              "trader_exp": 1,
+              "max_uses": 10,
+              "reward_exp": true
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": 4,
+                  "price_multiplier": 0.05
+                }
+              ],
+              "gives": [
+                {
+                  "item": "minecraft:golden_carrot",
                   "quantity": 6
                 }
               ],
               "trader_exp": 1,
-              "max_uses": 6,
+              "max_uses": 5,
               "reward_exp": true
             }
           ]
@@ -518,18 +536,18 @@
               "wants": [
                 {
                   "item": "minecraft:emerald",
-                  "quantity": 6,
+                  "quantity": 5,
                   "price_multiplier": 0.05
                 }
               ],
               "gives": [
                 {
-                  "item": "minecraft:golden_carrot",
-                  "quantity": 8
+                  "item": "minecraft:cooked_beef",
+                  "quantity": 12
                 }
               ],
               "trader_exp": 1,
-              "max_uses": 6,
+              "max_uses": 10,
               "reward_exp": true
             }
           ]

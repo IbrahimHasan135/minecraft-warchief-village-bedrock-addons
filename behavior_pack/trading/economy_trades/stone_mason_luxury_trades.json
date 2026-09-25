@@ -83,7 +83,7 @@
                 }
               ],
               "trader_exp": 2,
-              "max_uses": 6,
+              "max_uses": 5,
               "reward_exp": true
             },
             {
@@ -101,7 +101,7 @@
                 }
               ],
               "trader_exp": 1,
-              "max_uses": 6,
+              "max_uses": 5,
               "reward_exp": true
             }
           ]
@@ -192,7 +192,7 @@
                 }
               ],
               "trader_exp": 2,
-              "max_uses": 6,
+              "max_uses": 5,
               "reward_exp": true
             },
             {
@@ -210,7 +210,7 @@
                 }
               ],
               "trader_exp": 1,
-              "max_uses": 6,
+              "max_uses": 5,
               "reward_exp": true
             }
           ]
@@ -343,7 +343,7 @@
                 }
               ],
               "trader_exp": 2,
-              "max_uses": 6,
+              "max_uses": 5,
               "reward_exp": true
             },
             {
@@ -361,7 +361,7 @@
                 }
               ],
               "trader_exp": 1,
-              "max_uses": 6,
+              "max_uses": 5,
               "reward_exp": true
             }
           ]
@@ -572,25 +572,25 @@
                 }
               ],
               "trader_exp": 2,
-              "max_uses": 6,
+              "max_uses": 5,
               "reward_exp": true
             },
             {
               "wants": [
                 {
                   "item": "minecraft:emerald",
-                  "quantity": 8,
+                  "quantity": 10,
                   "price_multiplier": 0.05
                 }
               ],
               "gives": [
                 {
-                  "item": "minecraft:quartz_pillar",
+                  "item": "minecraft:quartz_block",
                   "quantity": 12
                 }
               ],
               "trader_exp": 1,
-              "max_uses": 6,
+              "max_uses": 5,
               "reward_exp": true
             }
           ]
@@ -652,25 +652,25 @@
                 }
               ],
               "trader_exp": 2,
-              "max_uses": 6,
+              "max_uses": 5,
               "reward_exp": true
             },
             {
               "wants": [
                 {
                   "item": "minecraft:emerald",
-                  "quantity": 9,
+                  "quantity": 14,
                   "price_multiplier": 0.05
                 }
               ],
               "gives": [
                 {
-                  "item": "minecraft:black_glazed_terracotta",
-                  "quantity": 8
+                  "item": "minecraft:quartz_block",
+                  "quantity": 16
                 }
               ],
               "trader_exp": 1,
-              "max_uses": 6,
+              "max_uses": 2,
               "reward_exp": true
             }
           ]

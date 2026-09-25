@@ -514,18 +514,18 @@
               "wants": [
                 {
                   "item": "minecraft:emerald",
-                  "quantity": 16,
+                  "quantity": 10,
                   "price_multiplier": 0.2
                 }
               ],
               "gives": [
                 {
-                  "item": "minecraft:diamond_boots",
+                  "item": "minecraft:iron_chestplate",
                   "quantity": 1
                 }
               ],
               "trader_exp": 1,
-              "max_uses": 6,
+              "max_uses": 10,
               "reward_exp": true
             }
           ]
@@ -621,18 +621,18 @@
               "wants": [
                 {
                   "item": "minecraft:emerald",
-                  "quantity": 18,
+                  "quantity": 16,
                   "price_multiplier": 0.2
                 }
               ],
               "gives": [
                 {
-                  "item": "minecraft:diamond_helmet",
+                  "item": "minecraft:diamond_boots",
                   "quantity": 1
                 }
               ],
               "trader_exp": 1,
-              "max_uses": 6,
+              "max_uses": 5,
               "reward_exp": true
             }
           ]

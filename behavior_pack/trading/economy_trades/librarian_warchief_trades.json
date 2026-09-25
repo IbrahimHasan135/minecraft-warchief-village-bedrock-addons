@@ -362,7 +362,7 @@
                 }
               ],
               "trader_exp": 1,
-              "max_uses": 6,
+              "max_uses": 4,
               "reward_exp": true
             }
           ]
@@ -490,25 +490,25 @@
                 }
               ],
               "trader_exp": 2,
-              "max_uses": 6,
+              "max_uses": 5,
               "reward_exp": true
             },
             {
               "wants": [
                 {
                   "item": "minecraft:emerald",
-                  "quantity": 6,
+                  "quantity": 3,
                   "price_multiplier": 0.05
                 }
               ],
               "gives": [
                 {
-                  "item": "minecraft:compass",
+                  "item": "minecraft:white_banner",
                   "quantity": 1
                 }
               ],
               "trader_exp": 1,
-              "max_uses": 6,
+              "max_uses": 5,
               "reward_exp": true
             }
           ]
@@ -620,18 +620,18 @@
               "wants": [
                 {
                   "item": "minecraft:emerald",
-                  "quantity": 3,
+                  "quantity": 10,
                   "price_multiplier": 0.05
                 }
               ],
               "gives": [
                 {
-                  "item": "minecraft:white_banner",
-                  "quantity": 1
+                  "item": "warchief:military_token",
+                  "quantity": 2
                 }
               ],
               "trader_exp": 1,
-              "max_uses": 6,
+              "max_uses": 5,
               "reward_exp": true
             }
           ]

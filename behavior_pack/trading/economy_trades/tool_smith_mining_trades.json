@@ -544,36 +544,54 @@
               "wants": [
                 {
                   "item": "minecraft:emerald",
-                  "quantity": 5,
+                  "quantity": 6,
                   "price_multiplier": 0.05
                 }
               ],
               "gives": [
                 {
                   "item": "minecraft:gold_ingot",
-                  "quantity": 4
+                  "quantity": 6
                 }
               ],
               "trader_exp": 1,
-              "max_uses": 6,
+              "max_uses": 5,
               "reward_exp": true
             },
             {
               "wants": [
                 {
                   "item": "minecraft:emerald",
-                  "quantity": 12,
+                  "quantity": 5,
                   "price_multiplier": 0.05
                 }
               ],
               "gives": [
                 {
-                  "item": "minecraft:diamond",
-                  "quantity": 1
+                  "item": "minecraft:redstone",
+                  "quantity": 12
                 }
               ],
               "trader_exp": 1,
-              "max_uses": 6,
+              "max_uses": 10,
+              "reward_exp": true
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:emerald",
+                  "quantity": 5,
+                  "price_multiplier": 0.05
+                }
+              ],
+              "gives": [
+                {
+                  "item": "minecraft:lapis_lazuli",
+                  "quantity": 8
+                }
+              ],
+              "trader_exp": 1,
+              "max_uses": 10,
               "reward_exp": true
             }
           ]
@@ -634,7 +652,7 @@
                 }
               ],
               "trader_exp": 2,
-              "max_uses": 6,
+              "max_uses": 5,
               "reward_exp": true
             },
             {
@@ -652,7 +670,7 @@
                 }
               ],
               "trader_exp": 1,
-              "max_uses": 6,
+              "max_uses": 5,
               "reward_exp": true
             }
           ]
