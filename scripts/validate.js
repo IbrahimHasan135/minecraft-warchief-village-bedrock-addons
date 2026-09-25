@@ -141,3 +141,60 @@ for (const professionGroup of [
 console.log(
   `Validation passed for ${jsonFiles.length} JSON files, including 28 Phase 04A trade variants.`
 );
+
+// Phase 04B strategic high-tier validation
+const p04bRequire = (path, tierIndex, predicate, description) => {
+  const table = parsed[path];
+  const trades = table?.tiers?.[tierIndex]?.groups?.flatMap((group) => group.trades ?? []) ?? [];
+  if (!trades.some(predicate)) {
+    throw new Error(`Phase 04B missing ${description}: ${path}, tier ${tierIndex + 1}.`);
+  }
+};
+
+const p04bHasBuy = (item, emeralds, quantity = 1) => (trade) =>
+  trade.wants?.some((want) => want.item === "minecraft:emerald" && want.quantity === emeralds) &&
+  trade.gives?.some((give) => give.item === item && give.quantity === quantity);
+
+p04bRequire(
+  "behavior_pack/trading/economy_trades/tool_smith_precious_trades.json",
+  4,
+  p04bHasBuy("minecraft:netherite_scrap", 24, 1),
+  "Master Precious Materials Broker Netherite Scrap trade"
+);
+
+p04bRequire(
+  "behavior_pack/trading/economy_trades/weapon_smith_elite_trades.json",
+  4,
+  p04bHasBuy("minecraft:netherite_sword", 28, 1),
+  "Master Elite Weaponsmith Netherite Sword trade"
+);
+
+p04bRequire(
+  "behavior_pack/trading/economy_trades/armorer_elite_trades.json",
+  4,
+  p04bHasBuy("minecraft:netherite_chestplate", 32, 1),
+  "Master Elite Armorer Netherite armor trade"
+);
+
+p04bRequire(
+  "behavior_pack/trading/economy_trades/librarian_warchief_trades.json",
+  2,
+  p04bHasBuy("warchief:military_token", 8, 1),
+  "Journeyman Conscription Writ trade"
+);
+
+p04bRequire(
+  "behavior_pack/trading/economy_trades/librarian_warchief_trades.json",
+  3,
+  p04bHasBuy("minecraft:white_banner", 3, 1),
+  "Expert Banner convenience trade"
+);
+
+p04bRequire(
+  "behavior_pack/trading/economy_trades/librarian_warchief_trades.json",
+  4,
+  p04bHasBuy("warchief:military_token", 10, 2),
+  "Master bulk Conscription Writ trade"
+);
+
+console.log("Phase 04B strategic high-tier validation passed.");
