@@ -1876,3 +1876,23 @@ Examples of Warchief-added high-tier placement:
 - Conscription Writ: Journeyman Warchief Administrator Librarian.
 
 This restores meaningful Villager leveling while preserving early catalog readability.
+
+
+### Phase 04B Handoff Complete
+
+Phase 04B has finalized Expert/Master pricing, Diamond/Netherite access, and Warchief strategic trades.
+
+Phase 04A remains the source of truth for:
+
+- the 28 catalog identities;
+- Novice–Journeyman structure;
+- spawned-Villager catalog routing;
+- one Emerald-income path per tier.
+
+See:
+
+```
+docs/phase/PHASE_04B_WARCHIEF_HIGH_TIER_BALANCE.md
+```
+
+for final Expert/Master balance.

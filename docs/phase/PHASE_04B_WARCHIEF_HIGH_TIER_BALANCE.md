@@ -801,3 +801,78 @@ Phase 04B is complete when:
 - Phase 03/03.5 Soldier and Mercenary logistics integrate with the economy.
 
 After this checkpoint, Phase 04 is complete.
+
+
+---
+
+## 20. Implementation Status — Executed
+
+Phase 04B is implemented in the repository.
+
+Release:
+
+```
+0.4.1
+Warchief_Village_0-4-1.mcaddon
+```
+
+### Implemented Strategic Trades
+
+```
+Precious Materials Broker — Master
+24 Emeralds → 1 Netherite Scrap
+stock: Very Low
+
+Elite Weaponsmith — Master
+28 Emeralds → 1 Netherite Sword
+stock: Very Low
+
+Elite Armorer — Master
+32 Emeralds → 1 Netherite Chestplate
+stock: Very Low
+
+Warchief Administrator — Journeyman
+8 Emeralds → 1 Conscription Writ
+stock: 4
+
+Warchief Administrator — Expert
+3 Emeralds → 1 White Banner
+stock: Low
+
+Warchief Administrator — Master
+10 Emeralds → 2 Conscription Writ
+stock: Low
+```
+
+The normal vanilla Banner remains a valid Soldier command item. The Librarian Banner trade is only a convenience source.
+
+### High-Tier Caste Result
+
+- Economy variants retain the best bulk throughput.
+- Standard variants remain balanced.
+- Premium variants focus on specialized/manufactured value.
+- Elite variants have the strongest late-game access with low or very-low stock.
+
+### Emerald-Income Rule Preserved
+
+Phase 04B preserves the Phase 04A requirement:
+
+> Every catalog variant has at least one item → Emerald trade at every Villager tier.
+
+High-tier purchasing therefore does not remove the player's ability to earn Emeralds while leveling and using the same Villager.
+
+### Validation Scope
+
+Repository validation now explicitly checks the required Phase 04B strategic trades.
+
+Static validation does not replace runtime play-testing.
+
+The following remain runtime balance checks:
+
+- actual Villager restock behavior;
+- reputation / curing / Hero-of-the-Village discounts;
+- save/reload persistence;
+- exact Diamond throughput;
+- exact Netherite throughput;
+- workstation reroll before first trade;
+- direct and crafted arbitrage under actual Bedrock discount behavior.

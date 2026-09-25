@@ -1354,11 +1354,11 @@ Mining, farming, exploring, and crafting manually must remain valid alternatives
 
 ## Novice Catalog Visibility Rule
 
-Custom Warchief trades are visible from Novice.
+Each catalog exposes a recognizable signature at Novice so the player can identify the variant before committing the first trade.
 
-The add-on preserves vanilla profession trade progression, but does not hide the custom catalog identity behind Villager XP levels.
+The full Warchief catalog is distributed across Novice → Master.
 
-A fresh Villager must expose the complete Warchief-added specialization immediately so the player can decide whether to keep or reroll that Villager before the first committed trade.
+Diamond and Netherite-related goods remain progression-gated instead of being dumped into Novice.
 
 # 31. Phase 04 Execution Structure
 
@@ -1463,35 +1463,53 @@ Concrete checkpoint:
 
 The final Phase 04 target is:
 
-    7 professions
-    11 conceptual catalog variants
+    7 vanilla professions
+    × 4 catalog variants
+    = 28 economic identities
 
 Detailed:
 
     Farmer
     ├── Crop Farmer
-    └── Provision Farmer
+    ├── Provisioner
+    ├── Livestock Supplier
+    └── Specialty Grower
 
     Fletcher
     ├── Forester
-    └── Archer Supplier
+    ├── Archer Supplier
+    ├── Hunter Supplier
+    └── Exotic Forester
 
     Mason
-    ├── Stone Supplier
-    └── Decorative Builder
+    ├── Quarry Supplier
+    ├── Structural Builder
+    ├── Decorative Mason
+    └── Luxury Mason
 
     Toolsmith
     ├── Mining Supplier
-    └── Tool Specialist
+    ├── Industrial Supplier
+    ├── Tool Specialist
+    └── Precious Materials Broker
 
     Weaponsmith
-    └── Weapon Supplier
+    ├── Militia Supplier
+    ├── Infantry Smith
+    ├── Specialist Arms Smith
+    └── Elite Weaponsmith
 
     Armorer
-    └── Armor Supplier
+    ├── Militia Armorer
+    ├── Iron Quartermaster
+    ├── Heavy Armorer
+    └── Elite Armorer
 
     Librarian
-    └── Warchief / Knowledge Supplier
+    ├── Scholar
+    ├── Warchief Administrator
+    ├── Enchantment Specialist
+    └── Explorer / Utility Librarian
 
 This is the intended balance between:
 
@@ -1504,3 +1522,24 @@ This is the intended balance between:
     player specialization freedom
 
 The player should feel that the Village is a connected economy, not seven unrelated shops.
+
+
+---
+
+## Phase 04 Release Status
+
+Phase 04A and Phase 04B are implemented.
+
+Current version:
+
+```
+0.4.1
+```
+
+Current package:
+
+```
+Warchief_Village_0-4-1.mcaddon
+```
+
+Remaining Phase 04 work is runtime play-testing and balance tuning, not additional planned feature scope.
