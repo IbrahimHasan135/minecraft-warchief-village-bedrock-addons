@@ -876,3 +876,21 @@ The following remain runtime balance checks:
 - exact Netherite throughput;
 - workstation reroll before first trade;
 - direct and crafted arbitrage under actual Bedrock discount behavior.
+
+
+---
+
+## 21. Post-Test Resource Economy Adjustment
+
+After runtime testing, resource-heavy professions were simplified:
+
+- Toolsmith: 4 → 3 variants.
+- Mason: 4 → 3 variants.
+
+Other professions remain unchanged for now.
+
+The revised economic principle is:
+
+> Population growth should primarily increase stock, restock throughput, and total economic capacity rather than force the player to hunt too many resource-catalog combinations.
+
+Resource trades also provide more trader XP so normal economic use unlocks later tiers faster.

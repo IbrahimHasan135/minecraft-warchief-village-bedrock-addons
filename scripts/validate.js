@@ -114,9 +114,9 @@ const villagerV2 = parsed["behavior_pack/entities/villager_v2.json"];
 const phase04ACatalogGroups = Object.keys(villagerV2?.["minecraft:entity"]?.component_groups ?? {})
   .filter((name) => name.startsWith("warchief:") && name.endsWith("_catalog"));
 
-if (phase04ACatalogGroups.length !== 28) {
+if (phase04ACatalogGroups.length !== 26) {
   throw new Error(
-    `Phase 04A villager_v2 override: expected 28 catalog component groups, found ${phase04ACatalogGroups.length}.`
+    `Phase 04A villager_v2 override: expected 26 catalog component groups, found ${phase04ACatalogGroups.length}.`
   );
 }
 
@@ -198,3 +198,14 @@ p04bRequire(
 );
 
 console.log("Phase 04B strategic high-tier validation passed.");
+
+
+if (phase04ACatalogGroups.includes("warchief:toolsmith_standard_catalog")) {
+  throw new Error("Phase 04 resource simplification: toolsmith_standard_catalog must be removed.");
+}
+
+if (phase04ACatalogGroups.includes("warchief:mason_elite_catalog")) {
+  throw new Error("Phase 04 resource simplification: mason_elite_catalog must be removed.");
+}
+
+console.log("Phase 04 resource catalog simplification validation passed.");

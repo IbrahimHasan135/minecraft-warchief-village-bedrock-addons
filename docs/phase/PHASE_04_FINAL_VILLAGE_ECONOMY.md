@@ -1543,3 +1543,31 @@ Warchief_Village_0-4-1.mcaddon
 ```
 
 Remaining Phase 04 work is runtime play-testing and balance tuning, not additional planned feature scope.
+
+
+---
+
+## Post-Test Resource Simplification
+
+The economy no longer requires a fixed four variants for every profession.
+
+After runtime testing:
+
+```
+Toolsmith → 3 variants
+Mason     → 3 variants
+```
+
+The remaining professions keep their existing variation unless later testing shows similar friction.
+
+The guiding rule is now:
+
+> Use more variants only when they create meaningful specialization. Do not use extra variants when they mainly make essential resources harder to access.
+
+Village expansion should still matter because more Villagers increase:
+
+- available stock;
+- restock throughput;
+- total purchase capacity;
+- total Emerald-income capacity;
+- military and resource logistics.

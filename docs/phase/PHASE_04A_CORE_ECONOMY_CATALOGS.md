@@ -1896,3 +1896,77 @@ docs/phase/PHASE_04B_WARCHIEF_HIGH_TIER_BALANCE.md
 ```
 
 for final Expert/Master balance.
+
+
+---
+
+## 21. Resource Variant Simplification After Play-Test
+
+Runtime testing showed that four variants were too fragmented for the main resource bottlenecks.
+
+The design is revised so population expansion increases **trade quantity and throughput** more than it increases catalog lottery complexity.
+
+### Toolsmith — 3 Variants
+
+```
+Mining & Industrial Supplier   50%
+Tool Specialist               30%
+Precious Materials Broker     20%
+```
+
+Mining Supplier and Industrial Supplier are merged.
+
+The merged resource supplier covers:
+
+- Coal;
+- Copper;
+- Iron;
+- Redstone;
+- Lapis Lazuli;
+- Gold;
+- bulk mining resources.
+
+Tool Specialist remains the manufactured-tool route.
+
+Precious Materials Broker remains the late-game Diamond / Netherite-related route.
+
+### Mason — 3 Variants
+
+```
+Quarry Supplier               45%
+Structural Builder            35%
+Decorative & Luxury Mason     20%
+```
+
+Decorative Mason and Luxury Mason are merged.
+
+The merged catalog covers both normal decorative and premium building resources:
+
+- Granite;
+- Diorite;
+- Andesite;
+- polished stone;
+- Terracotta;
+- glazed Terracotta;
+- Quartz;
+- other premium decorative blocks.
+
+### Faster Resource Leveling
+
+Custom resource trades now grant more trader XP.
+
+| Tier | Main Resource Supplier XP |
+|---|---:|
+| Novice | 6 |
+| Apprentice | 12 |
+| Journeyman | 20 |
+| Expert | 28 |
+| Master | 36 |
+
+Tool Specialist and Precious Materials Broker also receive increased custom trade XP, but slightly lower than the bulk resource suppliers.
+
+The goal is:
+
+> If the player actively buys or sells resources, that Villager should level noticeably faster.
+
+The player should not need excessive repetitive trades merely to unlock the next resource tier.
