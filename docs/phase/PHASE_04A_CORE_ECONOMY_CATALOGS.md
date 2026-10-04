@@ -1,3 +1,425 @@
+
+# Phase 04 Variant Simplification — Final Design Revision
+
+This revision supersedes the older 28-catalog design.
+
+Runtime testing showed that four variants on every profession created too much catalog RNG for resource access.
+
+The economy should encourage population expansion primarily through:
+
+- higher stock throughput;
+- more simultaneous restocks;
+- more purchasing capacity;
+- more Emerald-income capacity;
+
+not through forcing the player to hunt too many catalog combinations.
+
+## Final Variant Count
+
+| Vanilla Profession | Variant Count | Final Variants |
+|---|---:|---|
+| Farmer | 3 | Crop Farmer, Provisioner, Livestock & Specialty Farmer |
+| Fletcher | 3 | Forester, Archer Supplier, Hunter & Exotic Supplier |
+| Mason | 3 | Quarry Supplier, Structural Builder, Decorative & Luxury Mason |
+| Toolsmith | 3 | Mining & Industrial Supplier, Tool Specialist, Precious Materials Broker |
+| Weaponsmith | 4 | Militia Supplier, Infantry Smith, Specialist Arms Smith, Elite Weaponsmith |
+| Armorer | 4 | Militia Armorer, Iron Quartermaster, Heavy Armorer, Elite Armorer |
+| Librarian | 2 | Scholar & Enchantment Librarian, Warchief & Utility Administrator |
+
+Total:
+
+```
+3 + 3 + 3 + 3 + 4 + 4 + 2 = 22 catalog identities
+```
+
+No new custom Villager profession is introduced.
+
+The variants remain trade-catalog identities inside vanilla professions.
+
+## Why Resource Professions Use Only Three Variants
+
+Farmer, Fletcher, Mason, and Toolsmith are core resource-access professions.
+
+Too many variants in these professions can make essential resources feel locked behind RNG.
+
+Three variants are enough to preserve specialization while keeping access reliable.
+
+Population growth remains valuable because each additional Villager increases:
+
+- available stock;
+- restock throughput;
+- trade volume;
+- Emerald generation;
+- military/economic capacity.
+
+## Why Weaponsmith and Armorer Keep Four Variants
+
+Weapons and armor are not basic resource bottlenecks.
+
+Four variants still provide meaningful military progression:
+
+- cheap mass supply;
+- standard army supply;
+- premium specialization;
+- elite late-game supply.
+
+This keeps military logistics interesting without making basic resource acquisition frustrating.
+
+## Why Librarian Uses Two Variants
+
+Four Librarian variants were too fragmented.
+
+The final design uses only:
+
+### Scholar & Enchantment Librarian
+
+Focus:
+
+- Paper
+- Books
+- Bookshelves
+- Lapis-related knowledge economy
+- enchantment support
+- normal academic utility
+
+### Warchief & Utility Administrator
+
+Focus:
+
+- Conscription Writ
+- normal Banner convenience trade
+- Compass
+- Clock
+- Spyglass
+- administrative and exploration utility
+
+This keeps the Warchief path easy to understand and prevents the player from needing to reroll many Librarians.
+
+---
+
+# Resource Ownership and Controlled Overlap
+
+The economy allows limited overlap where it improves usability.
+
+## Coal
+
+Primary supplier:
+
+```
+Toolsmith
+```
+
+Secondary supplier:
+
+```
+Mason
+```
+
+Reason:
+
+Coal fits mining/industry, but also fits Mason's quarry, smelting, brick, stone, and construction economy.
+
+Mason may therefore provide limited Coal access.
+
+Toolsmith must remain the better Coal supplier in:
+
+- price;
+- quantity;
+- stock;
+- progression.
+
+## Iron
+
+Primary supplier:
+
+```
+Toolsmith
+```
+
+Secondary convenience supplier:
+
+```
+Mason
+```
+
+Mason may sell limited Iron because Iron is heavily used in construction/infrastructure contexts.
+
+Examples:
+
+- rails;
+- buckets;
+- hoppers;
+- structural utility;
+- construction logistics.
+
+However Mason must not become an alternative full metal merchant.
+
+Recommended rule:
+
+```
+Toolsmith
+→ cheap/moderate Iron
+→ larger quantity
+→ better stock
+
+Mason
+→ more expensive Iron
+→ smaller quantity
+→ lower stock
+```
+
+Iron overlap exists for convenience, not profession replacement.
+
+## Gold
+
+Primary:
+
+```
+Toolsmith only
+```
+
+Mason should not normally sell Gold.
+
+## Redstone
+
+Primary:
+
+```
+Toolsmith only
+```
+
+Redstone belongs to mining/industrial progression.
+
+## Lapis Lazuli
+
+Primary:
+
+```
+Toolsmith
+```
+
+Secondary controlled overlap may exist in Scholar/Enchantment Librarian if useful for enchantment support.
+
+## Diamond
+
+Primary:
+
+```
+Toolsmith
+```
+
+Diamond equipment may also appear through:
+
+- Weaponsmith;
+- Armorer;
+- Tool Specialist.
+
+Raw Diamond remains Toolsmith-owned.
+
+## Netherite
+
+Raw Netherite-related material:
+
+```
+Precious Materials Broker Toolsmith
+```
+
+Finished Netherite equipment:
+
+- Elite Weaponsmith;
+- Elite Armorer.
+
+Mason does not sell Netherite.
+
+---
+
+# Resource Profession Final Responsibilities
+
+## Farmer — 3 Variants
+
+### Crop Farmer
+- Wheat
+- Carrot
+- Potato
+- Beetroot
+- Seeds
+- Pumpkin
+- Melon
+
+### Provisioner
+- Bread
+- Baked Potato
+- cooked food
+- Golden Carrot
+- bulk food
+
+### Livestock & Specialty Farmer
+- Eggs
+- Leather
+- raw/cooked meat
+- animal-feed crops
+- specialty agriculture
+- rare crop convenience
+
+---
+
+## Fletcher — 3 Variants
+
+### Forester
+- Logs
+- Planks
+- Sticks
+- Saplings
+- bulk common wood
+
+### Archer Supplier
+- Bow
+- Arrows
+- Flint
+- Feathers
+- String
+
+### Hunter & Exotic Supplier
+- String
+- hunting-related resources
+- uncommon Logs
+- uncommon Saplings
+- specialty forestry goods
+
+Wood access remains primarily a Fletcher responsibility.
+
+---
+
+## Mason — 3 Variants
+
+### Quarry Supplier
+- Cobblestone
+- Stone
+- Deepslate
+- Coal in limited overlap
+- limited Iron convenience at later progression
+
+### Structural Builder
+- Stone Bricks
+- Bricks
+- polished/structural blocks
+- Deepslate structural blocks
+- limited Iron construction supply
+
+### Decorative & Luxury Mason
+- Granite
+- Diorite
+- Andesite
+- Terracotta
+- Glazed Terracotta
+- Quartz
+- premium decorative blocks
+
+Mason's Coal/Iron overlap must remain weaker than Toolsmith.
+
+---
+
+## Toolsmith — 3 Variants
+
+### Mining & Industrial Supplier
+- Coal
+- Copper
+- Iron
+- Redstone
+- Lapis
+- Gold
+- industrial utility materials
+
+This is the primary general resource supplier.
+
+### Tool Specialist
+- Pickaxe
+- Axe
+- Shovel
+- Hoe
+- Iron tools
+- Diamond tools
+
+### Precious Materials Broker
+- premium Iron/Gold
+- Lapis
+- Diamond
+- Netherite Scrap
+
+This is the expensive late-game raw-resource path.
+
+---
+
+## Weaponsmith — 4 Variants
+
+Unchanged:
+
+- Militia Supplier
+- Infantry Smith
+- Specialist Arms Smith
+- Elite Weaponsmith
+
+---
+
+## Armorer — 4 Variants
+
+Unchanged:
+
+- Militia Armorer
+- Iron Quartermaster
+- Heavy Armorer
+- Elite Armorer
+
+---
+
+## Librarian — 2 Variants
+
+### Scholar & Enchantment Librarian
+- Paper
+- Books
+- Bookshelves
+- enchantment-related economy
+- Lapis support
+- academic utility
+
+### Warchief & Utility Administrator
+- Conscription Writ
+- Banner convenience
+- Compass
+- Clock
+- Spyglass
+- administration
+- exploration utility
+
+---
+
+# Population Design After Simplification
+
+The player should not need every catalog variant for the economy to function.
+
+Population expansion now serves mainly to increase throughput.
+
+Example:
+
+```
+1 Mining & Industrial Toolsmith
+→ access to Iron/Coal/etc.
+
+3 Mining & Industrial Toolsmiths
+→ same resource identity
+→ much larger available stock
+→ much larger purchasing capacity
+→ faster economic expansion
+```
+
+This is intentional.
+
+The player expands the Village because additional workers increase economic capacity, not only because they unlock new catalog combinations.
+
+
+
+---
+
 # 0. Catalog Review — Profession and Variant Structure Only
 
 This section intentionally hides:
